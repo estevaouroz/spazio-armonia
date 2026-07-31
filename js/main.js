@@ -10,7 +10,37 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormatToggle();
   initAccordion();
   initScrollReveal();
+  initHeaderScroll();
 });
+
+/* ============ HEADER HIDE ON SCROLL DOWN ============ */
+function initHeaderScroll(){
+  const header = document.querySelector('.site-header');
+  const nav = document.getElementById('mainNav');
+  if (!header) return;
+
+  const threshold = 80;
+  let lastY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+
+    if (nav && nav.classList.contains('open')){
+      lastY = currentY;
+      return;
+    }
+
+    if (currentY <= threshold){
+      header.classList.remove('header-hidden');
+    } else if (currentY > lastY){
+      header.classList.add('header-hidden');
+    } else if (currentY < lastY){
+      header.classList.remove('header-hidden');
+    }
+
+    lastY = currentY;
+  }, { passive:true });
+}
 
 /* ============ I18N ============ */
 function initI18n(){

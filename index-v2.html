@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spazio Armonia — Italiano · Yoga · Música</title>
+<meta name="description" content="Spazio Armonia — aulas de Italiano, Yoga e Música em Florianópolis, presenciais e online.">
+
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png">
+
+<link rel="stylesheet" href="css/style-v2.css">
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#hero" class="logo-placeholder">
+      <img src="assets/img/logo-color.png" alt="Spazio Armonia" class="logo-img">
+    </a>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="main-nav" id="mainNav">
+      <ul>
+        <li><a href="#sobre" data-i18n="nav.sobre">Sobre</a></li>
+        <li><a href="#servicos" data-i18n="nav.servicos">Serviços</a></li>
+        <li><a href="#agendamento" data-i18n="nav.agendamento">Agendar</a></li>
+        <li><a href="#como-funciona" data-i18n="nav.comoFunciona">Como Funciona</a></li>
+        <li><a href="#galeria" data-i18n="nav.galeria">Galeria</a></li>
+        <li><a href="#localizacao" data-i18n="nav.localizacao">Localização</a></li>
+        <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+        <li><a href="#contato" data-i18n="nav.contato">Contato</a></li>
+      </ul>
+      <div class="lang-switch" id="langSwitchHeader">
+        <button type="button" data-lang="pt" class="lang-btn">PT</button>
+        <button type="button" data-lang="en" class="lang-btn">EN</button>
+        <button type="button" data-lang="it" class="lang-btn">IT</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========== HERO ========== -->
+  <section id="hero" class="section hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span class="light" data-i18n="hero.title_light">Toda grande</span>
+          <span class="bold" data-i18n="hero.title_bold">aprendizagem</span>
+          <span data-i18n="hero.title_end">começa com uma boa</span>
+          <span class="circle-highlight">
+            <span data-i18n="hero.title_circle">conexão</span>
+            <svg class="circle-svg" viewBox="0 0 220 90" aria-hidden="true">
+              <path d="M15,45 C10,15 60,5 110,6 C170,7 210,20 205,48 C200,78 140,86 100,84 C50,82 20,72 15,45 Z" fill="none" stroke="var(--gold)" stroke-width="6"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="hero-tagline" data-i18n="hero.tagline">Italiano · Yoga · Música</p>
+        <a href="#agendamento" class="btn btn-primary" data-i18n="hero.cta">Agendar Aula</a>
+      </div>
+
+      <div class="hero-photo">
+        <figure class="hero-photo-frame">
+          <img src="https://picsum.photos/seed/spazio-hero-1/900/1100" alt="Aula no Spazio Armonia" loading="lazy">
+        </figure>
+        <span class="sticker sticker-icon" aria-hidden="true">
+          <svg viewBox="0 0 100 140"><path d="M65,10 L65,110 C65,125 45,130 35,118 C28,110 32,98 45,98 C52,98 58,102 58,108" fill="none" stroke="var(--navy)" stroke-width="9" stroke-linecap="round"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <svg class="hero-arrow" viewBox="0 0 120 100" aria-hidden="true">
+      <path d="M10,10 C30,50 20,70 60,85 C80,92 95,80 100,60" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M100,60 L108,75 M100,60 L86,66" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+  </section>
+
+  <div class="dot-row" aria-hidden="true"></div>
+
+  <!-- ========== SOBRE ========== -->
+  <section id="sobre" class="section dot-grid">
+    <div class="container about-inner">
+      <div class="about-photo photo-collage">
+        <figure class="polaroid polaroid-main rotate-1">
+          <img src="https://picsum.photos/seed/spazio-professora/380/480" alt="Professora do Spazio Armonia" loading="lazy">
+          <figcaption data-i18n="sobre.photoCaption">nossa professora</figcaption>
+        </figure>
+        <figure class="polaroid polaroid-accent rotate-3">
+          <img src="https://picsum.photos/seed/spazio-sobre-detalhe/240/200" alt="Detalhe do espaço" loading="lazy">
+        </figure>
+      </div>
+      <div class="about-text">
+        <h2 data-i18n="sobre.title">O Spazio Armonia</h2>
+        <p data-i18n="sobre.text">O Spazio Armonia nasce do desejo de criar um ambiente de acolhimento e conexão...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SERVIÇOS / CARROSSEL ========== -->
+  <section id="servicos" class="section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <h2 class="section-title">
+          <span class="light" data-i18n="servicos.title_light">Nossos</span>
+          <span class="bold" data-i18n="servicos.title_bold">Pilares</span>
+        </h2>
+        <span class="seal-sticker" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--navy)" stroke-width="2.5" stroke-dasharray="3 7"/>
+            <circle cx="46" cy="50" r="21" fill="none" stroke="var(--navy)" stroke-width="4"/>
+            <circle cx="74" cy="50" r="21" fill="none" stroke="var(--gold)" stroke-width="4"/>
+            <circle cx="60" cy="73" r="21" fill="none" stroke="var(--blue-light)" stroke-width="4"/>
+          </svg>
+        </span>
+      </div>
+      <p class="section-subtitle">
+        <span data-i18n="servicos.subtitle_start">Três universos, uma só</span>
+        <span class="circle-highlight small">
+          <span data-i18n="servicos.subtitle_circle">harmonia</span>
+          <svg class="circle-svg" viewBox="0 0 220 90" aria-hidden="true">
+            <path d="M15,45 C10,15 60,5 110,6 C170,7 210,20 205,48 C200,78 140,86 100,84 C50,82 20,72 15,45 Z" fill="none" stroke="var(--blue-light)" stroke-width="5"/>
+          </svg>
+        </span>
+      </p>
+
+      <div class="carousel" id="servicesCarousel">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carouselTrack">
+
+            <article class="service-card card-italiano">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-it-iniciante/440/520" alt="Italiano - Iniciante" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.italiano.c1_titulo">Iniciante</h4>
+                <p class="service-card-sub" data-i18n="servicos.italiano.nome">Italiano</p>
+                <p class="service-card-stat" data-i18n="servicos.italiano.c1_desc">Primeiros passos na língua italiana...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.italiano.badge1">Individual</a>
+              </div>
+            </article>
+
+            <article class="service-card card-italiano">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-it-avancado/440/520" alt="Italiano - Intermediário/Avançado" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.italiano.c2_titulo">Intermediário/Avançado</h4>
+                <p class="service-card-sub" data-i18n="servicos.italiano.nome">Italiano</p>
+                <p class="service-card-stat" data-i18n="servicos.italiano.c2_desc">Aprofunde gramática, vocabulário e fluência...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.italiano.badge2">Grupo</a>
+              </div>
+            </article>
+
+            <article class="service-card card-italiano">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-it-conversacao/440/520" alt="Italiano - Conversação" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.italiano.c3_titulo">Conversação</h4>
+                <p class="service-card-sub" data-i18n="servicos.italiano.nome">Italiano</p>
+                <p class="service-card-stat" data-i18n="servicos.italiano.c3_desc">Prática livre e imersiva...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.italiano.badge3">Grupo</a>
+              </div>
+            </article>
+
+            <article class="service-card card-yoga">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-yoga-hatha/440/520" alt="Hatha Yoga" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.yoga.c1_titulo">Hatha Yoga</h4>
+                <p class="service-card-sub" data-i18n="servicos.yoga.nome">Yoga</p>
+                <p class="service-card-stat" data-i18n="servicos.yoga.c1_desc">Posturas clássicas com respiração consciente...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.yoga.badge1">Grupo</a>
+              </div>
+            </article>
+
+            <article class="service-card card-yoga">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-yoga-vinyasa/440/520" alt="Vinyasa" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.yoga.c2_titulo">Vinyasa</h4>
+                <p class="service-card-sub" data-i18n="servicos.yoga.nome">Yoga</p>
+                <p class="service-card-stat" data-i18n="servicos.yoga.c2_desc">Sequências fluidas que conectam movimento e respiração.</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.yoga.badge2">Grupo</a>
+              </div>
+            </article>
+
+            <article class="service-card card-yoga">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-yoga-restaurativo/440/520" alt="Yoga Restaurativo" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.yoga.c3_titulo">Yoga Restaurativo</h4>
+                <p class="service-card-sub" data-i18n="servicos.yoga.nome">Yoga</p>
+                <p class="service-card-stat" data-i18n="servicos.yoga.c3_desc">Práticas suaves de relaxamento profundo...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.yoga.badge3">Individual</a>
+              </div>
+            </article>
+
+            <article class="service-card card-musica">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-musica-piano/440/520" alt="Piano" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.musica.c1_titulo">Piano</h4>
+                <p class="service-card-sub" data-i18n="servicos.musica.nome">Música</p>
+                <p class="service-card-stat" data-i18n="servicos.musica.c1_desc">Da teoria à prática, para todos os níveis e idades.</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.musica.badge1">Individual</a>
+              </div>
+            </article>
+
+            <article class="service-card card-musica">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-musica-violao/440/520" alt="Violão" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.musica.c2_titulo">Violão</h4>
+                <p class="service-card-sub" data-i18n="servicos.musica.nome">Música</p>
+                <p class="service-card-stat" data-i18n="servicos.musica.c2_desc">Técnica, ritmo e repertório...</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.musica.badge2">Individual</a>
+              </div>
+            </article>
+
+            <article class="service-card card-musica">
+              <div class="service-card-photo">
+                <img src="https://picsum.photos/seed/spazio-musica-teoria/440/520" alt="Teoria Musical" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <span class="service-card-accent" aria-hidden="true"></span>
+                <h4 data-i18n="servicos.musica.c3_titulo">Teoria Musical</h4>
+                <p class="service-card-sub" data-i18n="servicos.musica.nome">Música</p>
+                <p class="service-card-stat" data-i18n="servicos.musica.c3_desc">Fundamentos essenciais para compreender e criar música.</p>
+                <a href="#agendamento" class="badge" data-i18n="servicos.musica.badge3">Grupo</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- ========== AGENDAMENTO (INDIVIDUAL x GRUPO) ========== -->
+  <section id="agendamento" class="section dot-grid">
+    <div class="container">
+      <h2 class="section-title" data-i18n="agendamento.title">Individual ou em Grupo?</h2>
+      <p class="section-subtitle" data-i18n="agendamento.subtitle">Escolha o formato ideal para você</p>
+
+      <div class="pill-toggle" id="formatToggle">
+        <button type="button" class="pill-btn active" data-format="individual" data-i18n="agendamento.toggleIndividual">Individual</button>
+        <button type="button" class="pill-btn" data-format="grupo" data-i18n="agendamento.toggleGrupo">Grupo</button>
+      </div>
+
+      <div class="format-content">
+        <div class="format-panel active" id="panelIndividual">
+          <h3 data-i18n="agendamento.individualTitle">Aulas Individuais</h3>
+          <p data-i18n="agendamento.individualText">Atenção 100% dedicada a você...</p>
+        </div>
+        <div class="format-panel" id="panelGrupo">
+          <h3 data-i18n="agendamento.grupoTitle">Aulas em Grupo</h3>
+          <p data-i18n="agendamento.grupoText">Aprenda em comunidade...</p>
+        </div>
+      </div>
+
+      <!-- AQUI VAI O EMBED DO CAL.COM -->
+      <div class="calcom-placeholder">
+        <p data-i18n="agendamento.calcomPlaceholder">Widget de agendamento Cal.com aqui</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="dot-row" aria-hidden="true"></div>
+
+  <!-- ========== COMO FUNCIONA ========== -->
+  <section id="como-funciona" class="section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="light" data-i18n="comoFunciona.title_light">Como</span>
+        <span class="bold" data-i18n="comoFunciona.title_bold">Funciona</span>
+      </h2>
+
+      <div class="how-grid">
+        <div class="how-item">
+          <svg class="how-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M12,54 L12,28 L32,10 L52,28 L52,54 Z M24,54 L24,38 L40,38 L40,54" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linejoin="round"/></svg>
+          <h3 data-i18n="comoFunciona.presencialTitulo">Presencial</h3>
+          <p data-i18n="comoFunciona.presencialTexto">Aulas no nosso espaço em Florianópolis...</p>
+        </div>
+        <div class="how-item">
+          <svg class="how-icon" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="14" width="44" height="30" rx="2" fill="none" stroke="var(--navy)" stroke-width="4"/><path d="M24,52 L40,52 M32,44 L32,52" fill="none" stroke="var(--navy)" stroke-width="4" stroke-linecap="round"/></svg>
+          <h3 data-i18n="comoFunciona.onlineTitulo">Online</h3>
+          <p data-i18n="comoFunciona.onlineTexto">Participe de onde estiver...</p>
+        </div>
+        <div class="how-item">
+          <svg class="how-icon" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="24" r="10" fill="none" stroke="var(--navy)" stroke-width="4"/><path d="M14,54 C14,40 50,40 50,54" fill="none" stroke="var(--navy)" stroke-width="4"/></svg>
+          <h3 data-i18n="comoFunciona.escolherTitulo">Como Escolher</h3>
+          <p data-i18n="comoFunciona.escolherTexto">Converse com a gente...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GALERIA ========== -->
+  <section id="galeria" class="section">
+    <div class="container">
+      <h2 class="section-title" data-i18n="galeria.title">Galeria</h2>
+
+      <div class="gallery-grid">
+        <figure class="polaroid rotate-1"><img src="https://picsum.photos/seed/spazio-yoga-1/360/440" alt="Yoga" loading="lazy"></figure>
+        <figure class="polaroid rotate-3"><img src="https://picsum.photos/seed/spazio-musica-1/360/440" alt="Música" loading="lazy"></figure>
+        <figure class="polaroid rotate-4"><img src="https://picsum.photos/seed/spazio-italiano-1/360/440" alt="Italiano" loading="lazy"></figure>
+        <figure class="polaroid rotate-2"><img src="https://picsum.photos/seed/spazio-espaco-1/360/440" alt="Espaço físico" loading="lazy"></figure>
+        <figure class="polaroid rotate-5"><img src="https://picsum.photos/seed/spazio-yoga-2/360/440" alt="Yoga em grupo" loading="lazy"></figure>
+        <figure class="polaroid rotate-1"><img src="https://picsum.photos/seed/spazio-musica-2/360/440" alt="Aula de música" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LOCALIZAÇÃO ========== -->
+  <section id="localizacao" class="section dot-grid">
+    <div class="container location-inner">
+      <div class="location-text">
+        <h2 class="section-title" data-i18n="localizacao.title">Onde Estamos</h2>
+        <p data-i18n="localizacao.endereco">Rua Exemplo, 123 - Florianópolis, SC</p>
+      </div>
+      <div class="location-map">
+        <!-- Iframe do Google Maps: coordenadas genéricas de Florianópolis, trocar pelo endereço real depois -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14184.0!2d-48.5482!3d-27.5954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDM1JzQzLjQiUyA0OMKwMzInNTMuNSJX!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+          width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade" title="Mapa Florianópolis"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="light" data-i18n="faq.title_light">Perguntas</span>
+        <span class="bold" data-i18n="faq.title_bold">Frequentes</span>
+      </h2>
+
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-i18n="faq.q1">Preciso ter experiência prévia?</button>
+          <div class="accordion-panel"><p data-i18n="faq.a1">Não! Nossas aulas são adaptadas para todos os níveis...</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-i18n="faq.q2">Como funciona o pagamento?</button>
+          <div class="accordion-panel"><p data-i18n="faq.a2">Aceitamos pagamento mensal ou por pacote de aulas...</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-i18n="faq.q3">Posso trocar de horário depois de agendado?</button>
+          <div class="accordion-panel"><p data-i18n="faq.a3">Sim, basta nos avisar com antecedência...</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-i18n="faq.q4">As aulas em grupo têm quantas vagas?</button>
+          <div class="accordion-panel"><p data-i18n="faq.a4">As turmas são reduzidas, com no máximo 6 alunos...</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" data-i18n="faq.q5">Vocês oferecem aula experimental gratuita?</button>
+          <div class="accordion-panel"><p data-i18n="faq.a5">Sim! Oferecemos uma aula experimental gratuita...</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTATO ========== -->
+  <section id="contato" class="section contato-section">
+    <div class="container">
+      <h2 class="section-title on-dark">
+        <span class="light" data-i18n="contato.title_light">Vamos</span>
+        <span class="bold" data-i18n="contato.title_bold">Conversar?</span>
+      </h2>
+      <p class="section-subtitle on-dark" data-i18n="contato.subtitle">Estamos aqui para te ajudar a começar</p>
+
+      <div class="contact-buttons">
+        <!-- Trocar href pelo número real: https://wa.me/55XXXXXXXXXXX -->
+        <a href="#" class="btn btn-contact btn-whatsapp">
+          <span data-i18n="contato.whatsapp">WhatsApp</span> [SEU WHATSAPP]
+        </a>
+        <!-- Trocar href pelo e-mail real -->
+        <a href="#" class="btn btn-contact btn-email">
+          <span data-i18n="contato.email">E-mail</span> [SEU EMAIL]
+        </a>
+        <!-- Trocar href pelo Instagram real -->
+        <a href="#" class="btn btn-contact btn-instagram">
+          <span data-i18n="contato.instagram">Instagram</span> [@SEU INSTAGRAM]
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <a href="#hero" class="logo-placeholder small">
+      <img src="assets/img/logo-color.png" alt="Spazio Armonia" class="logo-img">
+    </a>
+    <p class="footer-tagline" data-i18n="footer.tagline">Toda grande aprendizagem começa com uma boa conexão.</p>
+
+    <ul class="footer-links">
+      <li><a href="#sobre" data-i18n="nav.sobre">Sobre</a></li>
+      <li><a href="#servicos" data-i18n="nav.servicos">Serviços</a></li>
+      <li><a href="#agendamento" data-i18n="nav.agendamento">Agendar</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+      <li><a href="#contato" data-i18n="nav.contato">Contato</a></li>
+    </ul>
+
+    <div class="lang-switch" id="langSwitchFooter">
+      <button type="button" data-lang="pt" class="lang-btn">PT</button>
+      <button type="button" data-lang="en" class="lang-btn">EN</button>
+      <button type="button" data-lang="it" class="lang-btn">IT</button>
+    </div>
+
+    <p class="footer-rights">&copy; 2026 Spazio Armonia. <span data-i18n="footer.rights">Todos os direitos reservados.</span></p>
+  </div>
+</footer>
+
+<script src="js/translations.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
