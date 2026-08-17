@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo — Showcase Card (tilt 3D + crossfade)</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 96px 24px;
+    background-color: #eff0ec;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: #1e2330;
+  }
+
+  h1 {
+    max-width: 700px;
+    margin: 0 auto 8px;
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  p.lead {
+    max-width: 560px;
+    margin: 0 auto 64px;
+    text-align: center;
+    color: rgba(30, 35, 48, 0.6);
+    font-size: 15px;
+  }
+
+  /* ===========================================================
+     SHOWCASE — cartão inclinado 3D com crossfade automático
+     =========================================================== */
+
+  .showcase {
+    /* visão de lado a ~45° — rotateY carrega a maior parte do giro (eixo
+       vertical, gera o trapézio de perspectiva), rotateX inclina de cima,
+       rotate dá o acabamento 2D final. */
+    --tilt-y: -42deg;
+    --tilt-x: 10deg;
+    --tilt-z: -4deg;
+    --perspective: 900px;
+    display: flex;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 90px 0 40px; /* espaço extra à direita pro ícone flutuante não cortar */
+  }
+
+  .showcase-stage {
+    position: relative;
+    width: 260px;
+    height: 430px;
+    perspective: var(--perspective);
+    animation: showcase-idle-sway 7s ease-in-out infinite;
+  }
+
+  /* cartão secundário — atrás, à esquerda/abaixo, parcialmente coberto,
+     claramente mais claro/dessaturado e levemente desfocado pra reforçar a camada.
+     usa a propriedade `translate` (independente de `transform`) pra flutuar
+     sem brigar com a inclinação fixa que já mora em `transform`. */
+  .showcase-card--back {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 26px;
+    transform:
+      translateX(-38px) translateY(34px)
+      rotateY(calc(var(--tilt-y) * 1.15))
+      rotateX(calc(var(--tilt-x) * 0.6))
+      rotate(calc(var(--tilt-z) * 1.8))
+      scale(0.9);
+    box-shadow: 0 20px 40px rgba(30, 35, 48, 0.16);
+    transition: background-color 0.6s ease;
+    filter: brightness(1.4) saturate(0.75) blur(1.5px);
+    opacity: 0.7;
+    animation: showcase-idle-float 5s ease-in-out infinite;
+    animation-delay: -1.4s;
+  }
+
+  /* palco do flip — só a perspectiva; a inclinação fixa + o giro de 180°
+     entre temas vivem juntos no cubo, sempre nessa ordem */
+  .showcase-flip-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    perspective: var(--perspective);
+  }
+
+  .showcase-flip-cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform:
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x))
+      rotate(var(--tilt-z))
+      rotateY(var(--flip, 0deg));
+    transition: transform 0.85s cubic-bezier(.65, 0, .35, 1);
+  }
+
+  /* as duas faces do cartão — cada uma carrega cor, sombra e conteúdo
+     completos de um tema; o giro de 180° troca qual delas fica de frente */
+  .showcase-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 26px 22px;
+    border-radius: 30px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 30px 60px rgba(30, 35, 48, 0.32);
+    transition: background-color 0.4s ease;
+  }
+
+  .showcase-face--a { transform: rotateY(0deg); }
+  .showcase-face--b { transform: rotateY(180deg); }
+
+  /* ícones sociais em coluna vertical rente à borda direita, seguindo a MESMA
+     inclinação 3D do cartão (mas sem o giro de flip) — centralizados
+     verticalmente, com respiro maior e sem se sobrepor */
+  .showcase-social {
+    position: absolute;
+    top: 50%;
+    right: -19px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transform:
+      translateY(-50%)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x))
+      rotate(var(--tilt-z));
+  }
+
+  .showcase-social-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 8px 18px rgba(30, 35, 48, 0.18);
+    color: #1e2330;
+    animation: showcase-idle-float 4.5s ease-in-out infinite;
+  }
+
+  .showcase-social-dot:nth-child(1) { animation-delay: 0s; }
+  .showcase-social-dot:nth-child(2) { animation-delay: -1.2s; }
+  .showcase-social-dot:nth-child(3) { animation-delay: -2.4s; }
+
+  .showcase-social-dot svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* conteúdo de cada face — estático (a face inteira já flipa como um bloco) */
+  .showcase-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .showcase-eyebrow {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .showcase-title {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .showcase-subtitle {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.45;
+    opacity: 0.85;
+  }
+
+  .showcase-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .showcase-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 9999px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .showcase-btn--primary {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1e2330;
+  }
+
+  .showcase-btn--ghost {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: inherit;
+  }
+
+  /* elemento decorativo flutuante — solto no espaço, afastado da borda do
+     cartão, com flutuação própria e contínua (não reinicia no crossfade,
+     pois a animação está no elemento externo, o crossfade só troca o ícone
+     do elemento interno) */
+  .showcase-decor {
+    position: absolute;
+    top: -10%;
+    left: calc(100% + 38px);
+    z-index: 4;
+    animation: showcase-bob 3s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes showcase-bob {
+    0%   { transform: translateY(-10px) rotate(-6deg); }
+    100% { transform: translateY(10px) rotate(6deg); }
+  }
+
+  /* usadas via `translate` (propriedade independente de `transform`) pra
+     dar vida ao cartão de trás e à coluna de ícones sociais sem interferir
+     nas inclinações fixas que já vivem em `transform` nesses elementos */
+  @keyframes showcase-idle-float {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -7px; }
+  }
+
+  /* balanço lento do palco inteiro — sensação de "vivo" mesmo parado entre flips */
+  @keyframes showcase-idle-sway {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -6px; }
+  }
+
+  .showcase-decor-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    box-shadow: 0 16px 30px rgba(30, 35, 48, 0.22);
+    transition: opacity 0.22s ease, background-color 0.5s ease;
+  }
+
+  .showcase-decor-icon.is-fading {
+    opacity: 0;
+  }
+
+  .showcase-decor-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* ===== responsivo — reduz a inclinação 3D em telas pequenas ===== */
+  @media (max-width: 640px) {
+    .showcase {
+      --tilt-y: -24deg;
+      --tilt-x: 6deg;
+      --tilt-z: -3deg;
+      --perspective: 750px;
+      padding: 0 56px 0 24px;
+    }
+
+    .showcase-stage {
+      width: min(70vw, 260px);
+      height: min(70vw * 1.65, 430px);
+    }
+
+    .showcase-decor {
+      top: -8%;
+      left: calc(100% + 18px);
+    }
+
+    .showcase-decor-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+    }
+
+    .showcase-social {
+      right: -15px;
+      gap: 12px;
+    }
+
+    .showcase-social-dot {
+      width: 32px;
+      height: 32px;
+    }
+
+    .showcase-social-dot svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* ===== prefers-reduced-motion — desativa bobbing, balanço, flip e
+     crossfade automático; conteúdo fica estático no primeiro tema ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-stage,
+    .showcase-card--back,
+    .showcase-social-dot,
+    .showcase-decor {
+      animation: none;
+    }
+
+    .showcase-flip-cube {
+      transition: none;
+    }
+
+    .showcase-face,
+    .showcase-decor-icon {
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Showcase Card</h1>
+<p class="lead">Cartão em visão de lado a ~45°, com flip 3D de verdade entre temas, cartão secundário em profundidade e elementos flutuando continuamente — 100% CSS/JS, sem assets de terceiros.</p>
+
+<div class="showcase">
+  <div class="showcase-stage" id="showcaseStage">
+
+    <div class="showcase-card--back" id="showcaseBack"></div>
+
+    <div class="showcase-flip-scene">
+      <div class="showcase-flip-cube" id="showcaseCube">
+        <div class="showcase-face showcase-face--a" id="showcaseFaceA"></div>
+        <div class="showcase-face showcase-face--b" id="showcaseFaceB"></div>
+      </div>
+    </div>
+
+    <div class="showcase-social">
+      <button class="showcase-social-dot" aria-label="Curtir" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </button>
+      <button class="showcase-social-dot" aria-label="Favoritar" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+      </button>
+      <button class="showcase-social-dot" aria-label="Comentar" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </button>
+    </div>
+
+    <div class="showcase-decor" id="showcaseDecor">
+      <div class="showcase-decor-icon" id="showcaseDecorIcon"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ===========================================================
+     Dados configuráveis — troque cores, textos e ícones aqui.
+     Cada tema alimenta: cartão principal, cartão secundário,
+     ícone flutuante e crossfade automático.
+     =========================================================== */
+  const SHOWCASE_THEMES = [
+    {
+      key: 'yoga',
+      bgMain: '#0b6e6a',
+      bgBack: '#3fa39a',
+      textColor: '#eafffa',
+      eyebrow: 'Bem-estar',
+      title: 'Yoga',
+      subtitle: 'Sequências guiadas para alongar, respirar e desacelerar.',
+      primaryCta: 'Ver aulas',
+      secondaryCta: 'Agendar',
+      iconBg: '#eafffa',
+      iconColor: '#0b6e6a',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 8v4M12 12l-6 8M12 12l6 8M6 15h12"/></svg>'
+    },
+    {
+      key: 'musica',
+      bgMain: '#6e1330',
+      bgBack: '#a8395a',
+      textColor: '#ffe3ea',
+      eyebrow: 'Ritmo & som',
+      title: 'Música',
+      subtitle: 'Aulas individuais e em grupo para todos os níveis.',
+      primaryCta: 'Ouvir mais',
+      secondaryCta: 'Agendar',
+      iconBg: '#ffe3ea',
+      iconColor: '#6e1330',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+    },
+    {
+      key: 'italiano',
+      bgMain: '#c1440e',
+      bgBack: '#e2793c',
+      textColor: '#fff3e6',
+      eyebrow: 'Lingua e cultura',
+      title: 'Italiano',
+      subtitle: 'Do zero à conversação fluente, no seu próprio ritmo.',
+      primaryCta: 'Começar',
+      secondaryCta: 'Saiba mais',
+      iconBg: '#fff3e6',
+      iconColor: '#c1440e',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+    },
+    {
+      key: 'comunidade',
+      bgMain: '#5f8a12',
+      bgBack: '#8fbf3f',
+      textColor: '#f2ffe0',
+      eyebrow: 'Junte-se a nós',
+      title: 'Comunidade',
+      subtitle: 'Alunos de todas as idades já encontraram seu ritmo aqui.',
+      primaryCta: 'Conhecer',
+      secondaryCta: 'Falar com a gente',
+      iconBg: '#f2ffe0',
+      iconColor: '#5f8a12',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+    }
+  ];
+
+  function initShowcase(){
+    const stage = document.getElementById('showcaseStage');
+    if (!stage) return;
+
+    const back = document.getElementById('showcaseBack');
+    const cube = document.getElementById('showcaseCube');
+    const faceA = document.getElementById('showcaseFaceA');
+    const faceB = document.getElementById('showcaseFaceB');
+    const decorIcon = document.getElementById('showcaseDecorIcon');
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FLIP_MS = 850;   // duração do giro do cartão (bate com a transition do cubo)
+    const DECOR_FADE_MS = 220;
+    const INTERVAL_MS = 2500;
+
+    let current = 0;
+    let flipStep = 0;       // sempre soma +1 a cada troca — o cubo nunca "volta", só continua girando
+    let frontFace = 'a';    // qual face está de frente agora
+    let timer = null;
+
+    function faceMarkup(theme){
+      return `
+        <div class="showcase-content">
+          <span class="showcase-eyebrow">${theme.eyebrow}</span>
+          <h3 class="showcase-title">${theme.title}</h3>
+          <p class="showcase-subtitle">${theme.subtitle}</p>
+          <div class="showcase-actions">
+            <button class="showcase-btn showcase-btn--primary" type="button">${theme.primaryCta}</button>
+            <button class="showcase-btn showcase-btn--ghost" type="button">${theme.secondaryCta}</button>
+          </div>
+        </div>`;
+    }
+
+    function paintFace(faceEl, theme){
+      faceEl.style.backgroundColor = theme.bgMain;
+      faceEl.style.color = theme.textColor;
+      faceEl.innerHTML = faceMarkup(theme);
+    }
+
+    function paintDecor(theme){
+      decorIcon.style.backgroundColor = theme.iconBg;
+      decorIcon.style.color = theme.iconColor;
+      decorIcon.innerHTML = theme.icon;
+    }
+
+    function goTo(index){
+      current = ((index % SHOWCASE_THEMES.length) + SHOWCASE_THEMES.length) % SHOWCASE_THEMES.length;
+      const theme = SHOWCASE_THEMES[current];
+      const hiddenFace = frontFace === 'a' ? faceB : faceA;
+
+      // a face escondida é pintada ANTES de virar — ela só aparece quando
+      // o giro termina, então a troca de conteúdo nunca "pisca"
+      paintFace(hiddenFace, theme);
+      back.style.backgroundColor = theme.bgBack;
+
+      if (reduceMotion){
+        paintDecor(theme);
+        frontFace = frontFace === 'a' ? 'b' : 'a';
+        return;
+      }
+
+      flipStep += 1;
+      cube.style.setProperty('--flip', (flipStep * 180) + 'deg');
+      frontFace = frontFace === 'a' ? 'b' : 'a';
+
+      // o ícone flutuante troca no meio do giro, quando o cartão está de
+      // perfil (praticamente invisível) — o "pop" da troca fica escondido
+      setTimeout(() => decorIcon.classList.add('is-fading'), Math.max(0, FLIP_MS / 2 - DECOR_FADE_MS));
+      setTimeout(() => {
+        paintDecor(theme);
+        decorIcon.classList.remove('is-fading');
+      }, FLIP_MS / 2);
+    }
+
+    function start(){
+      stop();
+      if (reduceMotion) return;
+      timer = setInterval(() => goTo(current + 1), INTERVAL_MS);
+    }
+
+    function stop(){
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    paintFace(faceA, SHOWCASE_THEMES[0]);
+    paintDecor(SHOWCASE_THEMES[0]);
+    start();
+  }
+
+  document.addEventListener('DOMContentLoaded', initShowcase);
+</script>
+
+</body>
+</html>

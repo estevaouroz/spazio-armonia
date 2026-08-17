@@ -1,0 +1,219 @@
+/* ===== Header — pílula flutuante ===== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 16px 0;
+  background: transparent;
+  transition: transform 0.3s ease;
+}
+
+.site-header.header-hidden {
+  transform: translateY(-130%);
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 11px 11px 11px 24px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 8px 30px rgba(30, 35, 48, 0.1);
+}
+
+.logo-placeholder {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo-img {
+  display: block;
+  height: 45px;
+  width: auto;
+  padding: 4px;
+}
+
+.logo-placeholder.small .logo-img {
+  height: 26px;
+}
+
+/* ===== hamburger (mobile) ===== */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 110;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #1e2330;
+}
+
+/* ===== nav ===== */
+.main-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  height: 100vh;
+  width: 78%;
+  max-width: 320px;
+  overflow-y: auto;
+  padding: 80px 24px 32px;
+  background-color: #ffffff;
+  transition: right 0.3s ease;
+}
+
+.main-nav.open {
+  right: 0;
+}
+
+.main-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.main-nav a {
+  position: relative;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background-color: #254f1a;
+  transition: width 0.25s ease;
+}
+
+.main-nav a:hover {
+  color: #254f1a;
+}
+
+.main-nav a:hover::after {
+  width: 100%;
+}
+
+/* ===== lang switch ===== */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+#langSwitchHeader {
+  position: fixed;
+  top: 20px;
+  right: 16px;
+  z-index: 101;
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 8px 30px rgba(30, 35, 48, 0.1);
+}
+
+.lang-btn {
+  display: flex;
+  padding: 3px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  opacity: 0.45;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lang-btn img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.lang-btn:hover {
+  opacity: 0.75;
+}
+
+.lang-btn.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #1e2330;
+}
+
+/* ===== CTA do header =====
+   especificidade de elemento (a.btn-header-cta) para vencer a regra
+   genérica .btn de pages/home.css, que carrega depois no <head> */
+a.btn-header-cta {
+  flex-shrink: 0;
+  padding: 11px 24px;
+  background-color: #e9c0e9;
+  color: #1e2330;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .header-row {
+    max-width: 1600px;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .main-nav {
+    position: static;
+    height: auto;
+    width: auto;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 0;
+    background: none;
+  }
+
+  .main-nav ul {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 21px;
+    white-space: nowrap;
+  }
+
+  .main-nav a {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+}

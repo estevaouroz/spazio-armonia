@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo — Showcase Card Polaroid (flip 3D + fotos)</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 96px 24px;
+    background-color: #eff0ec;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: #1e2330;
+  }
+
+  h1 {
+    max-width: 700px;
+    margin: 0 auto 8px;
+    font-size: 26px;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  p.lead {
+    max-width: 560px;
+    margin: 0 auto 64px;
+    text-align: center;
+    color: rgba(30, 35, 48, 0.6);
+    font-size: 15px;
+  }
+
+  /* ===========================================================
+     SHOWCASE POLAROID — mesmo mecanismo de flip 3D da versão
+     anterior, mas cada face é uma foto polaroid de verdade
+     =========================================================== */
+
+  .showcase {
+    --tilt-y: 8deg;
+    --tilt-x: -2deg;
+    --tilt-z: 2deg;
+    --perspective: 900px;
+    display: flex;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 90px 0 40px;
+  }
+
+  .showcase-stage {
+    position: relative;
+    width: 360px;
+    height: 400px;
+    perspective: var(--perspective);
+    animation: showcase-idle-sway 7s ease-in-out infinite;
+  }
+
+  /* polaroid secundária — atrás, mais clara/desfocada, sem foto (só o
+     papel), reforçando a camada sem competir com a foto da frente */
+  .showcase-card--back {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 10px;
+    background-color: #fdfdfb;
+    transform:
+      translateX(-38px) translateY(34px)
+      rotateY(calc(var(--tilt-y) * 1.15))
+      rotateX(calc(var(--tilt-x) * 0.6))
+      rotate(calc(var(--tilt-z) * 1.8))
+      scale(0.9);
+    box-shadow: 0 20px 40px rgba(30, 35, 48, 0.16);
+    transition: background-color 0.6s ease;
+    filter: brightness(0.97) saturate(0.8) blur(1.5px);
+    opacity: 0.75;
+    animation: showcase-idle-float 5s ease-in-out infinite;
+    animation-delay: -1.4s;
+  }
+
+  .showcase-flip-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    perspective: var(--perspective);
+  }
+
+  .showcase-flip-cube {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform:
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x))
+      rotate(var(--tilt-z))
+      rotateY(var(--flip, 0deg));
+    transition: transform 0.85s cubic-bezier(.65, 0, .35, 1);
+  }
+
+  /* cada face é o cartão de papel (moldura polaroid) inteiro — foto,
+     etiqueta temática e legenda escrita à mão */
+  .showcase-face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 14px 0;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #fdfdfb;
+    backface-visibility: hidden;
+    box-shadow: 0 30px 60px rgba(30, 35, 48, 0.32);
+  }
+
+  .showcase-face--a { transform: rotateY(0deg); }
+  .showcase-face--b { transform: rotateY(180deg); }
+
+  .showcase-face-photo {
+    position: relative;
+    flex: 1;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #d9d9d4;
+  }
+
+  .showcase-face-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* lavagem de cor sobre a foto — dá identidade ao tema sem precisar
+     trocar a imagem em si (mix-blend-mode funciona sobre qualquer foto) */
+  .showcase-face-tint {
+    position: absolute;
+    inset: 0;
+    mix-blend-mode: multiply;
+  }
+
+  .showcase-face-sticker {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    box-shadow: 0 6px 14px rgba(30, 35, 48, 0.25);
+  }
+
+  .showcase-face-sticker svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .showcase-face-caption {
+    padding: 12px 6px 6px;
+    text-align: center;
+  }
+
+  .showcase-face-caption-title {
+    display: inline-block;
+    font-family: "Permanent Marker", cursive;
+    font-size: 22px;
+    line-height: 1;
+    color: #1e2330;
+    transform: rotate(-1.5deg);
+  }
+
+  .showcase-face-caption-sub {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(30, 35, 48, 0.5);
+  }
+
+  /* ícones sociais — mesma coluna vertical rente à borda direita,
+     seguindo a inclinação do cartão */
+  .showcase-social {
+    position: absolute;
+    top: 50%;
+    right: -19px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transform:
+      translateY(-50%)
+      rotateY(var(--tilt-y))
+      rotateX(var(--tilt-x))
+      rotate(var(--tilt-z));
+  }
+
+  .showcase-social-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 8px 18px rgba(30, 35, 48, 0.18);
+    color: #1e2330;
+    animation: showcase-idle-float 4.5s ease-in-out infinite;
+  }
+
+  .showcase-social-dot:nth-child(1) { animation-delay: 0s; }
+  .showcase-social-dot:nth-child(2) { animation-delay: -1.2s; }
+  .showcase-social-dot:nth-child(3) { animation-delay: -2.4s; }
+
+  .showcase-social-dot svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* elemento decorativo flutuante — solto no espaço, com bob contínuo
+     próprio (não reinicia quando o ícone interno troca de tema) */
+  .showcase-decor {
+    position: absolute;
+    top: 6%;
+    left: calc(100% + -80px);
+    z-index: 4;
+    animation: showcase-bob 3s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  @keyframes showcase-bob {
+    0%   { transform: translateY(-10px) rotate(-6deg); }
+    100% { transform: translateY(10px) rotate(6deg); }
+  }
+
+  @keyframes showcase-idle-float {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -7px; }
+  }
+
+  @keyframes showcase-idle-sway {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -6px; }
+  }
+
+  /* selo/adesivo de viagem flutuante — cada tema desenha a própria silhueta
+     (oval, círculo, retângulo, cápsula) DENTRO do svg, papel e sombra
+     inclusos, então o "recorte" do adesivo acompanha a forma certinho
+     (drop-shadow segue o contorno real, não uma caixa quadrada) */
+  .showcase-decor-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.22s ease;
+  }
+
+  .showcase-decor-icon.is-fading {
+    opacity: 0;
+  }
+
+  .showcase-decor-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 14px 22px rgba(30, 35, 48, 0.3));
+  }
+
+  /* ===== responsivo ===== */
+  @media (max-width: 640px) {
+    .showcase {
+      --tilt-y: -24deg;
+      --tilt-x: 6deg;
+      --tilt-z: -3deg;
+      --perspective: 750px;
+      padding: 0 56px 0 24px;
+    }
+
+    .showcase-stage {
+      width: min(70vw, 260px);
+      height: min(70vw * 1.55, 400px);
+    }
+
+    .showcase-decor {
+      top: -8%;
+      left: calc(100% + 18px);
+    }
+
+    .showcase-social {
+      right: -15px;
+      gap: 12px;
+    }
+
+    .showcase-social-dot {
+      width: 32px;
+      height: 32px;
+    }
+
+    .showcase-social-dot svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* ===== prefers-reduced-motion — desativa bobbing, balanço, flip e
+     crossfade automático ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-stage,
+    .showcase-card--back,
+    .showcase-social-dot,
+    .showcase-decor {
+      animation: none;
+    }
+
+    .showcase-flip-cube {
+      transition: none;
+    }
+
+    .showcase-decor-icon {
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- filtro compartilhado que dá o acabamento "carimbo gasto/tinta irregular"
+     aos selos — vive escondido aqui e é referenciado por id de qualquer
+     svg injetado depois, mesmo trocando o innerHTML do selo a cada tema -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="stamp-rough" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
+
+<h1>Showcase Card — Polaroid</h1>
+<p class="lead">Mesmo flip 3D e visão de lado a ~45° da versão anterior, agora com fotos polaroid de verdade e legenda escrita à mão — 100% CSS/JS, sem assets de terceiros além das fotos.</p>
+
+<div class="showcase">
+  <div class="showcase-stage" id="showcaseStage">
+
+    <div class="showcase-card--back" id="showcaseBack"></div>
+
+    <div class="showcase-flip-scene">
+      <div class="showcase-flip-cube" id="showcaseCube">
+        <div class="showcase-face showcase-face--a" id="showcaseFaceA"></div>
+        <div class="showcase-face showcase-face--b" id="showcaseFaceB"></div>
+      </div>
+    </div>
+
+    <div class="showcase-social">
+      <button class="showcase-social-dot" aria-label="Curtir" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      </button>
+      <button class="showcase-social-dot" aria-label="Favoritar" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.91-1.01z"/></svg>
+      </button>
+      <button class="showcase-social-dot" aria-label="Comentar" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      </button>
+    </div>
+
+    <div class="showcase-decor" id="showcaseDecor">
+      <div class="showcase-decor-icon" id="showcaseDecorIcon"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ===========================================================
+     Dados configuráveis — troque foto, cor de identidade, legenda
+     e ícone de cada tema aqui.
+     =========================================================== */
+  const SHOWCASE_THEMES = [
+    {
+      key: 'yoga',
+      photo: 'https://picsum.photos/seed/showcase-yoga/500/700',
+      tint: 'rgba(11, 110, 106, 0.38)',
+      bgBack: '#eafffa',
+      caption: 'Yoga',
+      captionSub: 'Bem-estar',
+      ink: '#0b6e6a',
+      stickerRotate: -8,
+      shape: 'oval',
+      decorSize: { w: 106, h: 76 },
+      stampTop: 'SPAZIO ARMONIA',
+      stampBottom: '★ BEM-ESTAR ★',
+      // bússola — motivo de "jornada/momento", não um pictograma de yoga
+      icon: '<circle cx="12" cy="12" r="9"/><path d="M12 6.5 14 12 12 17.5 10 12z" fill="currentColor" stroke="none"/>'
+    },
+    {
+      key: 'musica',
+      photo: 'https://picsum.photos/seed/showcase-musica/500/700',
+      tint: 'rgba(110, 19, 48, 0.38)',
+      bgBack: '#ffe3ea',
+      caption: 'Música',
+      captionSub: 'Ritmo & som',
+      ink: '#6e1330',
+      stickerRotate: 6,
+      shape: 'circle',
+      decorSize: { w: 84, h: 84 },
+      stampTop: 'SPAZIO ARMONIA',
+      stampBottom: '★ RITMO & SOM ★',
+      icon: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'
+    },
+    {
+      key: 'italiano',
+      photo: 'https://picsum.photos/seed/showcase-italiano/500/700',
+      tint: 'rgba(193, 68, 14, 0.38)',
+      bgBack: '#fff3e6',
+      caption: 'Italiano',
+      captionSub: 'Língua e cultura',
+      ink: '#c1440e',
+      stickerRotate: -5,
+      shape: 'rect',
+      decorSize: { w: 112, h: 74 },
+      stampTop: 'SPAZIO ARMONIA',
+      stampBottom: '★ ITALIA ★',
+      // torre de Pisa bem simplificada, levemente tombada
+      icon: '<g transform="rotate(9 12 13)"><rect x="9" y="3" width="6" height="2.6" rx="0.6"/><rect x="8" y="6.2" width="8" height="12.6" rx="1"/><rect x="6.4" y="19.2" width="11.2" height="2.4" rx="0.6"/></g>'
+    },
+    {
+      key: 'comunidade',
+      photo: 'https://picsum.photos/seed/showcase-comunidade/500/700',
+      tint: 'rgba(95, 138, 18, 0.38)',
+      bgBack: '#f2ffe0',
+      caption: 'Comunidade',
+      captionSub: 'Junte-se a nós',
+      ink: '#5f8a12',
+      stickerRotate: 9,
+      shape: 'stadium',
+      decorSize: { w: 66, h: 100 },
+      stampTop: 'SPAZIO ARMONIA',
+      stampBottom: '★ COMUNIDADE ★',
+      // coração — memória/afeto, mais pessoal do que um ícone de "grupo"
+      icon: '<path d="M12 20.5S3.5 15.4 3.5 9.6C3.5 6.4 5.9 4.5 8.5 4.5c1.6 0 3 .9 3.5 2.2.5-1.3 1.9-2.2 3.5-2.2 2.6 0 5 1.9 5 5.1 0 5.8-8.5 10.9-8.5 10.9z"/>'
+    }
+  ];
+
+  /* selo de viagem/adesivo de scrapbook — cada tema tem a SUA silhueta
+     (oval, círculo, retângulo, cápsula), não um círculo genérico repetido.
+     O papel creme e o contorno de tinta são desenhados dentro do próprio
+     svg (por isso o drop-shadow em CSS acompanha a forma certinho). Formas
+     redondas (oval/círculo) ganham texto curvado com <textPath>; formas
+     retas (retângulo/cápsula) usam texto reto no topo/base. O filtro
+     `stamp-rough` (definido uma vez no topo do <body>) dá o acabamento de
+     tinta gasta de carimbo em qualquer uma das formas. */
+  function buildStampSVG(theme, uid){
+    const paper = '#fbf4e4';
+    const ICON = `<g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${theme.icon}</g>`;
+
+    if (theme.shape === 'oval'){
+      return `
+        <svg viewBox="0 0 130 92">
+          <defs>
+            <path id="arc-top-${uid}" d="M 14,54 A 53,35 0 0 1 116,54" fill="none"/>
+            <path id="arc-bottom-${uid}" d="M 118,60 A 55,37 0 0 1 12,60" fill="none"/>
+          </defs>
+          <ellipse cx="65" cy="46" rx="61" ry="41" fill="none" stroke="${paper}" stroke-width="8"/>
+          <ellipse cx="65" cy="46" rx="58" ry="38" fill="${paper}"/>
+          <g filter="url(#stamp-rough)">
+            <ellipse cx="65" cy="46" rx="58" ry="38" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <ellipse cx="65" cy="46" rx="50" ry="31" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="0.5 4.2" stroke-linecap="round"/>
+            <text font-family="'Permanent Marker', cursive" font-size="8" letter-spacing="0.4" fill="currentColor">
+              <textPath href="#arc-top-${uid}" startOffset="50%" text-anchor="middle">${theme.stampTop}</textPath>
+            </text>
+            <text font-family="'Permanent Marker', cursive" font-size="6.6" letter-spacing="0.4" fill="currentColor">
+              <textPath href="#arc-bottom-${uid}" startOffset="50%" text-anchor="middle">${theme.stampBottom}</textPath>
+            </text>
+            <g transform="translate(65 47) translate(-11 -11) scale(0.85)">${ICON}</g>
+          </g>
+        </svg>`;
+    }
+
+    if (theme.shape === 'rect'){
+      return `
+        <svg viewBox="0 0 140 92">
+          <rect x="4" y="4" width="132" height="84" rx="9" fill="none" stroke="${paper}" stroke-width="8"/>
+          <rect x="4" y="4" width="132" height="84" rx="9" fill="${paper}"/>
+          <g filter="url(#stamp-rough)">
+            <rect x="7" y="7" width="126" height="78" rx="7" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <rect x="14" y="14" width="112" height="64" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="0.5 4.2" stroke-linecap="round"/>
+            <text x="70" y="24" text-anchor="middle" font-family="'Permanent Marker', cursive" font-size="8.5" letter-spacing="0.4" fill="currentColor">${theme.stampTop}</text>
+            <text x="70" y="72" text-anchor="middle" font-family="'Permanent Marker', cursive" font-size="7.5" letter-spacing="0.4" fill="currentColor">${theme.stampBottom}</text>
+            <g transform="translate(70 47) translate(-11 -11) scale(0.85)">${ICON}</g>
+          </g>
+        </svg>`;
+    }
+
+    if (theme.shape === 'stadium'){
+      return `
+        <svg viewBox="0 0 92 140">
+          <rect x="4" y="4" width="84" height="132" rx="42" fill="none" stroke="${paper}" stroke-width="8"/>
+          <rect x="4" y="4" width="84" height="132" rx="42" fill="${paper}"/>
+          <g filter="url(#stamp-rough)">
+            <rect x="7" y="7" width="78" height="126" rx="39" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <rect x="15" y="15" width="62" height="110" rx="31" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="0.5 4.2" stroke-linecap="round"/>
+            <text x="46" y="30" text-anchor="middle" font-family="'Permanent Marker', cursive" font-size="7" letter-spacing="0.3" fill="currentColor">${theme.stampTop}</text>
+            <text x="46" y="114" text-anchor="middle" font-family="'Permanent Marker', cursive" font-size="6.4" letter-spacing="0.3" fill="currentColor">${theme.stampBottom}</text>
+            <g transform="translate(46 71) translate(-11 -11) scale(0.85)">${ICON}</g>
+          </g>
+        </svg>`;
+    }
+
+    // 'circle' (padrão)
+    return `
+      <svg viewBox="0 0 100 100">
+        <defs>
+          <path id="arc-top-${uid}" d="M 10,56 A 40,40 0 0 1 90,56" fill="none"/>
+          <path id="arc-bottom-${uid}" d="M 92,60 A 42,42 0 0 1 8,60" fill="none"/>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="none" stroke="${paper}" stroke-width="8"/>
+        <circle cx="50" cy="50" r="45" fill="${paper}"/>
+        <g filter="url(#stamp-rough)">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2.2"/>
+          <circle cx="50" cy="50" r="38.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="0.5 4.2" stroke-linecap="round"/>
+          <text font-family="'Permanent Marker', cursive" font-size="8" letter-spacing="0.5" fill="currentColor">
+            <textPath href="#arc-top-${uid}" startOffset="50%" text-anchor="middle">${theme.stampTop}</textPath>
+          </text>
+          <text font-family="'Permanent Marker', cursive" font-size="7" letter-spacing="0.5" fill="currentColor">
+            <textPath href="#arc-bottom-${uid}" startOffset="50%" text-anchor="middle">${theme.stampBottom}</textPath>
+          </text>
+          <g transform="translate(50 50) translate(-11 -11) scale(0.92)">${ICON}</g>
+        </g>
+      </svg>`;
+  }
+
+  function initShowcase(){
+    const stage = document.getElementById('showcaseStage');
+    if (!stage) return;
+
+    const back = document.getElementById('showcaseBack');
+    const cube = document.getElementById('showcaseCube');
+    const faceA = document.getElementById('showcaseFaceA');
+    const faceB = document.getElementById('showcaseFaceB');
+    const decorIcon = document.getElementById('showcaseDecorIcon');
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FLIP_MS = 850;
+    const DECOR_FADE_MS = 220;
+    const INTERVAL_MS = 3000;
+
+    let current = 0;
+    let flipStep = 0;
+    let frontFace = 'a';
+    let timer = null;
+
+    function faceMarkup(theme){
+      return `
+        <div class="showcase-face-photo">
+          <img src="${theme.photo}" alt="" loading="lazy">
+          <div class="showcase-face-tint" style="background-color:${theme.tint}"></div>
+        </div>
+        <div class="showcase-face-caption">
+          <span class="showcase-face-caption-title">${theme.caption}</span>
+          <span class="showcase-face-caption-sub">${theme.captionSub}</span>
+        </div>`;
+    }
+
+    function paintFace(faceEl, theme){
+      faceEl.innerHTML = faceMarkup(theme);
+    }
+
+    function paintDecor(theme){
+      const mobileScale = window.matchMedia('(max-width: 640px)').matches ? 0.78 : 1;
+      decorIcon.style.width = (theme.decorSize.w * mobileScale) + 'px';
+      decorIcon.style.height = (theme.decorSize.h * mobileScale) + 'px';
+      decorIcon.style.color = theme.ink;
+      decorIcon.style.transform = `rotate(${theme.stickerRotate}deg)`;
+      decorIcon.innerHTML = buildStampSVG(theme, theme.key);
+    }
+
+    function goTo(index){
+      current = ((index % SHOWCASE_THEMES.length) + SHOWCASE_THEMES.length) % SHOWCASE_THEMES.length;
+      const theme = SHOWCASE_THEMES[current];
+      const hiddenFace = frontFace === 'a' ? faceB : faceA;
+
+      paintFace(hiddenFace, theme);
+      back.style.backgroundColor = theme.bgBack;
+
+      if (reduceMotion){
+        paintDecor(theme);
+        frontFace = frontFace === 'a' ? 'b' : 'a';
+        return;
+      }
+
+      flipStep += 1;
+      cube.style.setProperty('--flip', (flipStep * 180) + 'deg');
+      frontFace = frontFace === 'a' ? 'b' : 'a';
+
+      setTimeout(() => decorIcon.classList.add('is-fading'), Math.max(0, FLIP_MS / 2 - DECOR_FADE_MS));
+      setTimeout(() => {
+        paintDecor(theme);
+        decorIcon.classList.remove('is-fading');
+      }, FLIP_MS / 2);
+    }
+
+    function start(){
+      stop();
+      if (reduceMotion) return;
+      timer = setInterval(() => goTo(current + 1), INTERVAL_MS);
+    }
+
+    function stop(){
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    paintFace(faceA, SHOWCASE_THEMES[0]);
+    paintDecor(SHOWCASE_THEMES[0]);
+    start();
+  }
+
+  document.addEventListener('DOMContentLoaded', initShowcase);
+</script>
+
+</body>
+</html>

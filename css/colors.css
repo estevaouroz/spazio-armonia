@@ -1,0 +1,67 @@
+/* ===== texto ===== */
+.color-ink {
+  color: #1e2330;
+}
+
+.color-light {
+  color: #f3f3f1;
+}
+
+.color-lime {
+  color: #d2e823;
+}
+
+/* ===== fundos ===== */
+.bg-dark {
+  background-color: #254f1a;
+}
+
+.bg-neutral {
+  background-color: #eff0ec;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.bg-lime {
+  background-color: #d2e823;
+}
+
+.bg-pastel-pink {
+  background-color: #e9c0e9;
+}
+
+/* ===== blocos de cor sólida para cards de destaque ===== */
+.bg-card-lime {
+  background-color: #d2e823;
+}
+
+.bg-card-blue {
+  background-color: #aacbef;
+}
+
+.bg-card-purple {
+  background-color: #d5c2f2;
+}
+
+.bg-card-gold {
+  background-color: #f3ce5b;
+}
+
+.bg-card-pink {
+  background-color: #efb9de;
+}
+
+.bg-card-orange {
+  background-color: #f3a968;
+}
+
+/* IDENTIDADE VISUAL 
+color:#144673
+color:#F0CD7D
+color:#7DA0D2
+color:#F5F0DC
+color:#FFFFFF
+color:#DCEBF0
+color:#FAE18C*/

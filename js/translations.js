@@ -17,12 +17,25 @@ const translations = {
       title_circle: "conexão",
       title_end: "começa com uma boa",
       tagline: "Italiano · Yoga · Música",
-      cta: "Agendar Aula"
+      cta: "Agendar Aula",
+      socialProof: "Alunos de todas as idades já encontraram seu ritmo aqui",
+      photoCaption: "Spazio Armonia"
     },
     sobre: {
       title: "O Spazio Armonia",
       text: "O Spazio Armonia nasce do desejo de criar um ambiente de acolhimento e conexão. Um espaço que integra diferentes experiências, mas que compartilha uma única essência: proporcionar o aprendizado e bem-estar de forma leve, humana e genuína. Sua proposta valoriza uma aprendizagem envolvente, em que o lúdico se torna um caminho para despertar a curiosidade, fortalecer as conexões e transformar o conhecimento em uma experiência significativa.",
       photoCaption: "nossa professora"
+    },
+    professora: {
+      eyebrow: "Conheça",
+      title: "A professora",
+      text: "Italiana, apaixonada por movimento e música, ela transformou três paixões em um único espaço de aprendizado. Cada aula carrega um pouco da sua origem — o cuidado do yoga, o ritmo da música e a musicalidade da língua italiana.",
+      tagYoga: "Yoga",
+      tagMusica: "Música",
+      tagItaliano: "Italiano",
+      yoga: { label: "Yoga" },
+      musica: { label: "Música" },
+      italiano: { label: "Italiano" }
     },
     servicos: {
       title_light: "Nossos",
@@ -31,39 +44,36 @@ const translations = {
       subtitle_circle: "harmonia",
       italiano: {
         nome: "Italiano",
-        c1_titulo: "Iniciante",
-        c1_desc: "Primeiros passos na língua italiana, com foco em conversação básica e cultura.",
-        c2_titulo: "Intermediário/Avançado",
-        c2_desc: "Aprofunde gramática, vocabulário e fluência para conversas mais complexas.",
-        c3_titulo: "Conversação",
-        c3_desc: "Prática livre e imersiva para destravar a fala e ganhar confiança.",
-        badge1: "Individual",
-        badge2: "Grupo",
-        badge3: "Grupo"
+        c1_titulo: "Italiano — do zero ao avançado",
+        c1_desc: "Aulas que acompanham sua evolução desde as primeiras palavras até uma conversação fluente, com conteúdo personalizado para o seu ritmo.",
+        c1_formato: "Individual",
+        c1_nivel: "Do zero ao avançado",
+        c2_titulo: "Conversação e cultura italiana",
+        c2_desc: "Prática livre e imersiva em grupo, unindo o dia a dia da língua com aspectos da cultura italiana — culinária, cinema e tradições.",
+        c2_formato: "Grupo",
+        c2_nivel: "Intermediário"
       },
       yoga: {
         nome: "Yoga",
-        c1_titulo: "Hatha Yoga",
-        c1_desc: "Posturas clássicas com respiração consciente para equilíbrio de corpo e mente.",
-        c2_titulo: "Vinyasa",
-        c2_desc: "Sequências fluidas que conectam movimento e respiração.",
-        c3_titulo: "Yoga Restaurativo",
-        c3_desc: "Práticas suaves de relaxamento profundo e recuperação.",
-        badge1: "Grupo",
-        badge2: "Grupo",
-        badge3: "Individual"
+        c1_titulo: "Yoga para iniciantes",
+        c1_desc: "Primeiros passos na prática, com posturas guiadas e respiração consciente para construir uma base sólida de corpo e mente.",
+        c1_formato: "Grupo",
+        c1_nivel: "Iniciante",
+        c2_titulo: "Yoga para flexibilidade e bem-estar",
+        c2_desc: "Sequências focadas em alongamento profundo e relaxamento, ideais para aliviar tensões do dia a dia e ganhar mobilidade.",
+        c2_formato: "Individual",
+        c2_nivel: "Todos os níveis"
       },
       musica: {
         nome: "Música",
-        c1_titulo: "Piano",
-        c1_desc: "Da teoria à prática, para todos os níveis e idades.",
-        c2_titulo: "Violão",
-        c2_desc: "Técnica, ritmo e repertório para tocar suas músicas favoritas.",
-        c3_titulo: "Teoria Musical",
-        c3_desc: "Fundamentos essenciais para compreender e criar música.",
-        badge1: "Individual",
-        badge2: "Individual",
-        badge3: "Grupo"
+        c1_titulo: "Piano — do iniciante ao avançado",
+        c1_desc: "Da leitura musical à técnica no teclado, um caminho estruturado para tocar suas músicas favoritas com confiança, em qualquer idade.",
+        c1_formato: "Individual",
+        c1_nivel: "Todos os níveis",
+        c2_titulo: "Teoria musical e percepção auditiva",
+        c2_desc: "Desenvolva o ouvido musical e entenda a linguagem por trás das notas — harmonia, ritmo e escuta ativa aplicados na prática.",
+        c2_formato: "Grupo",
+        c2_nivel: "Fundamentos"
       }
     },
     agendamento: {
@@ -138,12 +148,25 @@ const translations = {
       title_circle: "connection",
       title_end: "starts with a good",
       tagline: "Italian · Yoga · Music",
-      cta: "Book a Class"
+      cta: "Book a Class",
+      socialProof: "Students of all ages have already found their rhythm here",
+      photoCaption: "Spazio Armonia ✎"
     },
     sobre: {
       title: "Spazio Armonia",
       text: "Spazio Armonia was born from the desire to create an environment of welcome and connection. A space that brings together different experiences, but shares a single essence: providing learning and well-being in a light, human, and genuine way. Its proposal values engaging learning, where playfulness becomes a path to spark curiosity, strengthen connections, and turn knowledge into a meaningful experience.",
       photoCaption: "our teacher"
+    },
+    professora: {
+      eyebrow: "Meet",
+      title: "The teacher",
+      text: "Italian, passionate about movement and music, she turned three passions into a single space for learning. Every class carries a bit of her roots — the care of yoga, the rhythm of music, and the musicality of the Italian language.",
+      tagYoga: "Yoga",
+      tagMusica: "Music",
+      tagItaliano: "Italian",
+      yoga: { label: "Yoga" },
+      musica: { label: "Music" },
+      italiano: { label: "Italian" }
     },
     servicos: {
       title_light: "Our",
@@ -152,39 +175,36 @@ const translations = {
       subtitle_circle: "harmony",
       italiano: {
         nome: "Italian",
-        c1_titulo: "Beginner",
-        c1_desc: "First steps in Italian, focused on basic conversation and culture.",
-        c2_titulo: "Intermediate/Advanced",
-        c2_desc: "Deepen grammar, vocabulary, and fluency for more complex conversations.",
-        c3_titulo: "Conversation",
-        c3_desc: "Free, immersive practice to unlock speaking and build confidence.",
-        badge1: "Individual",
-        badge2: "Group",
-        badge3: "Group"
+        c1_titulo: "Italian — from scratch to advanced",
+        c1_desc: "Classes that grow with you, from your first words to fluent conversation, with content tailored to your pace.",
+        c1_formato: "Individual",
+        c1_nivel: "From scratch to advanced",
+        c2_titulo: "Conversation and Italian culture",
+        c2_desc: "Free, immersive group practice blending everyday language with Italian culture — food, film, and traditions.",
+        c2_formato: "Group",
+        c2_nivel: "Intermediate"
       },
       yoga: {
         nome: "Yoga",
-        c1_titulo: "Hatha Yoga",
-        c1_desc: "Classic postures with mindful breathing for body-mind balance.",
-        c2_titulo: "Vinyasa",
-        c2_desc: "Flowing sequences that connect movement and breath.",
-        c3_titulo: "Restorative Yoga",
-        c3_desc: "Gentle practices for deep relaxation and recovery.",
-        badge1: "Group",
-        badge2: "Group",
-        badge3: "Individual"
+        c1_titulo: "Yoga for beginners",
+        c1_desc: "First steps into the practice, with guided postures and mindful breathing to build a solid mind-body foundation.",
+        c1_formato: "Group",
+        c1_nivel: "Beginner",
+        c2_titulo: "Yoga for flexibility and well-being",
+        c2_desc: "Sequences focused on deep stretching and relaxation, ideal for releasing daily tension and gaining mobility.",
+        c2_formato: "Individual",
+        c2_nivel: "All levels"
       },
       musica: {
         nome: "Music",
-        c1_titulo: "Piano",
-        c1_desc: "From theory to practice, for all levels and ages.",
-        c2_titulo: "Guitar",
-        c2_desc: "Technique, rhythm and repertoire to play your favorite songs.",
-        c3_titulo: "Music Theory",
-        c3_desc: "Essential fundamentals to understand and create music.",
-        badge1: "Individual",
-        badge2: "Individual",
-        badge3: "Group"
+        c1_titulo: "Piano — from beginner to advanced",
+        c1_desc: "From reading music to keyboard technique, a structured path to confidently play your favorite songs, at any age.",
+        c1_formato: "Individual",
+        c1_nivel: "All levels",
+        c2_titulo: "Music theory and ear training",
+        c2_desc: "Train your musical ear and understand the language behind the notes — harmony, rhythm, and active listening in practice.",
+        c2_formato: "Group",
+        c2_nivel: "Fundamentals"
       }
     },
     agendamento: {
@@ -259,12 +279,25 @@ const translations = {
       title_circle: "connessione",
       title_end: "inizia con una buona",
       tagline: "Italiano · Yoga · Musica",
-      cta: "Prenota una Lezione"
+      cta: "Prenota una Lezione",
+      socialProof: "Studenti di tutte le età hanno già trovato il loro ritmo qui",
+      photoCaption: "Spazio Armonia ✎"
     },
     sobre: {
       title: "Spazio Armonia",
       text: "Lo Spazio Armonia nasce dal desiderio di creare un ambiente di accoglienza e connessione. Uno spazio che integra esperienze diverse, ma che condivide un'unica essenza: offrire apprendimento e benessere in modo leggero, umano e genuino. La sua proposta valorizza un apprendimento coinvolgente, in cui il gioco diventa un modo per risvegliare la curiosità, rafforzare le connessioni e trasformare la conoscenza in un'esperienza significativa.",
       photoCaption: "la nostra insegnante"
+    },
+    professora: {
+      eyebrow: "Conosci",
+      title: "L'insegnante",
+      text: "Italiana, appassionata di movimento e musica, ha trasformato tre passioni in un unico spazio di apprendimento. Ogni lezione porta un po' delle sue radici — la cura dello yoga, il ritmo della musica e la musicalità della lingua italiana.",
+      tagYoga: "Yoga",
+      tagMusica: "Musica",
+      tagItaliano: "Italiano",
+      yoga: { label: "Yoga" },
+      musica: { label: "Musica" },
+      italiano: { label: "Italiano" }
     },
     servicos: {
       title_light: "I Nostri",
@@ -273,39 +306,36 @@ const translations = {
       subtitle_circle: "armonia",
       italiano: {
         nome: "Italiano",
-        c1_titulo: "Principiante",
-        c1_desc: "Primi passi nella lingua italiana, con focus su conversazione base e cultura.",
-        c2_titulo: "Intermedio/Avanzato",
-        c2_desc: "Approfondisci grammatica, vocabolario e fluidità per conversazioni più complesse.",
-        c3_titulo: "Conversazione",
-        c3_desc: "Pratica libera e immersiva per sciogliere la lingua e guadagnare sicurezza.",
-        badge1: "Individuale",
-        badge2: "Gruppo",
-        badge3: "Gruppo"
+        c1_titulo: "Italiano — dal principiante all'avanzato",
+        c1_desc: "Lezioni che accompagnano la tua evoluzione dalle prime parole fino a una conversazione fluente, con contenuti su misura per il tuo ritmo.",
+        c1_formato: "Individuale",
+        c1_nivel: "Dal principiante all'avanzato",
+        c2_titulo: "Conversazione e cultura italiana",
+        c2_desc: "Pratica libera e immersiva in gruppo, che unisce la lingua del quotidiano con aspetti della cultura italiana — cucina, cinema e tradizioni.",
+        c2_formato: "Gruppo",
+        c2_nivel: "Intermedio"
       },
       yoga: {
         nome: "Yoga",
-        c1_titulo: "Hatha Yoga",
-        c1_desc: "Posture classiche con respirazione consapevole per l'equilibrio corpo-mente.",
-        c2_titulo: "Vinyasa",
-        c2_desc: "Sequenze fluide che collegano movimento e respiro.",
-        c3_titulo: "Yoga Rigenerativo",
-        c3_desc: "Pratiche dolci di rilassamento profondo e recupero.",
-        badge1: "Gruppo",
-        badge2: "Gruppo",
-        badge3: "Individuale"
+        c1_titulo: "Yoga per principianti",
+        c1_desc: "Primi passi nella pratica, con posture guidate e respirazione consapevole per costruire una base solida di corpo e mente.",
+        c1_formato: "Gruppo",
+        c1_nivel: "Principiante",
+        c2_titulo: "Yoga per flessibilità e benessere",
+        c2_desc: "Sequenze incentrate su allungamento profondo e rilassamento, ideali per alleviare le tensioni quotidiane e guadagnare mobilità.",
+        c2_formato: "Individuale",
+        c2_nivel: "Tutti i livelli"
       },
       musica: {
         nome: "Musica",
-        c1_titulo: "Pianoforte",
-        c1_desc: "Dalla teoria alla pratica, per tutti i livelli ed età.",
-        c2_titulo: "Chitarra",
-        c2_desc: "Tecnica, ritmo e repertorio per suonare le tue canzoni preferite.",
-        c3_titulo: "Teoria Musicale",
-        c3_desc: "Fondamenti essenziali per comprendere e creare musica.",
-        badge1: "Individuale",
-        badge2: "Individuale",
-        badge3: "Gruppo"
+        c1_titulo: "Pianoforte — dal principiante all'avanzato",
+        c1_desc: "Dalla lettura musicale alla tecnica sulla tastiera, un percorso strutturato per suonare i tuoi brani preferiti con sicurezza, a qualsiasi età.",
+        c1_formato: "Individuale",
+        c1_nivel: "Tutti i livelli",
+        c2_titulo: "Teoria musicale ed educazione dell'orecchio",
+        c2_desc: "Sviluppa l'orecchio musicale e comprendi il linguaggio dietro le note — armonia, ritmo e ascolto attivo applicati nella pratica.",
+        c2_formato: "Gruppo",
+        c2_nivel: "Fondamenti"
       }
     },
     agendamento: {

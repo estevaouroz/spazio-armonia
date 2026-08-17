@@ -1,0 +1,1339 @@
+/* ===== Layout base de seção ===== */
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
+  background-color: #eff0ec;
+}
+
+/* seções de conteúdo claras recebem uma textura de pontos sutil */
+.dot-grid {
+  background-color: #eff0ec;
+  background-image: radial-gradient(rgba(30, 35, 48, 0.12) 1.2px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+.dot-row {
+  height: 0;
+}
+
+.section-title-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 35px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.section-subtitle {
+  margin-top: -5px;
+  margin-bottom: 40px;
+  color: #5a6070;
+  font-size: 17px;
+  text-align: center;
+}
+
+.on-dark {
+  color: #f3f3f1 !important;
+}
+
+@media (min-width: 1024px) {
+  .section-title {
+    font-size: 42px;
+  }
+}
+
+/* ===== contraste de peso em títulos ===== */
+.light {
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+/* ===== botões ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 16px 34px;
+  background-color: #1e2330;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn-primary {
+  background-color: #1e2330;
+  color: #ffffff;
+}
+
+.btn-ghost {
+  border-radius: 8px;
+  background-color: #eff0ec;
+  color: #1e2330;
+  font-weight: 500;
+}
+
+.btn-cta {
+  border-radius: 9999px;
+  background-color: #e9c0e9;
+  color: #1e2330;
+  font-weight: 500;
+}
+
+/* ===== esconde decorações desenhadas à mão da versão anterior ===== */
+.circle-svg,
+.sticker,
+.seal-sticker,
+.hero-arrow {
+  display: none !important;
+}
+
+/* pill de destaque lima substitui o rabisco circular */
+.circle-highlight {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background-color: #FAE18C;
+  color: #1e2330;
+}
+
+/* ===== foto estilo polaroid -> card flat com cantos arredondados ===== */
+.polaroid {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(30, 35, 48, 0.12);
+  transform: none !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.polaroid:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 36px rgba(30, 35, 48, 0.18);
+}
+
+.polaroid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.polaroid figcaption {
+  padding: 11px 8px;
+  color: #1e2330;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+}
+
+.photo-collage {
+  position: relative;
+  display: inline-block;
+}
+
+.polaroid-accent {
+  position: absolute;
+  top: -10%;
+  left: -6%;
+  z-index: 2;
+  width: 42%;
+  max-width: 150px;
+  border: 4px solid #eff0ec;
+}
+
+.about-photo.photo-collage .polaroid-accent {
+  top: auto;
+  bottom: -8%;
+  left: auto;
+  right: -4%;
+}
+
+@media (min-width: 768px) {
+  .polaroid-accent {
+    max-width: 170px;
+    left: -12%;
+  }
+
+  .about-photo.photo-collage .polaroid-accent {
+    right: -14%;
+    left: auto;
+  }
+}
+
+/* ===== Hero — impacto escuro, duas colunas ===== */
+.hero {
+  position: relative;
+  overflow: visible;
+  padding-top: 144px;
+  background-color:#DCEBF0;
+  color: #144673;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #144673;
+}
+
+.hero-title .light {
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+.hero-tagline {
+  margin-top: 8px;
+  color: #7DA0D2;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 13px;
+  margin-top: 24px;
+}
+
+.hero-cta-row .btn-primary {
+  background-color: #FAE18C;
+  color: #1e2330;
+}
+
+.hero-cta-row .btn-ghost {
+  background-color: rgba(243, 243, 241, 0.12);
+  color: #f3f3f1;
+}
+
+.social-proof-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  margin-top: 28px;
+  padding: 10px 19px;
+  border: 1px solid #144673;
+  border-radius: 9999px;
+  background-color: rgba(243, 243, 241, 0.1);
+  color: #144673;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.social-proof-avatars {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background-color: #d2e823;
+  box-shadow: 8px 0 0 -2px #efb9de, 16px 0 0 -2px #aacbef;
+}
+
+.hero-photo {
+  position: relative;
+  width: 100%;
+  animation: pop-in 0.7s ease 0.1s both;
+}
+
+.hero-polaroid {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 14px 14px 10px;
+  background-color: #fdfdfb;
+  border-radius: 6px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.28);
+  transform: rotate(-2deg);
+}
+
+.hero-photo-frame {
+  width: 100%;
+  height: 320px;
+  margin: 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.hero-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-polaroid-caption {
+  display: block;
+  padding: 12px 6px 2px;
+  font-family: "Permanent Marker", cursive;
+  font-size: 22px;
+  line-height: 1;
+  color: #1e2330;
+  text-align: center;
+  letter-spacing: 0.5px;
+  transform: rotate(1deg);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+
+  .hero-title {
+    font-size: 51px;
+  }
+
+  .hero-text {
+    flex: 0 0 44%;
+  }
+
+  .hero-photo {
+    flex: 0 0 50%;
+  }
+
+  .hero-photo-frame {
+    height: 58vh;
+    min-height: 440px;
+    max-height: 640px;
+  }
+
+  .hero-cta-row,
+  .social-proof-pill {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 56px;
+  }
+
+  .hero-text {
+    flex: 0 0 42%;
+  }
+
+  .hero-photo {
+    flex: 0 0 52%;
+  }
+
+  .hero-photo-frame {
+    height: 64vh;
+    min-height: 520px;
+    max-height: 680px;
+  }
+}
+
+/* ===== Sobre ===== */
+.about-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+}
+
+.about-photo {
+  order: -1;
+}
+
+.about-text h2 {
+  font-size: 32px;
+}
+
+@media (min-width: 768px) {
+  .about-inner {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .about-photo {
+    order: 0;
+    flex: 0 0 320px;
+  }
+
+  .about-text {
+    flex: 1;
+  }
+}
+
+/* ===== Conheça a professora — showcase polaroid (cópia exata do demo) ===== */
+.professora-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  text-align: center;
+}
+
+.showcase {
+  --tilt-y: 8deg;
+  --tilt-x: -2deg;
+  --tilt-z: 2deg;
+  --perspective: 900px;
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 90px 0 40px;
+}
+
+.showcase-stage {
+  position: relative;
+  width: 360px;
+  height: 400px;
+  perspective: var(--perspective);
+  animation: showcase-idle-sway 7s ease-in-out infinite;
+}
+
+/* polaroid secundária — atrás, mais clara/desfocada, sem foto (só o
+   papel), reforçando a camada sem competir com a foto da frente */
+.showcase-card--back {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 10px;
+  background-color: #fdfdfb;
+  transform:
+    translateX(-38px) translateY(34px)
+    rotateY(calc(var(--tilt-y) * 1.15))
+    rotateX(calc(var(--tilt-x) * 0.6))
+    rotate(calc(var(--tilt-z) * 1.8))
+    scale(0.9);
+  box-shadow: 0 20px 40px rgba(30, 35, 48, 0.16);
+  transition: background-color 0.6s ease;
+  filter: brightness(0.97) saturate(0.8) blur(1.5px);
+  opacity: 0.75;
+  animation: showcase-idle-float 5s ease-in-out infinite;
+  animation-delay: -1.4s;
+}
+
+.showcase-flip-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  perspective: var(--perspective);
+}
+
+.showcase-flip-cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform:
+    rotateY(var(--tilt-y))
+    rotateX(var(--tilt-x))
+    rotate(var(--tilt-z))
+    rotateY(var(--flip, 0deg));
+  transition: transform 0.85s cubic-bezier(.65, 0, .35, 1);
+}
+
+/* cada face é o cartão de papel (moldura polaroid) inteiro — foto,
+   etiqueta temática e legenda escrita à mão */
+.showcase-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 0;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fdfdfb;
+  backface-visibility: hidden;
+  box-shadow: 0 30px 60px rgba(30, 35, 48, 0.32);
+}
+
+.showcase-face--a { transform: rotateY(0deg); }
+.showcase-face--b { transform: rotateY(180deg); }
+
+.showcase-face-photo {
+  position: relative;
+  flex: 1;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: #d9d9d4;
+}
+
+.showcase-face-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* lavagem de cor sobre a foto — dá identidade ao tema sem precisar
+   trocar a imagem em si (mix-blend-mode funciona sobre qualquer foto) */
+.showcase-face-tint {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+}
+
+.showcase-face-sticker {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  box-shadow: 0 6px 14px rgba(30, 35, 48, 0.25);
+}
+
+.showcase-face-sticker svg {
+  width: 17px;
+  height: 17px;
+}
+
+.showcase-face-caption {
+  padding: 12px 6px 6px;
+  text-align: center;
+}
+
+.showcase-face-caption-title {
+  display: inline-block;
+  font-family: "Permanent Marker", cursive;
+  font-size: 22px;
+  line-height: 1;
+  color: #1e2330;
+  transform: rotate(-1.5deg);
+}
+
+.showcase-face-caption-sub {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(30, 35, 48, 0.5);
+}
+
+/* ícones sociais — mesma coluna vertical rente à borda direita,
+   seguindo a inclinação do cartão */
+.showcase-social {
+  position: absolute;
+  top: 50%;
+  right: -19px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  transform:
+    translateY(-50%)
+    rotateY(var(--tilt-y))
+    rotateX(var(--tilt-x))
+    rotate(var(--tilt-z));
+}
+
+.showcase-social-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 8px 18px rgba(30, 35, 48, 0.18);
+  color: #1e2330;
+  animation: showcase-idle-float 4.5s ease-in-out infinite;
+}
+
+.showcase-social-dot:nth-child(1) { animation-delay: 0s; }
+.showcase-social-dot:nth-child(2) { animation-delay: -1.2s; }
+.showcase-social-dot:nth-child(3) { animation-delay: -2.4s; }
+
+.showcase-social-dot svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* elemento decorativo flutuante — solto no espaço, com bob contínuo
+   próprio (não reinicia quando o ícone interno troca de tema) */
+.showcase-decor {
+  position: absolute;
+  top: 6%;
+  left: calc(100% + -80px);
+  z-index: 4;
+  animation: showcase-bob 3s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes showcase-bob {
+  0%   { transform: translateY(-10px) rotate(-6deg); }
+  100% { transform: translateY(10px) rotate(6deg); }
+}
+
+@keyframes showcase-idle-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -7px; }
+}
+
+@keyframes showcase-idle-sway {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -6px; }
+}
+
+/* selo/adesivo de viagem flutuante — papel creme constante, só a cor
+   da "tinta" (currentColor) muda por tema; a própria silhueta (oval,
+   círculo, retângulo, cápsula) é desenhada dentro do svg */
+.showcase-decor-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.22s ease;
+}
+
+.showcase-decor-icon.is-fading {
+  opacity: 0;
+}
+
+.showcase-decor-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 14px 22px rgba(30, 35, 48, 0.3));
+}
+
+@media (max-width: 640px) {
+  .showcase {
+    --tilt-y: -24deg;
+    --tilt-x: 6deg;
+    --tilt-z: -3deg;
+    --perspective: 750px;
+    padding: 0 56px 0 24px;
+  }
+
+  .showcase-stage {
+    width: min(70vw, 260px);
+    height: min(70vw * 1.55, 400px);
+  }
+
+  .showcase-decor {
+    top: -8%;
+    left: calc(100% + 18px);
+  }
+
+  .showcase-social {
+    right: -15px;
+    gap: 12px;
+  }
+
+  .showcase-social-dot {
+    width: 32px;
+    height: 32px;
+  }
+
+  .showcase-social-dot svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-stage,
+  .showcase-card--back,
+  .showcase-social-dot,
+  .showcase-decor {
+    animation: none;
+  }
+
+  .showcase-flip-cube {
+    transition: none;
+  }
+
+  .showcase-decor-icon {
+    transition: none;
+  }
+}
+
+.professora-text {
+  max-width: 520px;
+}
+
+.professora-eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #7a8299;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.professora-text h2 {
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
+.professora-text p {
+  color: rgba(30, 35, 48, 0.75);
+  line-height: 1.6;
+}
+
+.professora-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.professora-tags .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .professora-inner {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 64px;
+  }
+
+  .professora-text {
+    max-width: none;
+  }
+
+  .professora-tags {
+    justify-content: flex-start;
+  }
+}
+
+/* ===== Carrossel / cards de serviço — marquee automático estilo Linktree ===== */
+.carousel-marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.carousel-track {
+  display: flex;
+  width: max-content;
+  cursor: grab;
+  will-change: transform;
+}
+
+.carousel-track.is-dragging {
+  cursor: grabbing;
+}
+
+.carousel-group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.service-card {
+  position: relative;
+  flex: 0 0 240px;
+  max-width: 240px;
+  min-width: 0;
+  margin: 0 12px 26px;
+  padding: 12px;
+  border-radius: 28px;
+}
+
+.service-card-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid #1e2330;
+}
+
+.service-card-icon img {
+  width: 20px;
+  height: 20px;
+}
+
+.service-card-photo {
+  width: 100%;
+  height: 0;
+  padding-bottom: 108%;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.service-card-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.service-card-photo:hover img {
+  transform: scale(1.05);
+}
+
+.service-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 6px 4px;
+  text-align: center;
+}
+
+.service-card-name {
+  margin: 0;
+  color: #1e2330;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.service-card-role {
+  margin: 0 0 12px;
+  min-height: 34px;
+  color: rgba(30, 35, 48, 0.55);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.service-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  padding: 11px 20px;
+  border-radius: 9999px;
+  background-color: #1e2330;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.service-badge:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.service-badge-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.service-badge-icon img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.badge-italiano { background-color: #254f1a; color: #ffffff; }
+.badge-yoga { background-color: #1e2330; color: #aacbef; }
+.badge-musica { background-color: #efb9de; color: #1e2330; }
+
+.badge-italiano .service-badge-icon img,
+.badge-yoga .service-badge-icon img { filter: brightness(0) invert(1); }
+
+@media (min-width: 768px) {
+  .service-card {
+    flex: 0 0 270px;
+    max-width: 270px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-card {
+    flex: 0 0 400px;
+    max-width: 400px;
+  }
+
+  .service-card-name {
+    font-size: 22px;
+  }
+}
+
+/* ===== Agendamento — toggle segmentado em pill ===== */
+.pill-toggle {
+  display: inline-flex;
+  justify-content: center;
+  gap: 0;
+  margin: 0 auto 40px;
+  padding: 6px;
+  border-radius: 9999px;
+  background-color: #ffffff;
+}
+
+#agendamento .pill-toggle {
+  display: flex;
+  width: fit-content;
+}
+
+.pill-btn {
+  padding: 11px 26px;
+  border-radius: 9999px;
+  background-color: transparent;
+  color: #1e2330;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.pill-btn.active {
+  background-color: #1e2330;
+  color: #ffffff;
+}
+
+.format-panel {
+  display: none;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.format-panel.active {
+  display: block;
+}
+
+.calcom-placeholder {
+  max-width: 640px;
+  margin: 40px auto 0;
+  padding: 48px 24px;
+  border: 2px dashed #c7c9c2;
+  border-radius: 20px;
+  color: #555555;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== Como funciona ===== */
+.how-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  text-align: center;
+}
+
+.how-item {
+  padding: 32px 24px;
+  border-radius: 24px;
+  background-color: #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.how-item:hover {
+  transform: translateY(-4px);
+}
+
+.how-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+}
+
+.how-icon path,
+.how-icon rect,
+.how-icon circle {
+  stroke: #1e2330 !important;
+}
+
+@media (min-width: 768px) {
+  .how-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Galeria ===== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  justify-items: stretch;
+  padding-top: 16px;
+}
+
+.gallery-grid .polaroid {
+  width: 100%;
+}
+
+.gallery-grid .polaroid img {
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 3 / 4;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ===== Localização ===== */
+.location-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.location-map iframe {
+  width: 100%;
+  border-radius: 20px;
+}
+
+@media (min-width: 768px) {
+  .location-inner {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .location-text {
+    flex: 0 0 320px;
+  }
+
+  .location-map {
+    flex: 1;
+  }
+}
+
+/* ===== FAQ / accordion ===== */
+.accordion {
+  padding: 8px 26px;
+  border-radius: 24px;
+  background-color: #ffffff;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #eff0ec;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-trigger {
+  position: relative;
+  width: 100%;
+  padding: 18px 26px 18px 0;
+  text-align: left;
+  color: #1e2330;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.accordion-trigger::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 21px;
+}
+
+.accordion-trigger[aria-expanded="true"]::after {
+  content: "\2013";
+}
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-panel p {
+  margin: 0;
+  padding: 0 0 18px;
+}
+
+/* ===== Contato — CTA final de impacto ===== */
+.contato-section {
+  background-color: #254f1a;
+  text-align: center;
+}
+
+.contact-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.btn-contact {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-whatsapp {
+  background-color: #d2e823;
+  color: #1e2330;
+}
+
+.btn-email {
+  background-color: #ffffff;
+  color: #1e2330;
+}
+
+.btn-instagram {
+  background-color: #e9c0e9;
+  color: #1e2330;
+}
+
+@media (min-width: 768px) {
+  .contact-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .btn-contact {
+    width: auto;
+  }
+}
+
+/* ===== Animações — scroll reveal ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-photo {
+    animation: none;
+  }
+}
+
+/* ===== Modal de detalhes da aula — expansão contínua a partir da foto do card ===== */
+.service-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.service-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.service-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(20, 22, 30, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.service-modal-box {
+  position: relative;
+  z-index: 1;
+  width: 860px;
+  max-width: 100%;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden auto;
+  border-radius: 28px;
+  background-color: #ffffff;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.35);
+  transform: scale(0.94);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(.2, .8, .2, 1), opacity 0.35s ease;
+}
+
+.service-modal.is-open .service-modal-box {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.service-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #1e2330;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.service-modal-close:hover {
+  transform: scale(1.08);
+}
+
+.service-modal-photo {
+  position: relative;
+  flex: 0 0 220px;
+  overflow: hidden;
+}
+
+.service-modal-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.service-modal-body {
+  padding: 28px 26px 32px;
+}
+
+.service-modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.service-modal-badge-pill {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background-color: #eff0ec;
+  color: #1e2330;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.service-modal-badge-pill.is-category.badge-italiano { background-color: #254f1a; color: #ffffff; }
+.service-modal-badge-pill.is-category.badge-yoga { background-color: #1e2330; color: #aacbef; }
+.service-modal-badge-pill.is-category.badge-musica { background-color: #efb9de; color: #1e2330; }
+
+#serviceModalTitle {
+  margin: 0 0 12px;
+  color: #1e2330;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+#serviceModalDesc {
+  margin: 0 0 26px;
+  color: rgba(30, 35, 48, 0.7);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+@media (min-width: 768px) {
+  .service-modal-box {
+    flex-direction: row;
+    max-height: 560px;
+  }
+
+  .service-modal-photo {
+    flex: 0 0 42%;
+  }
+
+  .service-modal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 44px;
+  }
+
+  #serviceModalTitle {
+    font-size: 28px;
+  }
+}

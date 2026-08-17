@@ -1,0 +1,46 @@
+.titulo-um {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.07;
+  letter-spacing: -0.5px;
+}
+
+.titulo-dois {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.titulo-tres {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.corpo-grande {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.corpo-medio {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.corpo-pequeno {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.uppercase-label {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bold-500 { font-weight: 500; }
+.bold-600 { font-weight: 600; }
+.bold-700 { font-weight: 700; }
+.bold-800 { font-weight: 800; }
