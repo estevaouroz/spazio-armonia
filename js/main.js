@@ -10,10 +10,56 @@ document.addEventListener('DOMContentLoaded', () => {
   initServiceModal();
   initFormatToggle();
   initAccordion();
+  initProfessoraToggle();
+  initResumeTabs();
   initScrollReveal();
   initHeaderScroll();
   initShowcase();
+  initHeroPhotoStack();
+  initTestimonialCarousel();
+  initGalleryMarquee();
+  initGalleryLightbox();
 });
+
+/* ============ HERO PHOTO STACK ============ */
+function initHeroPhotoStack(){
+  const stack = document.getElementById('heroPhotoStack');
+  if (!stack) return;
+
+  const photos = Array.from(stack.querySelectorAll('.hero-polaroid'));
+  if (photos.length < 2) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  let zCounter = photos.length;
+  // a foto 0 já está visível; a ordem gira por todas, incluindo ela de novo no fim do ciclo
+  let order = photos.map((_, i) => i).slice(1).concat(0);
+
+  function landPhoto(index){
+    const photo = photos[index];
+    zCounter += 1;
+    photo.style.zIndex = zCounter;
+    photo.classList.add('is-active');
+
+    // reinicia a animação mesmo se a classe já tiver sido usada antes
+    photo.classList.remove('is-landing');
+    void photo.offsetWidth;
+    photo.classList.add('is-landing');
+
+    const onEnd = () => {
+      photo.classList.remove('is-landing');
+      photo.removeEventListener('animationend', onEnd);
+    };
+    photo.addEventListener('animationend', onEnd);
+  }
+
+  setInterval(() => {
+    const next = order.shift();
+    order.push(next);
+    landPhoto(next);
+  }, 5000);
+}
 
 /* ============ HEADER HIDE ON SCROLL DOWN ============ */
 function initHeaderScroll(){
@@ -510,7 +556,7 @@ function initScrollReveal(){
     '.service-card',
     '.pill-toggle', '.format-content', '.calcom-placeholder',
     '.how-item',
-    '.gallery-grid .polaroid',
+    '.clothesline-heading', '.clothesline-lead', '.peg-photo', '.clothesline-tagline', '.clothesline-pillars',
     '.location-text', '.location-map',
     '.accordion-item',
     '.contact-buttons .btn-contact'
@@ -546,28 +592,332 @@ function initScrollReveal(){
   elements.forEach(el => observer.observe(el));
 }
 
-/* ============ FAQ ACCORDION ============ */
-function initAccordion(){
-  const items = document.querySelectorAll('.accordion-item');
+/* ============ TOGGLE "Minhas especialidades" / "Certificações" ============ */
+function initProfessoraToggle(){
+  const group = document.querySelector('.professora-toggle-group');
+  if (!group) return;
 
-  items.forEach(item => {
-    const trigger = item.querySelector('.accordion-trigger');
-    const panel = item.querySelector('.accordion-panel');
+  const buttons = group.querySelectorAll('.professora-toggle-btn');
+  const panels = document.querySelectorAll('.professora-panel-content');
 
-    trigger.addEventListener('click', () => {
-      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-panel-target');
 
-      items.forEach(other => {
-        other.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
-        other.querySelector('.accordion-panel').style.maxHeight = null;
+      buttons.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
       });
 
-      if (!isOpen){
-        trigger.setAttribute('aria-expanded', 'true');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
-      }
+      panels.forEach(panel => {
+        const isTarget = panel.getAttribute('data-panel') === target;
+        panel.classList.toggle('is-active', isTarget);
+        panel.hidden = !isTarget;
+      });
     });
   });
+}
+
+/* ============ RESUME TABS (Education / Certifications) ============ */
+function initResumeTabs(){
+  document.querySelectorAll('.resume-tabs').forEach(tabs => {
+    const wrapper = tabs.parentElement;
+    const buttons = tabs.querySelectorAll('.resume-tab');
+    const panels = wrapper.querySelectorAll('.resume-tab-panel');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab-target');
+
+        buttons.forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+        });
+
+        panels.forEach(panel => {
+          const isTarget = panel.getAttribute('data-tab-panel') === target;
+          panel.classList.toggle('is-active', isTarget);
+          panel.hidden = !isTarget;
+        });
+      });
+    });
+  });
+}
+
+/* ============ ACCORDIONS (FAQ, especialidades, etc.) ============ */
+function initAccordion(){
+  document.querySelectorAll('.accordion').forEach(accordion => {
+    const items = accordion.querySelectorAll('.accordion-item');
+
+    items.forEach(item => {
+      const trigger = item.querySelector('.accordion-trigger');
+      const panel = item.querySelector('.accordion-panel');
+
+      trigger.addEventListener('click', () => {
+        const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+        items.forEach(other => {
+          other.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+          other.querySelector('.accordion-panel').style.maxHeight = null;
+        });
+
+        if (!isOpen){
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+  });
+}
+
+/* ============ DEPOIMENTOS — carrossel de 1 card com autoplay em loop infinito ============ */
+function initTestimonialCarousel(){
+  const carousel = document.getElementById('testimonialCarousel');
+  const track = document.getElementById('testimonialTrack');
+  const prevBtn = document.getElementById('testimonialPrev');
+  const nextBtn = document.getElementById('testimonialNext');
+  if (!carousel || !track || !prevBtn || !nextBtn) return;
+
+  const originalSlides = Array.from(track.children);
+  const total = originalSlides.length;
+  if (total <= 1){
+    prevBtn.hidden = true;
+    nextBtn.hidden = true;
+    return;
+  }
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* sem animação, o "salto" do loop não é perceptível — troca simples por módulo,
+     sem precisar clonar slides. */
+  if (reducedMotion){
+    let plainIndex = 0;
+    const render = () => { track.style.transform = `translateX(-${plainIndex * 100}%)`; };
+    const goTo = (target) => {
+      plainIndex = ((target % total) + total) % total;
+      render();
+    };
+    prevBtn.addEventListener('click', () => goTo(plainIndex - 1));
+    nextBtn.addEventListener('click', () => goTo(plainIndex + 1));
+    render();
+    return;
+  }
+
+  /* clona o primeiro e o último slide para criar um loop sem "salto" visual:
+     ao avançar do último, desliza normalmente até essa cópia do primeiro,
+     depois pula sem transição para o slide real — o usuário nunca percebe. */
+  const firstClone = originalSlides[0].cloneNode(true);
+  const lastClone = originalSlides[total - 1].cloneNode(true);
+  firstClone.setAttribute('aria-hidden', 'true');
+  lastClone.setAttribute('aria-hidden', 'true');
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, track.firstChild);
+
+  const TRANSITION = 'transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)';
+
+  let index = 1; // posição 0 é o clone do último; slides reais vão de 1 a total
+  let autoplayTimer = null;
+
+  function jumpTo(targetIndex){
+    track.style.transition = 'none';
+    index = targetIndex;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    void track.offsetWidth; // força reflow antes de reativar a transição
+    track.style.transition = TRANSITION;
+  }
+
+  function goTo(targetIndex){
+    index = targetIndex;
+    track.style.transition = TRANSITION;
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  track.addEventListener('transitionend', (e) => {
+    if (e.propertyName !== 'transform') return;
+    if (index === total + 1) jumpTo(1);
+    else if (index === 0) jumpTo(total);
+  });
+
+  function stopAutoplay(){
+    if (autoplayTimer){
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function startAutoplay(){
+    stopAutoplay();
+    autoplayTimer = setInterval(() => goTo(index + 1), 3000);
+  }
+
+  function restartAutoplay(){
+    startAutoplay();
+  }
+
+  prevBtn.addEventListener('click', () => {
+    goTo(index - 1);
+    restartAutoplay();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    goTo(index + 1);
+    restartAutoplay();
+  });
+
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+  carousel.addEventListener('focusin', stopAutoplay);
+  carousel.addEventListener('focusout', startAutoplay);
+
+  jumpTo(1);
+  startAutoplay();
+}
+
+/* ============ GALERIA — lightbox das polaroids via Fancybox ============
+   o seletor usa "começa com" porque o varal infinito clona o mesmo conjunto de
+   fotos em vários grupos ("galeria-0", "galeria-1"...) — ver initGalleryMarquee */
+function initGalleryLightbox(){
+  if (typeof Fancybox === 'undefined') return;
+
+  Fancybox.bind('[data-fancybox^="galeria"]', {
+    Carousel: {
+      infinite: true,
+    },
+  });
+}
+
+/* ============ GALERIA — varal infinito, só arrastável (sem movimento sozinho) ============
+   a trilha (.clothesline-track) começa com UM conjunto de fotos (marcado no HTML,
+   funciona como fallback com scroll nativo se o JS não rodar). Aqui a gente clona
+   esse conjunto quantas vezes forem necessárias pra cobrir a tela toda + uma folga,
+   não importa o tamanho da janela — assim dá pra arrastar pra qualquer lado sem
+   nunca esbarrar em espaço vazio. Cada cópia clonada ganha seu próprio grupo de
+   lightbox (galeria-0, galeria-1...) pra não duplicar fotos dentro do mesmo álbum. */
+function initGalleryMarquee(){
+  const marquee = document.getElementById('galeriaMarquee');
+  const track = document.getElementById('galeriaTrack');
+  if (!marquee || !track) return;
+
+  const baseSet = track.querySelector('.clothesline-set');
+  if (!baseSet) return;
+
+  let setWidth = 0;
+  let pos = 0;
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartPos = 0;
+  let dragMoved = 0;
+
+  function relabelCopy(setEl, index){
+    setEl.querySelectorAll('[data-fancybox]').forEach(a => {
+      a.setAttribute('data-fancybox', `galeria-${index}`);
+    });
+  }
+
+  /* garante cópias suficientes pra cobrir largura visível + 1 conjunto de folga,
+     que é exatamente o espaço que a posição (sempre entre -setWidth e 0) pode
+     revelar — recalculado no resize, porque a largura da tela pode mudar */
+  function ensureCopies(){
+    setWidth = baseSet.getBoundingClientRect().width;
+    if (setWidth <= 0) return;
+
+    const containerWidth = marquee.clientWidth;
+    const needed = Math.max(2, Math.ceil(containerWidth / setWidth) + 1);
+    let copies = track.querySelectorAll('.clothesline-set').length;
+
+    while (copies < needed) {
+      const clone = baseSet.cloneNode(true);
+      relabelCopy(clone, copies);
+      /* a cópia base pode ter a classe do fade-in-ao-rolar (.reveal); a cópia
+         clonada nunca é observada pelo IntersectionObserver, então precisa
+         nascer já totalmente visível, sem herdar esse estado "escondido" */
+      clone.querySelectorAll('.reveal').forEach(el => el.classList.remove('reveal', 'is-visible'));
+      track.appendChild(clone);
+      bindClickGuard(clone);
+      copies++;
+    }
+    while (copies > needed) {
+      track.lastElementChild.remove();
+      copies--;
+    }
+  }
+
+  function wrap(){
+    if (setWidth <= 0) return;
+    while (pos <= -setWidth) pos += setWidth;
+    while (pos > 0) pos -= setWidth;
+  }
+
+  function render(){
+    track.style.transform = `translateX(${pos}px)`;
+  }
+
+  function pointerDown(e){
+    dragging = true;
+    dragMoved = 0;
+    dragStartX = e.clientX;
+    dragStartPos = pos;
+    marquee.classList.add('is-dragging');
+    /* de propósito SEM setPointerCapture: capturar o ponteiro faz o navegador
+       redirecionar o clique nativo pro contêiner em vez da foto, e o Fancybox
+       nunca recebe o clique. Em vez disso, escuta no window enquanto arrasta,
+       pra continuar seguindo o mouse mesmo se ele sair da área do varal. */
+    window.addEventListener('pointermove', pointerMove);
+    window.addEventListener('pointerup', pointerUp);
+    window.addEventListener('pointercancel', pointerUp);
+  }
+
+  function pointerMove(e){
+    if (!dragging) return;
+    const delta = e.clientX - dragStartX;
+    dragMoved = Math.max(dragMoved, Math.abs(delta));
+    pos = dragStartPos + delta;
+    wrap();
+    render();
+  }
+
+  function pointerUp(){
+    if (!dragging) return;
+    dragging = false;
+    marquee.classList.remove('is-dragging');
+    window.removeEventListener('pointermove', pointerMove);
+    window.removeEventListener('pointerup', pointerUp);
+    window.removeEventListener('pointercancel', pointerUp);
+  }
+
+  /* arrastar não deve disparar o link/lightbox da foto — só um clique de verdade */
+  function suppressClickAfterDrag(e){
+    if (dragMoved > 6) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
+  function bindClickGuard(scope){
+    scope.querySelectorAll('.peg-photo a').forEach(a => {
+      a.addEventListener('click', suppressClickAfterDrag);
+    });
+  }
+
+  relabelCopy(baseSet, 0);
+  bindClickGuard(baseSet);
+  ensureCopies();
+  marquee.classList.add('is-draggable');
+  render();
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { ensureCopies(); wrap(); render(); }, 150);
+  });
+  track.querySelectorAll('img').forEach(img => {
+    if (!img.complete) img.addEventListener('load', () => ensureCopies(), { once: true });
+  });
+
+  marquee.addEventListener('pointerdown', pointerDown);
+  /* sem isso, clicar e arrastar em cima do link/imagem da foto dispara o
+     "arrastar link" nativo do navegador em vez do nosso drag do varal */
+  marquee.addEventListener('dragstart', e => e.preventDefault());
 }
 
 /* ============ MODAL DE DETALHES DA AULA ============

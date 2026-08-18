@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/footer.css">
 <link rel="stylesheet" href="css/pages/home.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
 
@@ -100,12 +101,30 @@
         </div>
       </div>
 
-      <div class="hero-photo">
-        <figure class="hero-polaroid">
+      <div class="hero-photo hero-photo-stack" id="heroPhotoStack">
+        <figure class="hero-polaroid is-active" data-stack-index="0">
           <div class="hero-photo-frame">
-            <img src="/assets/img/ChatGPT Image 1 de ago. de 2026, 22_30_35.png" alt="Aula no Spazio Armonia" loading="lazy">
+            <img src="/assets/img/ChatGPT Image 1 de ago. de 2026, 22_30_35.png" alt="Aula de italiano no Spazio Armonia" loading="lazy">
           </div>
           <figcaption class="hero-polaroid-caption" data-i18n="hero.photoCaption">Spazio Armonia</figcaption>
+        </figure>
+        <figure class="hero-polaroid" data-stack-index="1">
+          <div class="hero-photo-frame">
+            <img src="/assets/img/ChatGPT Image 1 de ago. de 2026, 22_31_54.png" alt="Aula de italiano no Spazio Armonia" loading="lazy">
+          </div>
+          <figcaption class="hero-polaroid-caption" data-i18n="hero.photoCaptionItaliano">Italiano</figcaption>
+        </figure>
+        <figure class="hero-polaroid" data-stack-index="2">
+          <div class="hero-photo-frame">
+            <img src="/assets/images/piano-class-in-session.webp" alt="Aula de música no Spazio Armonia" loading="lazy">
+          </div>
+          <figcaption class="hero-polaroid-caption" data-i18n="hero.photoCaptionMusica">Música</figcaption>
+        </figure>
+        <figure class="hero-polaroid" data-stack-index="3">
+          <div class="hero-photo-frame">
+            <img src="/assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga no Spazio Armonia" loading="lazy">
+          </div>
+          <figcaption class="hero-polaroid-caption" data-i18n="hero.photoCaptionYoga">Yoga</figcaption>
         </figure>
       </div>
     </div>
@@ -273,31 +292,12 @@
 
   </section>
   <!-- ========== SOBRE ========== -->
-  <section id="sobre" class="section dot-grid">
-            <img src="/assets/img/Prancheta 18.svg" alt="">
+  <img src="/assets/img/Prancheta 17.svg" alt="" class="sobre-watermark" aria-hidden="true">
+  
+  <section id="sobre" class="section dot-grid sobre-section">
 
-    <div class="wrapper about-inner">
-      
-      <div class="about-photo photo-collage">
-        <figure class="polaroid polaroid-main rotate-1">
-          <img src="https://picsum.photos/seed/spazio-professora/380/480" alt="Professora do Spazio Armonia" loading="lazy">
-          <figcaption data-i18n="sobre.photoCaption">nossa professora</figcaption>
-        </figure>
-        <figure class="polaroid polaroid-accent rotate-3">
-          <img src="https://picsum.photos/seed/spazio-sobre-detalhe/240/200" alt="Detalhe do espaço" loading="lazy">
-        </figure>
-      </div>
-      <div class="about-text">
-        <h2 data-i18n="sobre.title">O Spazio Armonia</h2>
-        <p data-i18n="sobre.text">O Spazio Armonia nasce do desejo de criar um ambiente de acolhimento e conexão...</p>
-      </div>
-    </div>
   </section>
 
-  <!-- ========== CONHEÇA A PROFESSORA (showcase polaroid — cópia exata do demo) ========== -->
-  <!-- filtro compartilhado do acabamento "carimbo gasto" do selo — vive escondido
-       aqui e é referenciado por id por qualquer svg de selo injetado depois,
-       mesmo trocando o innerHTML do selo a cada tema -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <filter id="stamp-rough" x="-25%" y="-25%" width="150%" height="150%">
@@ -350,8 +350,134 @@
           <span class="badge badge-musica" data-i18n="professora.tagMusica">Música</span>
           <span class="badge badge-italiano" data-i18n="professora.tagItaliano">Italiano</span>
         </div>
+
+        <div class="professora-toggle-group" role="tablist">
+          <button class="professora-toggle-btn active" role="tab" aria-selected="true" data-panel-target="specialties" data-i18n="professora.specialties.title">Minhas especialidades</button>
+          <button class="professora-toggle-btn" role="tab" aria-selected="false" data-panel-target="certifications" data-i18n="professora.resume.title">Certificações</button>
+        </div>
+
+        <div class="professora-panel-content is-active" data-panel="specialties">
+          <div class="accordion" id="specialtiesAccordion">
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false" data-i18n="professora.specialties.s1_titulo">Italiano conversacional</button>
+              <div class="accordion-panel"><p data-i18n="professora.specialties.s1_desc">Mergulhe em conversas reais — aprenda o italiano do dia a dia e gírias com diálogos divertidos, curiosidades culturais e atividades interativas!</p></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false" data-i18n="professora.specialties.s2_titulo">Italiano para iniciantes</button>
+              <div class="accordion-panel"><p data-i18n="professora.specialties.s2_desc">Comece a falar italiano desde o primeiro dia — aulas divertidas e interativas com conversas do cotidiano e atividades simples!</p></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false" data-i18n="professora.specialties.s3_titulo">Italiano intensivo</button>
+              <div class="accordion-panel"><p data-i18n="professora.specialties.s3_desc">Domine o italiano rapidamente — aulas intensivas e dinâmicas com conversas do dia a dia e prática envolvente!</p></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false" data-i18n="professora.specialties.s4_titulo">Literatura italiana</button>
+              <div class="accordion-panel"><p data-i18n="professora.specialties.s4_desc">Explore a beleza da literatura italiana — mergulhe em obras clássicas, discussões envolventes e análises criativas!</p></div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-trigger" aria-expanded="false" data-i18n="professora.specialties.s5_titulo">Italiano para crianças</button>
+              <div class="accordion-panel"><p data-i18n="professora.specialties.s5_desc">Italiano divertido para crianças — aprenda por meio de jogos, músicas, histórias e atividades interativas para falar e brincar em italiano!</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="professora-panel-content" data-panel="certifications" hidden>
+          <div class="resume-tabs" id="resumeTabs" role="tablist">
+            <button class="resume-tab active" role="tab" aria-selected="true" data-tab-target="education" data-i18n="professora.resume.tabEducation">Education</button>
+            <button class="resume-tab" role="tab" aria-selected="false" data-tab-target="certifications" data-i18n="professora.resume.tabCertifications">Certifications</button>
+          </div>
+
+          <div class="resume-tab-panel is-active" data-tab-panel="education">
+            <div class="resume-item">
+              <span class="resume-year">2019 — 2024</span>
+              <div class="resume-item-content">
+                <p class="resume-item-title" data-i18n="professora.resume.eduSchool">Conservatório "G. Verdi", Como</p>
+                <p class="resume-item-subtitle" data-i18n="professora.resume.eduDegree">Mestrado em Piano</p>
+                <span class="resume-verified">
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#0f9d58"/><path d="M6 10.3l2.3 2.3L14 7" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span data-i18n="professora.resume.diplomaVerified">Diploma verificado</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resume-tab-panel" data-tab-panel="certifications" hidden>
+            <div class="resume-item">
+              <span class="resume-year">2025 — 2025</span>
+              <div class="resume-item-content">
+                <p class="resume-item-title">CEDILS</p>
+                <p class="resume-item-subtitle" data-i18n="professora.resume.certName">Certificazione in Didattica dell'Italiano a Stranieri</p>
+                <span class="resume-verified">
+                  <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="#0f9d58"/><path d="M6 10.3l2.3 2.3L14 7" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span data-i18n="professora.resume.certVerified">Certificado verificado</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ========== FEATURES DOS SERVIÇOS ========== -->
+  <section id="feature-italiano" class="section dot-grid feature-section">
+    <div class="wrapper feature-inner">
+      <div class="feature-photo">
+        <img src="assets/images/images (2).jpeg" alt="Aula de italiano" loading="lazy">
+      </div>
+      <div class="feature-text">
+        <span class="feature-eyebrow feature-eyebrow--italiano" data-i18n="servicos.italiano.feature.eyebrow">Italiano</span>
+        <h2 data-i18n="servicos.italiano.feature.title">Aprenda italiano no seu ritmo</h2>
+        <p data-i18n="servicos.italiano.feature.text">Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.</p>
+        <ul class="feature-list feature-list--italiano">
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic1">Turmas do zero ao avançado</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic2">Conversação com foco na fluência real</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic3">Cultura, culinária e tradições italianas</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic4">Aulas individuais ou em grupo</span></li>
+        </ul>
+        <a href="#agendamento" class="btn feature-cta feature-cta--italiano" data-i18n="servicos.italiano.feature.cta">Agendar aula</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="feature-musica" class="section dot-grid feature-section">
+    <div class="wrapper feature-inner feature-inner--reverse">
+      <div class="feature-photo">
+        <img src="assets/images/360_F_497037243_OxBX9eF17AuTk3CAgCKK4hZ0VHFbeiSa.jpg" alt="Aula de música" loading="lazy">
+      </div>
+      <div class="feature-text">
+        <span class="feature-eyebrow feature-eyebrow--musica" data-i18n="servicos.musica.feature.eyebrow">Música</span>
+        <h2 data-i18n="servicos.musica.feature.title">Descubra o seu ritmo com o piano</h2>
+        <p data-i18n="servicos.musica.feature.text">Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.</p>
+        <ul class="feature-list feature-list--musica">
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic1">Piano do iniciante ao avançado</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic2">Teoria musical e leitura de partitura</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic3">Percepção auditiva e ritmo</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic4">Aulas individuais ou em grupo</span></li>
+        </ul>
+        <a href="#agendamento" class="btn feature-cta feature-cta--musica" data-i18n="servicos.musica.feature.cta">Agendar aula</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="feature-yoga" class="section dot-grid feature-section">
+    <div class="wrapper feature-inner">
+      <div class="feature-photo">
+        <img src="assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga" loading="lazy">
+      </div>
+      <div class="feature-text">
+        <span class="feature-eyebrow feature-eyebrow--yoga" data-i18n="servicos.yoga.feature.eyebrow">Yoga</span>
+        <h2 data-i18n="servicos.yoga.feature.title">Encontre equilíbrio entre corpo e mente</h2>
+        <p data-i18n="servicos.yoga.feature.text">Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.</p>
+        <ul class="feature-list feature-list--yoga">
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic1">Turmas para iniciantes e avançados</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic2">Foco em respiração e relaxamento</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic3">Alongamento e mobilidade do corpo</span></li>
+          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic4">Aulas individuais ou em grupo</span></li>
+        </ul>
+        <a href="#agendamento" class="btn feature-cta feature-cta--yoga" data-i18n="servicos.yoga.feature.cta">Agendar aula</a>
+      </div>
     </div>
   </section>
 
@@ -414,18 +540,250 @@
     </div>
   </section>
 
-  <!-- ========== GALERIA ========== -->
-  <section id="galeria" class="section">
+  <!-- ========== DEPOIMENTOS ========== -->
+  <section id="depoimentos" class="section dot-grid testimonials-section">
     <div class="wrapper">
-      <h2 class="section-title" data-i18n="galeria.title">Galeria</h2>
+      <h2 class="section-title">
+        <span class="light" data-i18n="depoimentos.title_light">O que dizem</span>
+        <span class="bold" data-i18n="depoimentos.title_bold">nossos alunos</span>
+      </h2>
 
-      <div class="gallery-grid">
-        <figure class="polaroid rotate-1"><img src="https://picsum.photos/seed/spazio-yoga-1/360/440" alt="Yoga" loading="lazy"></figure>
-        <figure class="polaroid rotate-3"><img src="https://picsum.photos/seed/spazio-musica-1/360/440" alt="Música" loading="lazy"></figure>
-        <figure class="polaroid rotate-4"><img src="https://picsum.photos/seed/spazio-italiano-1/360/440" alt="Italiano" loading="lazy"></figure>
-        <figure class="polaroid rotate-2"><img src="https://picsum.photos/seed/spazio-espaco-1/360/440" alt="Espaço físico" loading="lazy"></figure>
-        <figure class="polaroid rotate-5"><img src="https://picsum.photos/seed/spazio-yoga-2/360/440" alt="Yoga em grupo" loading="lazy"></figure>
-        <figure class="polaroid rotate-1"><img src="https://picsum.photos/seed/spazio-musica-2/360/440" alt="Aula de música" loading="lazy"></figure>
+      <a class="testimonial-badge" href="https://preply.com/en/tutor/6171938" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+        <span data-i18n="depoimentos.badge">4.9/5 · 22 avaliações no Preply</span>
+      </a>
+
+      <div class="testimonial-carousel" id="testimonialCarousel">
+        <div class="testimonial-track" id="testimonialTrack">
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #144673">J</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Not only fun, attentive, patient, and articulate — Marina is also a teacher who listens to your passions and what you want to achieve, then adapts to help you learn the language in a really fun and interesting way that makes you never want to leave the lesson."</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Jack</span>
+                <span class="testimonial-role">July 2026 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #E0A800">Y</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Excellent tutor! She explains everything in detail and is very patient. Very organized with lesson plans!"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Yvette</span>
+                <span class="testimonial-role">August 2026 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #7DA0D2">J</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"I adore learning with Marina. She is a lot of fun, very knowledgeable and always answers my questions. She keeps class engaging and is a joy to work with. We alternate with games, videos, and a textbook."</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Jessica</span>
+                <span class="testimonial-role">February 2026 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #144673">R</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Always a lovely, structured and helpful lesson! Thanks Marina :)"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Ruta</span>
+                <span class="testimonial-role">February 2026 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #E0A800">A</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Marina is a fantastic tutor. Patient, encouraging, and very clear in her explanations. She makes the lessons engaging and adapts to my learning needs. After just a few sessions, I feel more confident speaking Italian. Highly recommend!"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Angel</span>
+                <span class="testimonial-role">September 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #7DA0D2">L</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Marina is a great tutor, very friendly and patient with her students. Her lessons are fun and very enjoyable. Thank you Marina! 😄"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Luciana</span>
+                <span class="testimonial-role">July 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #144673">J</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"She is very dynamic, funny, fully prepared and adjusts so well to my needs! I love learning with Marina!"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Josee</span>
+                <span class="testimonial-role">May 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #E0A800">M</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"I look forward to my lessons with Marina. She keeps me engaged and the lessons fly by. I would highly recommend Marina to anyone wanting to learn Italian."</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Maria</span>
+                <span class="testimonial-role">May 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #7DA0D2">L</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Marina has a solid plan on how to teach, and has answers to all the oddball questions I ask! Great for starting at an absolute beginner level of Italian!"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Lizzy</span>
+                <span class="testimonial-role">April 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+          <article class="testimonial-slide">
+            <div class="testimonial-card">
+              <span class="testimonial-avatar" style="--avatar-bg: #144673">A</span>
+              <div class="testimonial-stars" aria-hidden="true">★★★★★</div>
+              <blockquote class="testimonial-quote">"Amazing and so relatable! Always have fun and come back from each lesson with really useful vocabulary and fluency! ❤️"</blockquote>
+              <footer class="testimonial-author">
+                <span class="testimonial-name">Amara</span>
+                <span class="testimonial-role">April 2025 · Preply</span>
+              </footer>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="testimonial-nav">
+          <button class="testimonial-arrow" id="testimonialPrev" type="button" aria-label="Depoimento anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="testimonial-arrow" id="testimonialNext" type="button" aria-label="Próximo depoimento">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GALERIA ========== -->
+  <section id="galeria" class="section gallery-mural">
+    <div class="wrapper">
+      <div class="clothesline-intro">
+        <h2 class="clothesline-heading">
+          <span data-i18n="galeria.heading.w1">Aprenda.</span>
+          <span class="light" data-i18n="galeria.heading.w2">Pratique.</span>
+          <br>
+          <span data-i18n="galeria.heading.w3">Evolua.</span>
+          <span class="light" data-i18n="galeria.heading.w4">Repita.</span>
+        </h2>
+        <p class="clothesline-lead" data-i18n="galeria.lead">Um espaço onde a prática ganha vida — cada aula é sobre experimentar, ajustar e voltar a tentar. Alguns dias é o tapete de yoga, outros a conversa em italiano ou o piano. Esse ir e voltar entre aprender e repetir é o que faz a jornada valer a pena.</p>
+      </div>
+    </div>
+
+    <!-- fora do .wrapper de propósito: o varal vai de ponta a ponta da tela,
+         sem a margem/max-width que limita o resto do conteúdo do site -->
+    <div class="clothesline-marquee" id="galeriaMarquee">
+        <div class="clothesline-wire" aria-hidden="true"></div>
+        <div class="clothesline-track" id="galeriaTrack">
+          <div class="clothesline-set">
+            <figure class="peg-photo size-lg tilt-1">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-yoga-1/1200/1200" data-fancybox="galeria" data-caption="Yoga" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-yoga-1/440/440" alt="Yoga" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-sm tilt-2">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-musica-1/1200/1200" data-fancybox="galeria" data-caption="Música" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-musica-1/440/440" alt="Música" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo tilt-3">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-italiano-1/1200/1200" data-fancybox="galeria" data-caption="Italiano" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-italiano-1/440/440" alt="Italiano" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-sm tilt-4">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-espaco-1/1200/1200" data-fancybox="galeria" data-caption="Espaço físico" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-espaco-1/440/440" alt="Espaço físico" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-lg tilt-5">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-yoga-2/1200/1200" data-fancybox="galeria" data-caption="Yoga em grupo" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-yoga-2/440/440" alt="Yoga em grupo" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo tilt-1">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-musica-2/1200/1200" data-fancybox="galeria" data-caption="Aula de música" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-musica-2/440/440" alt="Aula de música" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-sm tilt-2">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-italiano-2/1200/1200" data-fancybox="galeria" data-caption="Conversação em italiano" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-italiano-2/440/440" alt="Conversação em italiano" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-lg tilt-3">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-yoga-3/1200/1200" data-fancybox="galeria" data-caption="Alongamento" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-yoga-3/440/440" alt="Alongamento" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo tilt-4">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-espaco-2/1200/1200" data-fancybox="galeria" data-caption="Espaço físico" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-espaco-2/440/440" alt="Espaço físico" loading="lazy" draggable="false">
+              </a>
+            </figure>
+            <figure class="peg-photo size-sm tilt-5">
+              <span class="clip" aria-hidden="true"></span>
+              <a href="https://picsum.photos/seed/spazio-musica-3/1200/1200" data-fancybox="galeria" data-caption="Piano" draggable="false">
+                <img src="https://picsum.photos/seed/spazio-musica-3/440/440" alt="Piano" loading="lazy" draggable="false">
+              </a>
+            </figure>
+          </div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+      <div class="clothesline-outro">
+        <p class="clothesline-tagline">
+          <strong data-i18n="galeria.tagline.w1">Sentir.</strong>
+          <span class="light" data-i18n="galeria.tagline.w2">Aprender.</span><br>
+          <strong data-i18n="galeria.tagline.w3">Praticar.</strong>
+          <span class="light" data-i18n="galeria.tagline.w4">Evoluir.</span>
+        </p>
+        <p class="clothesline-pillars" data-i18n="hero.tagline">Italiano · Yoga · Música</p>
       </div>
     </div>
   </section>
@@ -554,6 +912,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 <script src="js/translations.js"></script>
 <script src="js/main.js"></script>
 </body>

@@ -19,7 +19,10 @@ const translations = {
       tagline: "Italiano · Yoga · Música",
       cta: "Agendar Aula",
       socialProof: "Alunos de todas as idades já encontraram seu ritmo aqui",
-      photoCaption: "Spazio Armonia"
+      photoCaption: "Spazio Armonia",
+      photoCaptionItaliano: "Italiano",
+      photoCaptionMusica: "Música",
+      photoCaptionYoga: "Yoga"
     },
     sobre: {
       title: "O Spazio Armonia",
@@ -35,7 +38,30 @@ const translations = {
       tagItaliano: "Italiano",
       yoga: { label: "Yoga" },
       musica: { label: "Música" },
-      italiano: { label: "Italiano" }
+      italiano: { label: "Italiano" },
+      specialties: {
+        title: "Minhas especialidades",
+        s1_titulo: "Italiano conversacional",
+        s1_desc: "Mergulhe em conversas reais — aprenda o italiano do dia a dia e gírias com diálogos divertidos, curiosidades culturais e atividades interativas!",
+        s2_titulo: "Italiano para iniciantes",
+        s2_desc: "Comece a falar italiano desde o primeiro dia — aulas divertidas e interativas com conversas do cotidiano e atividades simples!",
+        s3_titulo: "Italiano intensivo",
+        s3_desc: "Domine o italiano rapidamente — aulas intensivas e dinâmicas com conversas do dia a dia e prática envolvente!",
+        s4_titulo: "Literatura italiana",
+        s4_desc: "Explore a beleza da literatura italiana — mergulhe em obras clássicas, discussões envolventes e análises criativas!",
+        s5_titulo: "Italiano para crianças",
+        s5_desc: "Italiano divertido para crianças — aprenda por meio de jogos, músicas, histórias e atividades interativas para falar e brincar em italiano!"
+      },
+      resume: {
+        title: "Certificações",
+        tabEducation: "Formação",
+        tabCertifications: "Certificações",
+        eduSchool: "Conservatório \"G. Verdi\", Como",
+        eduDegree: "Mestrado em Piano",
+        diplomaVerified: "Diploma verificado",
+        certName: "Certificazione in Didattica dell'Italiano a Stranieri",
+        certVerified: "Certificado verificado"
+      }
     },
     servicos: {
       title_light: "Nossos",
@@ -51,7 +77,17 @@ const translations = {
         c2_titulo: "Conversação e cultura italiana",
         c2_desc: "Prática livre e imersiva em grupo, unindo o dia a dia da língua com aspectos da cultura italiana — culinária, cinema e tradições.",
         c2_formato: "Grupo",
-        c2_nivel: "Intermediário"
+        c2_nivel: "Intermediário",
+        feature: {
+          eyebrow: "Italiano",
+          title: "Aprenda italiano no seu ritmo",
+          text: "Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.",
+          topic1: "Turmas do zero ao avançado",
+          topic2: "Conversação com foco na fluência real",
+          topic3: "Cultura, culinária e tradições italianas",
+          topic4: "Aulas individuais ou em grupo",
+          cta: "Agendar aula"
+        }
       },
       yoga: {
         nome: "Yoga",
@@ -62,7 +98,17 @@ const translations = {
         c2_titulo: "Yoga para flexibilidade e bem-estar",
         c2_desc: "Sequências focadas em alongamento profundo e relaxamento, ideais para aliviar tensões do dia a dia e ganhar mobilidade.",
         c2_formato: "Individual",
-        c2_nivel: "Todos os níveis"
+        c2_nivel: "Todos os níveis",
+        feature: {
+          eyebrow: "Yoga",
+          title: "Encontre equilíbrio entre corpo e mente",
+          text: "Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.",
+          topic1: "Turmas para iniciantes e avançados",
+          topic2: "Foco em respiração e relaxamento",
+          topic3: "Alongamento e mobilidade do corpo",
+          topic4: "Aulas individuais ou em grupo",
+          cta: "Agendar aula"
+        }
       },
       musica: {
         nome: "Música",
@@ -73,7 +119,17 @@ const translations = {
         c2_titulo: "Teoria musical e percepção auditiva",
         c2_desc: "Desenvolva o ouvido musical e entenda a linguagem por trás das notas — harmonia, ritmo e escuta ativa aplicados na prática.",
         c2_formato: "Grupo",
-        c2_nivel: "Fundamentos"
+        c2_nivel: "Fundamentos",
+        feature: {
+          eyebrow: "Música",
+          title: "Descubra o seu ritmo com o piano",
+          text: "Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.",
+          topic1: "Piano do iniciante ao avançado",
+          topic2: "Teoria musical e leitura de partitura",
+          topic3: "Percepção auditiva e ritmo",
+          topic4: "Aulas individuais ou em grupo",
+          cta: "Agendar aula"
+        }
       }
     },
     agendamento: {
@@ -97,8 +153,39 @@ const translations = {
       escolherTitulo: "Como Escolher",
       escolherTexto: "Converse com a gente para encontrar o formato e horário que melhor se encaixam na sua rotina."
     },
+    depoimentos: {
+      title_light: "O que dizem",
+      title_bold: "nossos alunos",
+      badge: "4,9/5 · 22 avaliações no Preply"
+    },
     galeria: {
-      title: "Galeria"
+      title: "Galeria",
+      heading: {
+        w1: "Aprenda.",
+        w2: "Pratique.",
+        w3: "Evolua.",
+        w4: "Repita."
+      },
+      lead: "Um espaço onde a prática ganha vida — cada aula é sobre experimentar, ajustar e voltar a tentar. Alguns dias é o tapete de yoga, outros a conversa em italiano ou o piano. Esse ir e voltar entre aprender e repetir é o que faz a jornada valer a pena.",
+      tagline: {
+        w1: "Sentir.",
+        w2: "Aprender.",
+        w3: "Praticar.",
+        w4: "Evoluir."
+      },
+      captions: {
+        yoga1: "Yoga",
+        musica1: "Música",
+        italiano1: "Italiano",
+        espaco1: "Nosso espaço",
+        yoga2: "Yoga em grupo",
+        musica2: "Aula de música",
+        italiano2: "Conversação",
+        yoga3: "Alongamento",
+        espaco2: "Cantinho da música",
+        musica3: "Piano",
+        yoga4: "Respiração"
+      }
     },
     localizacao: {
       title: "Onde Estamos",
@@ -150,7 +237,10 @@ const translations = {
       tagline: "Italian · Yoga · Music",
       cta: "Book a Class",
       socialProof: "Students of all ages have already found their rhythm here",
-      photoCaption: "Spazio Armonia ✎"
+      photoCaption: "Spazio Armonia ✎",
+      photoCaptionItaliano: "Italian",
+      photoCaptionMusica: "Music",
+      photoCaptionYoga: "Yoga"
     },
     sobre: {
       title: "Spazio Armonia",
@@ -166,7 +256,30 @@ const translations = {
       tagItaliano: "Italian",
       yoga: { label: "Yoga" },
       musica: { label: "Music" },
-      italiano: { label: "Italian" }
+      italiano: { label: "Italian" },
+      specialties: {
+        title: "My specialties",
+        s1_titulo: "Conversational Italian",
+        s1_desc: "Immerse yourself in real conversations — learn day-to-day language and slang through fun dialogues, cultural insights, and interactive activities!",
+        s2_titulo: "Italian for beginners",
+        s2_desc: "Start speaking Italian from day one — fun, interactive lessons with everyday conversations and simple activities!",
+        s3_titulo: "Intensive Italian",
+        s3_desc: "Master Italian fast — dive into intensive, action-packed lessons with real-life conversations and engaging practice!",
+        s4_titulo: "Italian Literature",
+        s4_desc: "Explore the beauty of Italian literature — delve into classic works, engaging discussions, and creative analyses!",
+        s5_titulo: "Italian for children",
+        s5_desc: "Fun Italian for kids — learn through games, songs, stories, and interactive activities to speak and play in Italian!"
+      },
+      resume: {
+        title: "Certifications",
+        tabEducation: "Education",
+        tabCertifications: "Certifications",
+        eduSchool: "Conservatorio \"G. Verdi\", Como",
+        eduDegree: "Master's degree in Piano",
+        diplomaVerified: "Diploma verified",
+        certName: "Certificazione in Didattica dell'Italiano a Stranieri",
+        certVerified: "Certificate verified"
+      }
     },
     servicos: {
       title_light: "Our",
@@ -182,7 +295,17 @@ const translations = {
         c2_titulo: "Conversation and Italian culture",
         c2_desc: "Free, immersive group practice blending everyday language with Italian culture — food, film, and traditions.",
         c2_formato: "Group",
-        c2_nivel: "Intermediate"
+        c2_nivel: "Intermediate",
+        feature: {
+          eyebrow: "Italian",
+          title: "Learn Italian at your own pace",
+          text: "From scratch to fluency, classes that blend grammar, conversation, and Italian culture in a light, personalized method.",
+          topic1: "Classes from scratch to advanced",
+          topic2: "Conversation focused on real fluency",
+          topic3: "Italian culture, food, and traditions",
+          topic4: "Individual or group classes",
+          cta: "Book a class"
+        }
       },
       yoga: {
         nome: "Yoga",
@@ -193,7 +316,17 @@ const translations = {
         c2_titulo: "Yoga for flexibility and well-being",
         c2_desc: "Sequences focused on deep stretching and relaxation, ideal for releasing daily tension and gaining mobility.",
         c2_formato: "Individual",
-        c2_nivel: "All levels"
+        c2_nivel: "All levels",
+        feature: {
+          eyebrow: "Yoga",
+          title: "Find balance between body and mind",
+          text: "Guided postures and mindful breathing to build a solid foundation of well-being, at your own pace.",
+          topic1: "Classes for beginners and advanced students",
+          topic2: "Focus on breathing and relaxation",
+          topic3: "Stretching and body mobility",
+          topic4: "Individual or group classes",
+          cta: "Book a class"
+        }
       },
       musica: {
         nome: "Music",
@@ -204,7 +337,17 @@ const translations = {
         c2_titulo: "Music theory and ear training",
         c2_desc: "Train your musical ear and understand the language behind the notes — harmony, rhythm, and active listening in practice.",
         c2_formato: "Group",
-        c2_nivel: "Fundamentals"
+        c2_nivel: "Fundamentals",
+        feature: {
+          eyebrow: "Music",
+          title: "Discover your rhythm at the piano",
+          text: "From reading music to keyboard technique, a structured path to play with confidence at any age.",
+          topic1: "Piano from beginner to advanced",
+          topic2: "Music theory and sheet reading",
+          topic3: "Ear training and rhythm",
+          topic4: "Individual or group classes",
+          cta: "Book a class"
+        }
       }
     },
     agendamento: {
@@ -228,8 +371,39 @@ const translations = {
       escolherTitulo: "How to Choose",
       escolherTexto: "Talk to us to find the format and schedule that best fit your routine."
     },
+    depoimentos: {
+      title_light: "What our",
+      title_bold: "students say",
+      badge: "4.9/5 · 22 reviews on Preply"
+    },
     galeria: {
-      title: "Gallery"
+      title: "Gallery",
+      heading: {
+        w1: "Learn.",
+        w2: "Practice.",
+        w3: "Grow.",
+        w4: "Repeat."
+      },
+      lead: "A space where practice comes to life — every class is about trying, adjusting, and coming back to try again. Some days it's the yoga mat, other days it's Italian conversation or the piano. That back-and-forth between learning and practicing is what makes the journey worth it.",
+      tagline: {
+        w1: "Feel.",
+        w2: "Learn.",
+        w3: "Practice.",
+        w4: "Grow."
+      },
+      captions: {
+        yoga1: "Yoga",
+        musica1: "Music",
+        italiano1: "Italian",
+        espaco1: "Our space",
+        yoga2: "Group yoga",
+        musica2: "Music class",
+        italiano2: "Conversation",
+        yoga3: "Stretching",
+        espaco2: "Music corner",
+        musica3: "Piano",
+        yoga4: "Breathing"
+      }
     },
     localizacao: {
       title: "Where We Are",
@@ -281,7 +455,10 @@ const translations = {
       tagline: "Italiano · Yoga · Musica",
       cta: "Prenota una Lezione",
       socialProof: "Studenti di tutte le età hanno già trovato il loro ritmo qui",
-      photoCaption: "Spazio Armonia ✎"
+      photoCaption: "Spazio Armonia ✎",
+      photoCaptionItaliano: "Italiano",
+      photoCaptionMusica: "Musica",
+      photoCaptionYoga: "Yoga"
     },
     sobre: {
       title: "Spazio Armonia",
@@ -297,7 +474,30 @@ const translations = {
       tagItaliano: "Italiano",
       yoga: { label: "Yoga" },
       musica: { label: "Musica" },
-      italiano: { label: "Italiano" }
+      italiano: { label: "Italiano" },
+      specialties: {
+        title: "Le mie specialità",
+        s1_titulo: "Italiano conversazionale",
+        s1_desc: "Immergiti in conversazioni reali — impara la lingua e lo slang di tutti i giorni con dialoghi divertenti, spunti culturali e attività interattive!",
+        s2_titulo: "Italiano per principianti",
+        s2_desc: "Inizia a parlare italiano dal primo giorno — lezioni divertenti e interattive con conversazioni quotidiane e attività semplici!",
+        s3_titulo: "Italiano intensivo",
+        s3_desc: "Impara l'italiano velocemente — lezioni intensive e coinvolgenti con conversazioni reali e pratica attiva!",
+        s4_titulo: "Letteratura italiana",
+        s4_desc: "Scopri la bellezza della letteratura italiana — approfondisci opere classiche, discussioni coinvolgenti e analisi creative!",
+        s5_titulo: "Italiano per bambini",
+        s5_desc: "Italiano divertente per bambini — impara con giochi, canzoni, storie e attività interattive per parlare e giocare in italiano!"
+      },
+      resume: {
+        title: "Certificazioni",
+        tabEducation: "Formazione",
+        tabCertifications: "Certificazioni",
+        eduSchool: "Conservatorio \"G. Verdi\", Como",
+        eduDegree: "Laurea Magistrale in Pianoforte",
+        diplomaVerified: "Diploma verificato",
+        certName: "Certificazione in Didattica dell'Italiano a Stranieri",
+        certVerified: "Certificato verificato"
+      }
     },
     servicos: {
       title_light: "I Nostri",
@@ -313,7 +513,17 @@ const translations = {
         c2_titulo: "Conversazione e cultura italiana",
         c2_desc: "Pratica libera e immersiva in gruppo, che unisce la lingua del quotidiano con aspetti della cultura italiana — cucina, cinema e tradizioni.",
         c2_formato: "Gruppo",
-        c2_nivel: "Intermedio"
+        c2_nivel: "Intermedio",
+        feature: {
+          eyebrow: "Italiano",
+          title: "Impara l'italiano al tuo ritmo",
+          text: "Dal principiante alla fluenza, lezioni che uniscono grammatica, conversazione e cultura italiana in un metodo leggero e personalizzato.",
+          topic1: "Corsi dal principiante all'avanzato",
+          topic2: "Conversazione con focus sulla fluenza reale",
+          topic3: "Cultura, cucina e tradizioni italiane",
+          topic4: "Lezioni individuali o di gruppo",
+          cta: "Prenota una lezione"
+        }
       },
       yoga: {
         nome: "Yoga",
@@ -324,7 +534,17 @@ const translations = {
         c2_titulo: "Yoga per flessibilità e benessere",
         c2_desc: "Sequenze incentrate su allungamento profondo e rilassamento, ideali per alleviare le tensioni quotidiane e guadagnare mobilità.",
         c2_formato: "Individuale",
-        c2_nivel: "Tutti i livelli"
+        c2_nivel: "Tutti i livelli",
+        feature: {
+          eyebrow: "Yoga",
+          title: "Trova equilibrio tra corpo e mente",
+          text: "Posture guidate e respirazione consapevole per costruire una base solida di benessere, al tuo ritmo.",
+          topic1: "Corsi per principianti e avanzati",
+          topic2: "Focus su respirazione e rilassamento",
+          topic3: "Allungamento e mobilità del corpo",
+          topic4: "Lezioni individuali o di gruppo",
+          cta: "Prenota una lezione"
+        }
       },
       musica: {
         nome: "Musica",
@@ -335,7 +555,17 @@ const translations = {
         c2_titulo: "Teoria musicale ed educazione dell'orecchio",
         c2_desc: "Sviluppa l'orecchio musicale e comprendi il linguaggio dietro le note — armonia, ritmo e ascolto attivo applicati nella pratica.",
         c2_formato: "Gruppo",
-        c2_nivel: "Fondamenti"
+        c2_nivel: "Fondamenti",
+        feature: {
+          eyebrow: "Musica",
+          title: "Scopri il tuo ritmo al pianoforte",
+          text: "Dalla lettura musicale alla tecnica sulla tastiera, un percorso strutturato per suonare con sicurezza a qualsiasi età.",
+          topic1: "Pianoforte dal principiante all'avanzato",
+          topic2: "Teoria musicale e lettura dello spartito",
+          topic3: "Educazione dell'orecchio e ritmo",
+          topic4: "Lezioni individuali o di gruppo",
+          cta: "Prenota una lezione"
+        }
       }
     },
     agendamento: {
@@ -359,8 +589,39 @@ const translations = {
       escolherTitulo: "Come Scegliere",
       escolherTexto: "Parla con noi per trovare il formato e l'orario più adatti alla tua routine."
     },
+    depoimentos: {
+      title_light: "Cosa dicono",
+      title_bold: "i nostri studenti",
+      badge: "4,9/5 · 22 recensioni su Preply"
+    },
     galeria: {
-      title: "Galleria"
+      title: "Galleria",
+      heading: {
+        w1: "Impara.",
+        w2: "Pratica.",
+        w3: "Cresci.",
+        w4: "Ripeti."
+      },
+      lead: "Uno spazio dove la pratica prende vita — ogni lezione è fatta di provare, correggere e riprovare. Alcuni giorni è il tappetino da yoga, altri la conversazione in italiano o il pianoforte. Questo andare e venire tra imparare e praticare è ciò che rende il percorso importante.",
+      tagline: {
+        w1: "Sentire.",
+        w2: "Imparare.",
+        w3: "Praticare.",
+        w4: "Crescere."
+      },
+      captions: {
+        yoga1: "Yoga",
+        musica1: "Musica",
+        italiano1: "Italiano",
+        espaco1: "Il nostro spazio",
+        yoga2: "Yoga di gruppo",
+        musica2: "Lezione di musica",
+        italiano2: "Conversazione",
+        yoga3: "Allungamento",
+        espaco2: "Angolo della musica",
+        musica3: "Pianoforte",
+        yoga4: "Respirazione"
+      }
     },
     localizacao: {
       title: "Dove Siamo",
