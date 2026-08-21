@@ -154,8 +154,8 @@ const translations = {
       escolherTexto: "Converse com a gente para encontrar o formato e horário que melhor se encaixam na sua rotina."
     },
     depoimentos: {
-      title_light: "O que dizem",
-      title_bold: "nossos alunos",
+      title_light: "Depoimentos",
+      title_bold: "dos meus alunos",
       badge: "4,9/5 · 22 avaliações no Preply"
     },
     galeria: {

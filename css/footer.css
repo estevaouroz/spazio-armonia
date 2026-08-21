@@ -1,23 +1,139 @@
 .site-footer {
-  padding: 48px 0 32px;
+  position: relative;
+  overflow: hidden;
+  background-color: #144673;
+  padding: 170px 16px 64px;
+}
+
+/* ===== ilustrações decorativas atrás do card ===== */
+.footer-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.footer-decor {
+  position: absolute;
+  height: auto;
+  display: block;
+}
+
+.footer-decor--tower {
+  top: -18px;
+  left: 3%;
+  width: clamp(130px, 16vw, 260px);
+  color: #aacbef;
+}
+
+.footer-decor--colosseum {
+  bottom: 28px;
+  right: 3%;
+  width: clamp(200px, 26vw, 420px);
+  color: #f3ce5b;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 64px 40px 40px;
   background-color: #ffffff;
+  border-radius: 40px;
+  box-shadow: 0 30px 70px rgba(14, 20, 10, 0.3);
   text-align: center;
 }
 
+.footer-logo {
+  height: 100px;
+}
+
 .footer-tagline {
-  margin: 13px 0 24px;
+  margin: 18px 0 36px;
   color: #1e2330;
   opacity: 0.75;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 18px;
+}
+
+/* ===== Contato — incorporado ao rodapé ===== */
+.footer-contact {
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid #eff0ec;
+}
+
+.footer-contact-title {
+  font-size: clamp(26px, 3.4vw, 34px);
+  margin-bottom: 20px;
+}
+
+.footer-contact-title .light {
+  font-weight: 400;
+  color: #1e2330;
+}
+
+.footer-contact-title .bold {
+  font-weight: 700;
+  color: #144673;
+}
+
+.contact-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn.btn-contact {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 9999px;
+  font-weight: 600;
+  text-align: center;
+  gap: 10px;
+}
+
+.btn-contact-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.btn.btn-whatsapp {
+  background-color: #FAE18C;
+  color: #1e2330;
+}
+
+.btn.btn-email {
+  background-color: #F5F0DC;
+  color: #1e2330;
+}
+
+.btn.btn-instagram {
+  background-color: #DCEBF0;
+  color: #1e2330;
+}
+
+@media (min-width: 768px) {
+  .contact-buttons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .btn-contact {
+    width: auto;
+  }
 }
 
 .footer-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 19px;
-  margin-bottom: 24px;
+  gap: 12px 28px;
+  margin-bottom: 32px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -27,10 +143,18 @@
 
 .footer-inner .lang-switch {
   justify-content: center;
-  margin: 0 auto 24px;
+  gap: 12px;
+  margin: 0 auto 32px;
+}
+
+.footer-inner .lang-btn img {
+  width: 32px;
+  height: 32px;
 }
 
 .footer-rights {
+  padding-top: 24px;
+  border-top: 1px solid #eff0ec;
   color: #8a8c86;
   font-size: 14px;
 }
@@ -38,5 +162,43 @@
 @media (min-width: 768px) {
   .footer-inner .lang-switch {
     margin-top: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    padding: 108px 16px 48px;
+  }
+
+  .footer-inner {
+    padding: 44px 24px 28px;
+    border-radius: 28px;
+  }
+
+  .footer-decor--tower {
+    width: 110px;
+    left: 2%;
+  }
+
+  .footer-decor--colosseum {
+    width: 170px;
+    right: 2%;
+    bottom: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-footer {
+    padding-top: 90px;
+  }
+
+  .footer-decor--tower {
+    width: 68px;
+    top: -8px;
+  }
+
+  .footer-decor--colosseum {
+    width: 110px;
+    bottom: 8px;
   }
 }

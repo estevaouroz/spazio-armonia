@@ -35,7 +35,7 @@
   padding: 11px 11px 11px 24px;
   background-color: #ffffff;
   border-radius: 9999px;
-  box-shadow: 0 8px 30px rgba(30, 35, 48, 0.1);
+  box-shadow: 0 8px 30px rgba(20, 70, 115, 0.1);
 }
 
 .logo-placeholder {
@@ -71,7 +71,7 @@
   width: 24px;
   height: 2px;
   border-radius: 2px;
-  background-color: #1e2330;
+  background-color: #144673;
 }
 
 /* ===== nav ===== */
@@ -111,12 +111,12 @@
   bottom: -4px;
   width: 0;
   height: 2px;
-  background-color: #254f1a;
+  background-color: #144673;
   transition: width 0.25s ease;
 }
 
 .main-nav a:hover {
-  color: #254f1a;
+  color: #144673;
 }
 
 .main-nav a:hover::after {
@@ -165,7 +165,7 @@
 
 .lang-btn.active {
   opacity: 1;
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #1e2330;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #144673;
 }
 
 /* ===== CTA do header =====
@@ -174,10 +174,11 @@
 a.btn-header-cta {
   flex-shrink: 0;
   padding: 11px 24px;
-  background-color: #e9c0e9;
-  color: #1e2330;
+  background-color: #FAE18C;
+  color: #144673;
   font-size: 14px;
   font-weight: 600;
+  margin-right: 10px;
 }
 
 @media (min-width: 1024px) {

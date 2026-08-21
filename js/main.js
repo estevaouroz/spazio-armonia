@@ -4,6 +4,7 @@
    =========================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSplashIntro();
   initI18n();
   initMobileNav();
   initCarousel();
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestimonialCarousel();
   initGalleryMarquee();
   initGalleryLightbox();
+  initLogoWriteAnimation();
 });
 
 /* ============ HERO PHOTO STACK ============ */
@@ -90,72 +92,116 @@ function initHeaderScroll(){
   }, { passive:true });
 }
 
-/* ============ SHOWCASE — cópia exata do demo-showcase-card-polaroid.html ============ */
+/* ============ SHOWCASE — momentos da professora (não dos serviços) ============ */
+/* Todas as fotos usam a mesma paleta da marca (tinta #144673, papel
+   #F5F0DC) — aqui o card é sobre ELA, então a cor não muda por "tema
+   de serviço" como antes; o que muda é a forma do selo (só variedade
+   visual de scrapbook) e a legenda de cada foto. */
+const SHOWCASE_INK = '#144673';
+const SHOWCASE_TINT = 'rgba(20, 70, 115, 0.28)';
+const SHOWCASE_BG_BACK = '#F5F0DC';
+// coração — motivo pessoal/afetivo, igual para todas as fotos
+const SHOWCASE_ICON = '<path d="M12 20.5S3.5 15.4 3.5 9.6C3.5 6.4 5.9 4.5 8.5 4.5c1.6 0 3 .9 3.5 2.2.5-1.3 1.9-2.2 3.5-2.2 2.6 0 5 1.9 5 5.1 0 5.8-8.5 10.9-8.5 10.9z"/>';
+
 const SHOWCASE_THEMES = [
   {
     key: 'yoga',
-    photo: 'https://picsum.photos/seed/showcase-yoga/500/700',
-    tint: 'rgba(11, 110, 106, 0.38)',
-    bgBack: '#eafffa',
+    photo: 'assets/images/marina/marina-1992.webp',
     caption: 'Yoga',
-    captionSub: 'Bem-estar',
-    ink: '#0b6e6a',
-    stickerRotate: -8,
-    shape: 'oval',
-    decorSize: { w: 106, h: 76 },
-    stampTop: 'SPAZIO ARMONIA',
-    stampBottom: '★ BEM-ESTAR ★',
-    // bússola — motivo de "jornada/momento", não um pictograma de yoga
-    icon: '<circle cx="12" cy="12" r="9"/><path d="M12 6.5 14 12 12 17.5 10 12z" fill="currentColor" stroke="none"/>'
+    captionSub: 'Prática diária de equilíbrio',
+    stickerRotate: -6,
+    shape: 'circle',
+    decorSize: { w: 84, h: 84 },
+    stampBottom: '★ YOGA ★'
   },
   {
     key: 'musica',
-    photo: 'https://picsum.photos/seed/showcase-musica/500/700',
-    tint: 'rgba(110, 19, 48, 0.38)',
-    bgBack: '#ffe3ea',
+    photo: 'assets/images/marina/marina-1994.webp',
     caption: 'Música',
-    captionSub: 'Ritmo & som',
-    ink: '#6e1330',
-    stickerRotate: 6,
-    shape: 'circle',
-    decorSize: { w: 84, h: 84 },
-    stampTop: 'SPAZIO ARMONIA',
-    stampBottom: '★ RITMO & SOM ★',
-    icon: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'
+    captionSub: 'Também se ensina aqui',
+    stickerRotate: 7,
+    shape: 'oval',
+    decorSize: { w: 106, h: 76 },
+    stampBottom: '★ MÚSICA ★'
   },
   {
-    key: 'italiano',
-    photo: 'https://picsum.photos/seed/showcase-italiano/500/700',
-    tint: 'rgba(193, 68, 14, 0.38)',
-    bgBack: '#fff3e6',
-    caption: 'Italiano',
-    captionSub: 'Língua e cultura',
-    ink: '#c1440e',
+    key: 'sicilia',
+    photo: 'assets/images/marina/marina-1978.webp',
+    caption: 'Sicília',
+    captionSub: 'Entre templos gregos, na Itália',
     stickerRotate: -5,
     shape: 'rect',
     decorSize: { w: 112, h: 74 },
-    stampTop: 'SPAZIO ARMONIA',
-    stampBottom: '★ ITALIA ★',
-    // torre de Pisa bem simplificada, levemente tombada
-    icon: '<g transform="rotate(9 12 13)"><rect x="9" y="3" width="6" height="2.6" rx="0.6"/><rect x="8" y="6.2" width="8" height="12.6" rx="1"/><rect x="6.4" y="19.2" width="11.2" height="2.4" rx="0.6"/></g>'
+    stampBottom: '★ ITÁLIA ★'
   },
   {
-    key: 'comunidade',
-    photo: 'https://picsum.photos/seed/showcase-comunidade/500/700',
-    tint: 'rgba(95, 138, 18, 0.38)',
-    bgBack: '#f2ffe0',
-    caption: 'Comunidade',
-    captionSub: 'Junte-se a nós',
-    ink: '#5f8a12',
-    stickerRotate: 9,
+    key: 'japao',
+    photo: 'assets/images/marina/marina-2005.webp',
+    caption: 'Japão',
+    captionSub: 'Cerimônia do chá, de kimono',
+    stickerRotate: 8,
     shape: 'stadium',
     decorSize: { w: 66, h: 100 },
-    stampTop: 'SPAZIO ARMONIA',
-    stampBottom: '★ COMUNIDADE ★',
-    // coração — memória/afeto, mais pessoal do que um ícone de "grupo"
-    icon: '<path d="M12 20.5S3.5 15.4 3.5 9.6C3.5 6.4 5.9 4.5 8.5 4.5c1.6 0 3 .9 3.5 2.2.5-1.3 1.9-2.2 3.5-2.2 2.6 0 5 1.9 5 5.1 0 5.8-8.5 10.9-8.5 10.9z"/>'
+    stampBottom: '★ JAPÃO ★'
+  },
+  {
+    key: 'mar',
+    photo: 'assets/images/marina/marina-1991.webp',
+    caption: 'Beira-mar',
+    captionSub: 'Um salto de alegria',
+    stickerRotate: 9,
+    shape: 'circle',
+    decorSize: { w: 84, h: 84 },
+    stampBottom: '★ VIAGEM ★'
+  },
+  {
+    key: 'nepal',
+    photo: 'assets/images/marina/marina-1993.webp',
+    caption: 'Nepal',
+    captionSub: 'Boudhanath, energia e cores',
+    stickerRotate: -8,
+    shape: 'oval',
+    decorSize: { w: 106, h: 76 },
+    stampBottom: '★ NEPAL ★'
+  },
+  {
+    key: 'caiaque',
+    photo: 'assets/images/marina/marina-2001.webp',
+    caption: 'Caiaque',
+    captionSub: 'Remando por uma caverna escondida',
+    stickerRotate: 6,
+    shape: 'rect',
+    decorSize: { w: 112, h: 74 },
+    stampBottom: '★ AVENTURA ★'
+  },
+  {
+    key: 'granada',
+    photo: 'assets/images/marina/marina-2006.webp',
+    caption: 'Granada',
+    captionSub: 'Um telhado com vista para a Alhambra',
+    stickerRotate: -9,
+    shape: 'stadium',
+    decorSize: { w: 66, h: 100 },
+    stampBottom: '★ ESPANHA ★'
+  },
+  {
+    key: 'vietna',
+    photo: 'assets/images/marina/marina-1999.webp',
+    caption: 'Vietnã',
+    captionSub: 'Entre montanhas de calcário',
+    stickerRotate: 5,
+    shape: 'circle',
+    decorSize: { w: 84, h: 84 },
+    stampBottom: '★ VIETNÃ ★'
   }
-];
+].map(theme => ({
+  ...theme,
+  tint: SHOWCASE_TINT,
+  bgBack: SHOWCASE_BG_BACK,
+  ink: SHOWCASE_INK,
+  stampTop: 'SPAZIO ARMONIA',
+  icon: SHOWCASE_ICON
+}));
 
 /* selo de viagem/adesivo de scrapbook — cada tema tem a SUA silhueta
    (oval, círculo, retângulo, cápsula), não um círculo genérico repetido.
@@ -553,10 +599,9 @@ function initScrollReveal(){
     '.about-photo', '.about-text',
     '.showcase', '.professora-text',
     '.section-title', '.section-subtitle',
-    '.service-card',
     '.pill-toggle', '.format-content', '.calcom-placeholder',
     '.how-item',
-    '.clothesline-heading', '.clothesline-lead', '.peg-photo', '.clothesline-tagline', '.clothesline-pillars',
+    '.clothesline-heading', '.clothesline-lead', '.clothesline-tagline', '.clothesline-pillars',
     '.location-text', '.location-map',
     '.accordion-item',
     '.contact-buttons .btn-contact'
@@ -1028,4 +1073,232 @@ function initServiceModal(){
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
   });
+}
+
+/* ============ ANIMAÇÃO "ESCREVENDO À MÃO" DO LOGO (reutilizada pela seção
+   Sobre — scroll — e pela splash de abertura — carregamento) ============ */
+
+/* Prepara qualquer clone/instância do SVG do logo para ser "desenhado":
+   esconde ícone + letras sem transition, força o navegador a commitar esse
+   estado, só então anexa as transitions com o delay de cada traço. Devolve
+   play() (dispara a revelação) e duration (ms até a animação terminar
+   sozinha, calculado a partir da quantidade real de traços). */
+function prepareLogoDraw(svg, opts){
+  const iconPaths = Array.from(svg.querySelectorAll('path.cls-1, path.cls-2, path.cls-3'));
+  const wordPaths = Array.from(svg.querySelectorAll('path.cls-4'));
+  if (!iconPaths.length && !wordPaths.length) return null;
+
+  opts = opts || {};
+  const STROKE_DURATION = opts.strokeDuration || 0.5;   /* segundos por traço de letra */
+  const STROKE_STAGGER = opts.strokeStagger || 0.16;     /* intervalo entre uma letra e a próxima */
+  const FILL_DURATION = opts.fillDuration || 0.35;       /* tempo do "tinteiro" preenchendo a letra */
+  const ICON_STAGGER = opts.iconStagger || 0.08;
+  const ICON_DURATION = opts.iconDuration || 0.5;
+  const ICON_START = 0;                                  /* ícone começa a aparecer imediatamente */
+  const WORDS_START = opts.wordsStart != null ? opts.wordsStart : ICON_START + 0.5; /* palavras começam a se desenhar logo depois */
+
+  /* PASSO 1: aplica o estado escondido SEM transition ainda — se a transition
+     fosse anexada junto, o navegador já dispararia a animação na hora (do
+     valor padrão visível para o escondido), assim que a página carregasse. */
+  iconPaths.forEach(path => {
+    path.classList.add('logo-icon-path');
+    path.style.transition = 'none';
+    path.style.opacity = '0';
+  });
+
+  const wordInfo = wordPaths.map(path => {
+    let length = 0;
+    try { length = path.getTotalLength(); } catch (e) { length = 0; }
+
+    path.style.transition = 'none';
+    path.style.stroke = getComputedStyle(path).fill;
+    path.style.strokeWidth = '2.4px';
+    path.style.strokeLinecap = 'round';
+    path.style.strokeLinejoin = 'round';
+    path.style.fillOpacity = '0';
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+    return path;
+  });
+
+  /* PASSO 2: força o navegador a "commitar" o estado escondido antes de
+     anexar a transition — só a partir daqui uma mudança de valor anima. */
+  void svg.getBoundingClientRect();
+
+  /* PASSO 3: agora sim anexa as transitions com o delay de cada letra/traço */
+  iconPaths.forEach((path, i) => {
+    path.style.transition = 'opacity ' + ICON_DURATION + 's ease ' + (ICON_START + i * ICON_STAGGER) + 's';
+  });
+
+  let lastWordFinish = 0;
+  wordInfo.forEach((path, i) => {
+    const strokeDelay = WORDS_START + i * STROKE_STAGGER;
+    const fillDelay = strokeDelay + STROKE_DURATION * 0.75;
+    path.style.transition =
+      'stroke-dashoffset ' + STROKE_DURATION + 's ease ' + strokeDelay + 's, ' +
+      'fill-opacity ' + FILL_DURATION + 's ease ' + fillDelay + 's';
+    lastWordFinish = Math.max(lastWordFinish, fillDelay + FILL_DURATION);
+  });
+
+  const lastIconFinish = iconPaths.length
+    ? ICON_START + (iconPaths.length - 1) * ICON_STAGGER + ICON_DURATION
+    : 0;
+
+  svg.classList.add('logo-draw-ready');
+
+  function play(){
+    svg.classList.add('logo-draw-active');
+    iconPaths.forEach(path => { path.style.opacity = '1'; });
+    wordInfo.forEach(path => {
+      path.style.strokeDashoffset = '0';
+      path.style.fillOpacity = '1';
+    });
+  }
+
+  return { play, duration: Math.max(lastWordFinish, lastIconFinish) * 1000 };
+}
+
+function initLogoWriteAnimation(){
+  const svg = document.getElementById('sobreLogo');
+  if (!svg) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return; /* mantém o logo estático, sem animação */
+
+  const draw = prepareLogoDraw(svg);
+  if (!draw) return;
+
+  if (!('IntersectionObserver' in window)){
+    draw.play();
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        draw.play();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+
+  observer.observe(svg);
+}
+
+/* ============ SPLASH DE ABERTURA (só na primeira visita) ============ */
+function initSplashIntro(){
+  /* o script inline no <head> pode ter escondido a página (document.documentElement)
+     pra evitar o flash "site → splash → site" — revela de volta em TODO caminho
+     que não termina inserindo o overlay (o overlay é que passa a cobrir a tela). */
+  function revealPage(){
+    document.documentElement.style.visibility = '';
+  }
+
+  const sourceSvg = document.getElementById('sobreLogo');
+  if (!sourceSvg){ revealPage(); return; }
+
+  const params = new URLSearchParams(window.location.search);
+  const forcePreview = params.get('intro') === '1'; /* ?intro=1 força rever a splash em testes */
+
+  const STORAGE_KEY = 'spazioIntroSeen';
+
+  function introAlreadySeen(){
+    if (forcePreview) return false;
+    try {
+      return window.localStorage && window.localStorage.getItem(STORAGE_KEY) === '1';
+    } catch (e) {
+      return true; /* storage indisponível (modo privado, política do navegador) → nunca bloqueia o site */
+    }
+  }
+
+  function markIntroSeen(){
+    if (forcePreview) return;
+    try { window.localStorage && window.localStorage.setItem(STORAGE_KEY, '1'); }
+    catch (e) { /* não é crítico se não conseguir gravar */ }
+  }
+
+  if (introAlreadySeen()){ revealPage(); return; }
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion){
+    markIntroSeen(); /* não mostra a splash, mas não pergunta de novo nesse navegador */
+    revealPage();
+    return;
+  }
+
+  /* clona o SVG ANTES de initLogoWriteAnimation() (chamada por último) mexer
+     no #sobreLogo original — assim a splash sempre parte de um SVG "limpo" */
+  const splashSvg = sourceSvg.cloneNode(true);
+  splashSvg.removeAttribute('id');
+  splashSvg.setAttribute('id', 'splashLogo');
+  splashSvg.classList.remove('sobre-watermark');
+
+  const overlay = document.createElement('div');
+  overlay.id = 'splashIntro';
+  overlay.className = 'splash-intro';
+  overlay.setAttribute('role', 'presentation');
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.appendChild(splashSvg);
+
+  document.body.insertBefore(overlay, document.body.firstChild);
+  document.body.style.overflow = 'hidden';
+  revealPage(); /* seguro agora — o overlay já está no DOM cobrindo a tela */
+
+  /* Timing só pra splash — a versão da seção Sobre continua no ritmo
+     original (chamada sem opts em initLogoWriteAnimation). Pra ajustar a
+     velocidade, mexa nesses números: aumentar deixa mais lento/dramático,
+     diminuir deixa mais rápido. */
+  const draw = prepareLogoDraw(splashSvg, {
+    strokeDuration: 0.28,   /* tempo de traço por letra */
+    strokeStagger: 0.09,    /* intervalo entre uma letra e a próxima */
+    fillDuration: 0.22,     /* tempo do "tinteiro" preenchendo a letra */
+    iconDuration: 0.6,      /* fade do ícone ARMONIA */
+    iconStagger: 0.05,
+    wordsStart: 0.35        /* espera antes de começar a desenhar as letras */
+  });
+  if (!draw){
+    overlay.remove();
+    document.body.style.overflow = '';
+    markIntroSeen();
+    return;
+  }
+
+  const HOLD_AFTER_DRAW = 350;    /* segura o logo completo por um instante antes de fechar sozinho */
+  const FADE_DURATION = 550;      /* duração do fade de saída */
+  const SAFETY_TIMEOUT = draw.duration + 2000; /* rede de segurança bem depois do fim natural */
+
+  let closed = false;
+  let naturalEndTimer;
+  let safetyTimer;
+
+  function closeOnce(){
+    if (closed) return;
+    closed = true;
+    clearTimeout(naturalEndTimer);
+    clearTimeout(safetyTimer);
+    document.removeEventListener('keydown', onKeydown);
+    overlay.removeEventListener('click', closeOnce);
+    document.body.style.overflow = '';
+    markIntroSeen();
+
+    overlay.classList.add('is-closing');
+    /* transitionend borbulha das letras do SVG ainda em desenho (fill-opacity,
+       stroke-dashoffset) — só remove no transitionend que é do PRÓPRIO overlay */
+    overlay.addEventListener('transitionend', e => {
+      if (e.target === overlay) overlay.remove();
+    });
+    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, FADE_DURATION + 150); /* rede caso transitionend não dispare */
+  }
+
+  function onKeydown(e){
+    if (e.key === 'Escape') closeOnce();
+  }
+
+  overlay.addEventListener('click', closeOnce);
+  document.addEventListener('keydown', onKeydown);
+
+  naturalEndTimer = setTimeout(closeOnce, draw.duration + HOLD_AFTER_DRAW);
+  safetyTimer = setTimeout(closeOnce, SAFETY_TIMEOUT);
+
+  draw.play();
 }

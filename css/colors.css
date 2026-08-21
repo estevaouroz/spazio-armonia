@@ -1,23 +1,23 @@
 /* ===== texto ===== */
 .color-ink {
-  color: #1e2330;
+  color: #144673;
 }
 
 .color-light {
-  color: #f3f3f1;
+  color: #F5F0DC;
 }
 
 .color-lime {
-  color: #d2e823;
+  color: #F0CD7D;
 }
 
 /* ===== fundos ===== */
 .bg-dark {
-  background-color: #254f1a;
+  background-color: #144673;
 }
 
 .bg-neutral {
-  background-color: #eff0ec;
+  background-color: #F5F0DC;
 }
 
 .bg-white {
@@ -25,36 +25,36 @@
 }
 
 .bg-lime {
-  background-color: #d2e823;
+  background-color: #F0CD7D;
 }
 
 .bg-pastel-pink {
-  background-color: #e9c0e9;
+  background-color: #FAE18C;
 }
 
 /* ===== blocos de cor sólida para cards de destaque ===== */
 .bg-card-lime {
-  background-color: #d2e823;
+  background-color: #F0CD7D;
 }
 
 .bg-card-blue {
-  background-color: #aacbef;
+  background-color: #7DA0D2;
 }
 
 .bg-card-purple {
-  background-color: #d5c2f2;
+  background-color: #7DA0D2;
 }
 
 .bg-card-gold {
-  background-color: #f3ce5b;
+  background-color: #F0CD7D;
 }
 
 .bg-card-pink {
-  background-color: #efb9de;
+  background-color: #FAE18C;
 }
 
 .bg-card-orange {
-  background-color: #f3a968;
+  background-color: #F0CD7D;
 }
 
 /* IDENTIDADE VISUAL 

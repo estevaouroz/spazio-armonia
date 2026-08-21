@@ -3,6 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* Esconde a página ANTES da primeira pintura se a splash vai rodar — sem
+   isso, o navegador chega a mostrar o site (main.js só roda no fim do body)
+   e só depois cobre com a splash, causando um "flash" site→splash→site.
+   Mesma checagem de gate/reduced-motion do initSplashIntro em js/main.js;
+   mantenha as duas em sincronia se uma mudar. */
+(function(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var forced = params.get('intro') === '1';
+    var seen = !forced && window.localStorage && localStorage.getItem('spazioIntroSeen') === '1';
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!seen && !reduced){
+      document.documentElement.style.visibility = 'hidden';
+      /* rede de segurança: se o JS travar antes de revelar a página, não
+         pode ficar escondida pra sempre */
+      setTimeout(function(){ document.documentElement.style.visibility = ''; }, 4000);
+    }
+  } catch (e) { /* qualquer erro aqui não pode impedir a página de aparecer */ }
+})();
+</script>
 <title>Spazio Armonia — Italiano · Yoga · Música</title>
 <meta name="description" content="Spazio Armonia — aulas de Italiano, Yoga e Música em Florianópolis, presenciais e online.">
 
@@ -28,6 +49,7 @@
 <link rel="stylesheet" href="css/header.css">
 <link rel="stylesheet" href="css/footer.css">
 <link rel="stylesheet" href="css/pages/home.css">
+<link rel="stylesheet" href="css/splash-intro.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css">
 </head>
 <body>
@@ -292,8 +314,76 @@
 
   </section>
   <!-- ========== SOBRE ========== -->
-  <img src="/assets/img/Prancheta 17.svg" alt="" class="sobre-watermark" aria-hidden="true">
-  
+  <svg id="sobreLogo" class="sobre-watermark" xmlns="http://www.w3.org/2000/svg" viewBox="62.41 344.46 1808.30 696.76" aria-hidden="true" focusable="false">
+    <defs>
+      <style>
+        .cls-1 {
+          fill: #7fa3d6;
+          stroke: #7191be;
+        }
+
+        .cls-1, .cls-2, .cls-3 {
+          stroke-miterlimit: 10;
+          stroke-width: 2.3px;
+        }
+
+        .cls-4, .cls-3 {
+          fill: #1b4875;
+        }
+
+        .cls-2 {
+          fill: #f5d17d;
+          stroke: #e8c677;
+        }
+
+        .cls-3 {
+          stroke: #194169;
+        }
+      </style>
+    </defs>
+    <g transform="translate(1938.13,0) rotate(90)">
+    <g>
+      <path class="cls-3" d="M356.01,1452.37c.5-3.99,4.22-6.85,8.21-6.33,10.21,1.34,24.76,2.17,36.39,2.17h424.79c6.69,0,12.85-.52,18.15-1.39,4.45-.73,8.49,2.65,8.49,7.16v21.78c0,4.35-3.84,7.67-8.15,7.07-5.07-.71-10.83-.98-18.49-.98h-33.34c-4.02,0-7.28,3.26-7.28,7.28v122.21c0,4.02,3.26,7.28,7.28,7.28h5.9c114.66,0,233.26,23.72,233.26,141.01,0,73.8-46.79,106.09-86.32,106.09-35.58,0-58.64-25.7-58.64-51.4,0-21.75,16.47-34.26,30.31-34.26h1.96c-3.95,4.61-6.59,11.86-6.59,18.45,0,13.83,11.86,28.33,32.94,28.33,22.4,0,51.39-17.13,51.39-66.54,0-84.32-82.35-108.04-196.98-108.04h-143.12c-206.05-.67-301.71-68.24-301.71-174.6,0-6.82.41-16.11,1.56-25.29ZM753.39,1609.11v-119.97c0-4.02-3.26-7.28-7.28-7.28h-348.67c-4.02,0-7.28,3.26-7.28,7.28v4.65c0,64.94,81.53,122.6,269.11,122.6h86.84c4.02,0,7.28-3.26,7.28-7.28Z"/>
+      <path class="cls-3" d="M495.53,1418.44c-2.31.45-4.47-1.27-4.47-3.62v-46.68c0-76.05,54.89-130.28,122.35-130.28,47.54,0,93.79,30.13,116.66,80.94.65,1.43,2.1,2.36,3.67,2.27,66.64-3.82,84.68-53.77,84.68-78.58v-5.43c-.02-2.24,1.81-4.08,4.06-4.08h25.96c1.44,0,2.77.82,3.38,2.13,2.14,4.61,2.14,9.35,2.14,15.08,0,40.37-42.77,107.87-130.94,104.56-7.05-.59-13.05-1.71-19.4-3.82-1.41-.47-2.37-1.77-2.52-3.25-4-40.05-42.79-75.65-86-75.65-36.85,0-88.17,29.12-88.17,88.68v18.75c0,2.07,1.68,3.75,3.75,3.75h292.55c8.42,0,16.01-.83,22.1-2.15,2.31-.5,4.48,1.3,4.48,3.66v30.03c0,2.34-2.13,4.15-4.42,3.7-6-1.18-12.59-1.61-22.15-1.61h-305.6c-9.04,0-15.96.42-22.11,1.61Z"/>
+      <path class="cls-3" d="M584.28,963.66l240.05,80.71c1.82.61,3.05,2.32,3.05,4.24v28.56c0,1.92-1.23,3.63-3.05,4.25l-238.66,80.05c-4.81,1.61-3.65,8.72,1.42,8.72h236.34c7.94,0,15.14-.75,21.02-1.96,2.77-.57,5.36,1.54,5.36,4.37v27.47c0,2.92-2.74,5.07-5.56,4.33-5.61-1.47-12.3-2.32-20.05-2.81-.11,0-.22-.01-.33-.01h-301.89c-8.67,0-15.38,0-21.33.91-2.7.41-5.11-1.7-5.11-4.42v-39.7c0-2.29,1.78-4.16,4.07-4.31,5.18-.33,11.44-2.11,19.73-4.7l252.05-84.03c4.15-1.38,4.06-7.29-.13-8.54-31.51-9.34-75.55-24-251.92-82.61-8.15-2.55-14.73-3.92-19.74-4.41-2.3-.23-4.06-2.14-4.06-4.45v-41.06c0-2.79,2.52-4.91,5.27-4.4,5.74,1.06,12.11,1.44,21.17,1.44h301.91c.09,0,.19,0,.28,0,8.31-.49,14.81-.98,20.3-2.02,2.78-.52,5.34,1.6,5.34,4.42v28.82c0,2.83-2.58,4.95-5.36,4.37-5.88-1.22-13.08-1.96-21.02-1.96h-237.72c-5.07,0-6.24,7.11-1.43,8.72Z"/>
+      <path class="cls-2" d="M495.26,750.72c6.23-66.85,64.04-118.51,131.18-117.94,71.74.61,129.46,58.71,129.46,129.93s-58.34,129.28-130.6,129.28-137.15-65.03-130.04-141.26ZM852.05,858.83v8.15c0,4.9-4.37,8.65-9.21,7.91l-15.13-2.32c-5.35-.82-9.29-5.42-9.29-10.83l2.24-7.55v-185.7c-.01-5.53,3.72-10.37,9.08-11.74,4.85-1.24,9.18-2.44,13.53-3.67,4.41-1.25,8.79,2.06,8.79,6.65v6.86s0,192.25,0,192.25ZM722.76,762.7c0-53.04-42.43-94.8-97.45-94.8s-97.45,41.76-97.45,94.8,43.09,94.14,97.45,94.14,97.45-41.11,97.45-94.14Z"/>
+      <path class="cls-1" d="M495.54,600.73v-25.92c0-3.29,3-5.72,6.24-5.09,5.75,1.12,12.68,1.8,20.28,1.8h16.81c1.14,0,2.25-.37,3.16-1.05l150.38-112.79c4.05-3.04,1.9-9.48-3.16-9.48h-167.28c-8.16,0-14.58.35-20.27,1.3-3.23.54-6.17-1.91-6.17-5.18v-26.44c0-3.29,3-5.72,6.23-5.09,5.73,1.11,12.63,1.79,20.2,1.79h301.39c7.58,0,14.47-.68,20.21-1.79,3.23-.63,6.23,1.8,6.23,5.09v26.44c0,3.28-2.96,5.72-6.19,5.17-5.52-.94-11.72-1.29-20.33-1.29h-62.55c-1.14,0-2.25.37-3.17,1.06l-149.78,112.79c-4.04,3.04-1.89,9.47,3.17,9.47h212.41c7.58,0,14.47-.68,20.21-1.79,3.23-.63,6.23,1.8,6.23,5.09v25.9c0,3.21-2.83,5.64-6.01,5.21-5.73-.78-12.19-.78-20.43-.78h-301.39c-8.24,0-14.7,0-20.43.78-3.18.43-6.01-2-6.01-5.21Z"/>
+      <path class="cls-1" d="M495.54,370.32v-26.44c0-3.29,3-5.72,6.24-5.09,5.73,1.11,12.63,1.79,20.2,1.79h301.39c7.58,0,14.47-.68,20.21-1.79,3.23-.63,6.23,1.8,6.23,5.09v26.42c0,3.28-2.96,5.73-6.2,5.18-5.5-.93-11.67-1.28-20.24-1.28h-301.39c-8.16,0-14.57.35-20.26,1.3-3.23.54-6.18-1.91-6.18-5.19Z"/>
+      <path class="cls-1" d="M849.81,266.85v29.16c0,3.65-3.78,6.01-7.1,4.5-5.22-2.37-11.14-4.45-17.35-6.22-99.14-25.78-202.25-52.88-301.39-79.32-7.31-2.09-16.69-3.35-23.56-3.46-2.71-.04-4.86-2.26-4.86-4.97v-36.33c0-2.81,2.32-5.02,5.13-4.97,6.2.1,14.16-1.27,23.29-3.81,99.14-25.78,202.25-50.89,301.39-77.33,6.22-1.78,12.13-3.85,17.35-6.22,3.32-1.51,7.1.85,7.1,4.5v29.18c0,2.9-2.36,5.08-5.25,4.95-6.15-.27-13.53.68-22.44,3.15l-33.69,9.29c-2.16.6-3.65,2.56-3.65,4.8v110.88c0,2.24,1.49,4.2,3.65,4.8l33.69,9.29c9.34,2.46,16.42,3.41,22.4,3.16,2.87-.12,5.28,2.1,5.28,4.98ZM753.39,234.07v-89.86c0-3.18-2.95-5.55-6.05-4.86l-215.92,47.84v.67l215.86,51.05c3.13.74,6.12-1.63,6.12-4.84Z"/>
+      <g>
+        <path class="cls-4" d="M441.39,1406.69c-7.48,2.72-15.96,2.41-20.2.12l3.62-6.74c3.62,2.83,10.23,2.87,16.71.51,10.1-3.68,17.96-13.23,17.96-23.33,0-10.95-10.85-16.14-23.19-11.65-19.57,7.13-20.07,33.67-44.26,42.05-12.47,4.33-25.68-.85-25.68-14.68s15.34-27.9,31.67-27.9v6.38c-14.71-.07-25.31,10.06-25.31,19.84,0,9.25,8.85,13.68,18.82,10.26,20.7-7.11,21.07-33.6,44.64-42.08,15.09-5.38,29.92.17,29.92,15.79,0,13.61-10.47,26.24-24.69,31.41Z"/>
+        <path class="cls-4" d="M397.07,1302.61c27.87-10.14,46.74,5.49,45.26,31.16,7.65-.68,15.29-1.46,22.94-2.25v6.41c-24.66,2.35-49.33,3.97-73.99,5.06v-6.1c14.8-.65,29.6-1.52,44.27-2.66.99-19.92-13.44-34.54-37.99-25.6-14.8,5.38-23.19,17.9-23.19,29.99,0,8.31,3.95,15.7,8.51,19.41l-6.29,5.12c-4.93-4.2-8.88-12.85-8.75-22.47.25-16.39,12.58-32.02,29.23-38.08Z"/>
+        <path class="cls-4" d="M368.86,1266.65c32.14-10.64,64.28-21.6,96.41-32.35v6.88c-8.81,2.8-17.86,5.78-26.91,8.87v26.75c9.05,1.13,17.98,2.1,26.91,2.97v6.58c-8.93-.97-17.98-1.99-26.91-3.17v10.95l-6.73.61v-11.81c-20.93-2.69-41.85-5.58-62.78-8.27v-8.01ZM431.64,1251.78c-18.7,6.17-37.53,12.49-55.11,17.93,18.2,2.2,36.66,4.62,55.11,6.84v-24.77Z"/>
+        <path class="cls-4" d="M368.86,1196.37c29.38,10.27,62.3,19.15,91.93,28.04v-36.62l4.48-.46v46.19c-29.38-9.3-62.3-17.97-91.93-27.72v33.32l-4.48.67v-43.42Z"/>
+        <path class="cls-4" d="M465.27,1177.74c-29.67,2.57-67.98,6.2-96.41,8.11v-6.11c28.43-1.91,66.75-5.64,96.41-8.21v6.22Z"/>
+        <path class="cls-4" d="M435.08,1157.85c-31.66,11.52-67.82,5.13-67.82-16.98,0-14.14,13.09-27.73,34.29-35.44,28.8-10.48,65.46-5.75,65.46,17.21,0,15.2-12.84,28.27-31.92,35.22ZM401.8,1111.61c-16.71,6.08-27.93,15.7-27.93,27.39,0,17.43,31.04,23.67,60.97,12.78,15.21-5.54,25.56-15.79,25.56-26.85,0-19.45-34.66-22.04-58.6-13.33Z"/>
+      </g>
+    </g>
+    <path class="cls-4" d="M944.51,837.1c.45-.38,1.04-.46,1.62-.46h.45c.52.46.9,1.07,1.23,1.76-.19,1.99-1.23,3.05-2.91,3.05-.45-.46-.78-.99-1.1-1.53v-.08l-.07-.15c0-1.45.52-1.53.78-2.6Z"/>
+    <g>
+      <path class="cls-4" d="M929.36,1104.37c4.79,0,9.51.46,14.3.46,5.76,0,11.45-.69,17.15-.69,1.3,0,4.08-.08,4.08,2.14,0,1.22-1.68,1.37-2.33,1.37l-27.18-.08c-4.86,0-9.71.69-14.56.69-.65,0-2.72,0-2.72-1.15,0-.76.26-1.68.71-2.21,3.49-.54,7.06-.54,10.55-.54Z"/>
+      <path class="cls-4" d="M919.91,1068.94c.13-.08.91.15.91.38,0,4.28-.13,8.7-.33,12.98l7.31.08h3.11c3.75,0,7.57,0,11.33-.3,1.75-.08,3.69-.46,5.43-.46h13.85c1.23,0,3.43.54,3.43,2.44,0,.46-.19,1.07-.65,1.07-3.04,0-6.09-.38-9.13-.38l-2.59.08c-7.06.31-14.11.69-21.23.69-1.88,0-9.51-.46-10.74.15-.07.38-.13.69-.13,1.07,0,.99.2,1.98.2,2.98,0,.92-.26,2.29-.13,3.13.13.76.26,1.3.26,2.14,0,1.91.07,2.68-1.81,2.9-.65-.61-.91-1.61-.91-2.6,0-1.91.26-3.82.26-5.73,0-5.35-.19-10.69-.19-16.04,0-2.06-.19-4.05,1.75-4.58Z"/>
+      <path class="cls-4" d="M938.29,1063.21c-2.27-.38-4.4-1.3-6.6-1.83-3.82-.92-10.03-2.44-13.4-4.51-.52-.3-.71-.76-.71-1.45,0-3.13,9.12-5.65,11.26-6.42,4.47-1.68,9.26-1.83,13.79-3.28,2.33-.76,4.79-1.07,7.12-1.76l13.92-4.2c.58.31,1.04.69,1.04,1.45,0,.38-.45.92-.65,1.15-5.83,2.14-11.65,4.12-17.6,5.73l-.06,10.61c0,.99,0,2.06.13,3.13,5.69,1.07,11.26,2.9,16.96,3.89.84.15,1.75.54,1.75,1.76,0,1.07-.71,1.91-1.62,1.91l-.32-.15c-8.09-2.83-16.7-4.58-24.98-6.03ZM927.22,1057.1c7.51,1.83,14.95,3.82,16.38,3.82.13-.99.13-1.99.13-3.05,0-3.06-.06-6.19-.39-9.24-7.12,1.61-15.73,2.6-22.33,6.57,1.62.38,4.4,1.45,6.21,1.91Z"/>
+      <path class="cls-4" d="M963.34,1008.46c1.42,0,1.16,2.6,1.16,3.66v5.8c0,3.13.19,11.84-.13,14.36-2.66.38-5.31.23-7.96.3-2.52.08-5.05.23-7.57.23-5.7,0-11.39-.53-17.09-.53-3.3,0-6.41.08-9.64.38-1.23.08-2.27.84-3.49.84-.59-.31-.97-.92-.97-1.68,0-2.44,1.68-2.37,3.24-2.37,3.24,0,6.47-.31,9.71-.31,4.4,0,8.74.54,13.14.54,2.33,0,4.6-.38,6.93-.38l10.55.08c.65,0,.91-.38.91-1.15,0-5.88-.39-11.76-.39-17.64,0-1.3.39-2.14,1.62-2.14Z"/>
+      <path class="cls-4" d="M929.36,999.6c4.79,0,9.51.46,14.3.46,5.76,0,11.45-.69,17.15-.69,1.3,0,4.08-.08,4.08,2.14,0,1.22-1.68,1.37-2.33,1.37l-27.18-.08c-4.86,0-9.71.69-14.56.69-.65,0-2.72,0-2.72-1.15,0-.76.26-1.68.71-2.21,3.49-.54,7.06-.54,10.55-.54Z"/>
+      <path class="cls-4" d="M938.29,985.85c-2.27-.38-4.4-1.3-6.6-1.83-3.82-.92-10.03-2.44-13.4-4.51-.52-.3-.71-.76-.71-1.45,0-3.13,9.12-5.65,11.26-6.42,4.47-1.68,9.26-1.83,13.79-3.28,2.33-.76,4.79-1.07,7.12-1.76l13.92-4.2c.58.31,1.04.69,1.04,1.45,0,.38-.45.92-.65,1.15-5.83,2.14-11.65,4.12-17.6,5.73l-.06,10.61c0,.99,0,2.06.13,3.13,5.69,1.07,11.26,2.9,16.96,3.89.84.15,1.75.54,1.75,1.76,0,1.07-.71,1.91-1.62,1.91l-.32-.15c-8.09-2.83-16.7-4.58-24.98-6.03ZM927.22,979.74c7.51,1.83,14.95,3.9,16.38,3.82.13-.99.13-1.99.13-3.05,0-3.06-.06-6.19-.39-9.24-7.12,1.61-15.73,2.6-22.33,6.57,1.62.38,4.4,1.45,6.21,1.91Z"/>
+      <path class="cls-4" d="M932.66,926.9l15.01-.15c3.04,0,5.95-.15,8.93-.61,1.42-.23,2.85-.38,4.27-.38,1.16,0,3.3-.15,3.88,1.37,0,.84-.07,1.91-.78,2.37-1.75-.08-3.43-.31-5.17-.31-4.53,0-9,1.15-13.53,1.15-1.04,0-1.23.15-1.94.99-1.94,2.29-4.01,4.43-5.95,6.57-4.4,4.96-8.67,10-13.66,14.13,1.68.15,3.43.15,5.11.15,8.03,0,16.05-.46,24.08-.46,5.37,0,8.28-.69,9.25-.69,1.3,0,2.46.61,2.46,2.29,0,.46-.06,1.15-.52,1.15-1.04.08-1.94,0-3.69,0l-9.45.15c-5.89,0-11.71.53-17.6.53-5.24,0-10.55-.08-15.79.38-.13-.38-.19-.77-.19-1.15,0-1.22.64-2.44,1.49-3.13.52-.38,1.3-.69,1.88-1.07,1.68-1.15,4.98-3.66,6.21-5.42,3.37-4.73,9.39-10.46,13.46-14.81l-21.1.84c-1.23.08-1.88-.76-1.75-2.06.06-.84.52-1.22.97-1.3,1.94-.46,11.59-.54,14.11-.54Z"/>
+      <path class="cls-4" d="M918.81,883.45c.97-3.44,3.3-6.72,6.15-8.09,7.64-3.74,12.1-3.59,20.19-3.59,6.54,0,13.66,3.21,17.15,9.93,2.13,4.12,3.43,7.33,3.43,12.22,0,16.8-12.62,22.53-24.92,22.53-5.63,0-13.98-2.37-18.45-6.57-3.88-3.59-5.37-10.31-5.37-15.96,0-3.36.91-7.33,1.81-10.46ZM930.33,876.8c-4.27,1.45-8.28,3.59-9.58,9.09-.52,2.37-.9,5.12-.9,7.56,0,9.32,4.14,16.34,11.97,18.33,2.14.54,8.15,1.45,10.22,1.45,3.04,0,5.89-.69,8.8-1.45,3.62-.92,6.09-3.05,8.54-6.26,1.29-1.76,2.33-3.51,2.72-5.8.32-1.83.52-3.74.52-5.65,0-6.03-1.1-8.71-4.46-13.13-4.34-5.65-11.65-5.96-17.67-5.96-3.43,0-6.93.76-10.16,1.83Z"/>
+      <path class="cls-4" d="M964.89,797.31c0,1.15-2.07,1.15-2.72,1.15-4.85,0-9.71-.69-14.56-.69h-4.66c-3.3,1.61-22.59,12.14-24.21,12.14-.84,0-1.04-.76-1.04-1.61,0-.3.19-.76.32-.99,7.12-3.66,14.18-7.48,21.3-11.07-6.47-3.44-12.95-7.18-19.61-10-1.1-.46-1.88-1.22-1.88-2.67,0-.54.07-1.07.58-1.07h.45c.45,0,21.23,11,24.08,12.52,3.56-.15,7.12-.46,10.68-.46s7.06,0,10.55.54c.39.61.71,1.45.71,2.22Z"/>
+      <path class="cls-4" d="M918.81,746.29c.97-3.44,3.3-6.72,6.15-8.09,7.64-3.74,12.1-3.59,20.19-3.59,6.54,0,13.66,3.21,17.15,9.93,2.13,4.12,3.43,7.33,3.43,12.22,0,16.8-12.62,22.53-24.92,22.53-5.63,0-13.98-2.37-18.45-6.57-3.88-3.59-5.37-10.31-5.37-15.96,0-3.36.91-7.33,1.81-10.46ZM930.33,739.65c-4.27,1.45-8.28,3.59-9.58,9.09-.52,2.37-.9,5.12-.9,7.56,0,9.32,4.14,16.34,11.97,18.33,2.14.54,8.15,1.45,10.22,1.45,3.04,0,5.89-.69,8.8-1.45,3.62-.92,6.09-3.05,8.54-6.26,1.29-1.76,2.33-3.51,2.72-5.8.32-1.83.52-3.74.52-5.65,0-6.03-1.1-8.71-4.46-13.13-4.34-5.65-11.65-5.96-17.67-5.96-3.43,0-6.93.76-10.16,1.83Z"/>
+      <path class="cls-4" d="M923.21,705.05c.52-.31,2.98-1.3,3.37-1.3.97,0,1.94.3,2.65,1.15l.07.23c-.19.92-.58,1.45-1.23,1.91-.71,0-1.42.23-2.14.23-3.04,0-6.34,4.35-6.34,7.94,0,2.6,1.75,4.89,3.82,5.73.91.38,2.4.38,3.3.38,2.01,0,3.95-.23,5.96-.23,2.98,0,6.02.38,8.99.38,2.59,0,14.89.15,16.64-1.68,2.39-1.07,4.27-3.28,4.27-6.41,0-.99-.84-4.73-1.36-5.42-1.55-2.14-7.51-2.44-9.71-2.44-.97,0-5.5,0-6.21.69-.33.15-.39,1.6-.39,1.91,0,1.83.45,3.74.84,5.58.19.99-.71,1.98-1.49,1.98-.52,0-1.04-.3-1.3-.84-.45-2.75-.65-5.65-.65-8.4,0-.54,0-1.53.33-1.99,1.36-1.83,4.79-2.06,6.66-2.06,2.78,0,5.44.61,8.16.84,2.78.23,6.41,1.76,7.12,5.42.52,1.76.39,2.75.39,4.58,0,1.3-.78,3.82-1.3,5.04-2.33,5.42-7.57,5.96-12.17,5.96-3.37,0-6.8.54-10.16.38l-15.53-.61c-4.86-.23-8.61-1.15-8.61-8.02,0-1.38.26-2.83.59-4.12-.33.38,1.49-4.12,5.43-6.8Z"/>
+      <path class="cls-4" d="M938.29,692.22c-2.27-.38-4.4-1.3-6.6-1.83-3.82-.92-10.03-2.44-13.4-4.51-.52-.3-.71-.76-.71-1.45,0-3.13,9.12-5.65,11.26-6.42,4.47-1.68,9.26-1.83,13.79-3.28,2.33-.76,4.79-1.07,7.12-1.76l13.92-4.2c.58.31,1.04.69,1.04,1.45,0,.38-.45.92-.65,1.15-5.83,2.14-11.65,4.12-17.6,5.73l-.06,10.61c0,.99,0,2.06.13,3.13,5.69,1.07,11.26,2.9,16.96,3.89.84.15,1.75.54,1.75,1.76,0,1.07-.71,1.91-1.62,1.91l-.32-.15c-8.09-2.83-16.7-4.58-24.98-6.03ZM927.22,686.11c7.51,1.83,14.95,3.9,16.38,3.82.13-.99.13-1.99.13-3.05,0-3.06-.06-6.19-.39-9.24-7.12,1.61-15.73,2.6-22.33,6.57,1.62.38,4.4,1.45,6.21,1.91Z"/>
+      <path class="cls-4" d="M944.51,637.09c.45-.38,1.04-.46,1.62-.46h.45c.52.46.9,1.07,1.23,1.76-.19,1.99-1.23,3.05-2.91,3.05-.45-.46-.78-.99-1.1-1.53v-.08l-.07-.15c0-1.45.52-1.53.78-2.6Z"/>
+      <path class="cls-4" d="M926.77,573.86c2.98,0,5.89.38,8.87.38,3.17,0,6.34-.31,9.51-.31h8.54c6.41,0,8.8-.69,9.39-.69.97,0,1.68.08,1.68,1.22,0,.54-.13,1.99-.65,2.14-.26.08-13.46.92-14.56.92h-9.71l-5.24.08-10.68-.15c2.91,1.83,5.83,3.05,8.87,4.51,3.37,1.6,8.93,2.9,11.2,6.34-.65,2.21-3.17,3.05-4.79,3.97-1.55.92-2.98,1.98-4.53,2.9-1.94,1.15-3.95,1.91-5.95,2.9-2.27,1.07-4.66,2.29-6.86,3.51,8.87-.61,17.48-.61,26.34-.61,3.69,0,7.31.46,11,.46,1.49,0,3.04-.53,4.46-.53.71,0,1.16.84,1.16,1.6s-.39,1.15-.84,1.37c-.58.23-5.24.38-6.08.38-3.43,0-6.8-.38-10.23-.38h-12.43c-1.68,0-3.3,0-4.98.15l-5.76.54c-.9.15-2.01.46-2.91.46-4.34,0-2.52-.15-3.95-2.75-.13-.23-.26-.46-.26-.76,0-1.22,2.46-2.44,3.24-2.83,1.42-.69,6.41-3.97,7.44-3.97,3.75-1.68,7.51-3.82,11.33-5.96-4.2-2.37-8.09-4.12-12.23-5.88-1.88-.76-3.75-1.76-5.37-3.06-.97-.84-2.01-1.6-3.24-1.76-.45-.08-1.23-.08-1.23-.84,0-.84.19-1.99.52-2.75,2.98-.38,5.96-.61,8.93-.61Z"/>
+      <path class="cls-4" d="M934.08,535.98c2.85-.08,5.76-.38,8.61-.38h5.63c7.25,0,17.41-.15,17.41,11.45,0,2.83-.65,5.96-1.81,8.4-3.95,8.25-13.46,7.56-20.45,7.56-4.92,0-9.77-.23-14.7-.23-1.81,0-8.41.38-9.64-.08-.52-.15-1.1-.53-1.1-1.22,0-.61.59-2.14,1.23-2.14.45,0,.91.15,1.36.15,3.49.15,6.99.23,10.48.23l16.83-.15c6.41,0,14.82-1.22,14.82-11,0-1.07-.32-2.14-.52-3.21-1.16-5.88-6.86-6.49-11.13-6.49l-24.66.08c-1.75,0-3.43.61-5.18.61-.78,0-2.91-.15-2.91-1.37,0-2.22,2.78-2.29,4.08-2.29,3.88,0,7.77.15,11.65.08ZM912.98,549.8c.97.99,2.01,1.76,3.11,2.52.52.38.58.92.58,1.61,0,.61-.71.84-1.1.84-1.23,0-7.96-5.27-8.67-6.57-.32-.61-.78-1.76-.78-2.44,0-.46.39-1.45.84-1.45,1.49,0,4.79,4.35,6.02,5.5Z"/>
+      <path class="cls-4" d="M937.77,515.74c2.65-3.13,5.95-7.64,9.32-9.7,3.04-1.83,5.95-3.44,9.45-3.44,4.6,0,9,5.8,9,11.84,0,10.16-5.95,13.44-13.59,13.44-.97,0-4.47,0-4.47-1.53,0-.99.52-1.68,1.36-1.68.71,0,1.49.15,2.27.15,5.18,0,11.71-1.37,11.71-9.09,0-5.27-2.52-9.77-7.31-9.77-4.34,0-9.12,5.12-12.36,8.17-4.92,4.58-8.28,13.21-15.4,13.21-4.73,0-10.1-3.97-10.49-9.85l-.07-1.45c0-7.33,4.4-11.76,10.49-11.76,1.04,0,1.49.31,1.49,1.68,0,.46-.39.54-.65.61-2.01.61-4.21,1.38-5.96,2.68-1.87,1.37-2.65,4.51-2.65,6.95,0,5.27,4.14,7.63,8.09,7.63,4.47,0,7.12-4.96,9.77-8.09Z"/>
+      <path class="cls-4" d="M929.36,489.93c4.79,0,9.51.46,14.3.46,5.76,0,11.45-.69,17.15-.69,1.3,0,4.08-.08,4.08,2.14,0,1.22-1.68,1.37-2.33,1.37l-27.18-.08c-4.86,0-9.71.69-14.56.69-.65,0-2.72,0-2.72-1.15,0-.76.26-1.68.71-2.21,3.49-.54,7.06-.54,10.55-.54Z"/>
+      <path class="cls-4" d="M953.18,477.86c-2.27,0-4.53.15-6.8.23-3.69.15-7.31.38-11,.38-3.3,0-6.67-.38-9.97-.61-4.92-.38-8.42-4.2-8.42-10.23,0-1.91,0-3.97.65-5.8,1.17-3.36,5.7-7.33,8.87-7.33.84,0,2.14.31,2.33,1.3,0,2.98-9.32,1.68-9.32,11,0,2.75,1.94,7.48,4.47,7.86,5.24.84,13.59.61,19.09.61,3.95,0,12.23-.15,15.79-1.61,2.72-1.07,3.69-3.66,3.69-6.87,0-2.9-1.16-7.03-3.36-8.63-.91-.61-5.24-.76-5.24-1.83,0-1.83,1.42-1.91,2.59-1.91,5.83,0,8.68,5.8,8.68,12.06,0,7.94-6.02,11.38-12.04,11.38Z"/>
+      <path class="cls-4" d="M938.29,442.97c-2.27-.38-4.4-1.3-6.6-1.83-3.82-.92-10.03-2.44-13.4-4.51-.52-.3-.71-.76-.71-1.45,0-3.13,9.12-5.65,11.26-6.42,4.47-1.68,9.26-1.83,13.79-3.28,2.33-.76,4.79-1.07,7.12-1.76l13.92-4.2c.58.31,1.04.69,1.04,1.45,0,.38-.45.92-.65,1.15-5.83,2.14-11.65,4.12-17.6,5.73l-.06,10.61c0,.99,0,2.06.13,3.13,5.69,1.07,11.26,2.9,16.96,3.89.84.15,1.75.54,1.75,1.76,0,1.07-.71,1.91-1.62,1.91l-.32-.15c-8.09-2.83-16.7-4.58-24.98-6.03ZM927.22,436.86c7.51,1.83,14.95,3.89,16.38,3.82.13-.99.13-1.99.13-3.05,0-3.06-.06-6.19-.39-9.24-7.12,1.61-15.73,2.6-22.33,6.57,1.62.38,4.4,1.45,6.21,1.91Z"/>
+    </g>
+    </g>
+  </svg>
+
   <section id="sobre" class="section dot-grid sobre-section">
 
   </section>
@@ -345,11 +435,6 @@
         <span class="professora-eyebrow" data-i18n="professora.eyebrow">Conheça</span>
         <h2 data-i18n="professora.title">A professora</h2>
         <p data-i18n="professora.text">Italiana, apaixonada por movimento e música, ela transformou três paixões em um único espaço de aprendizado. Cada aula carrega um pouco da sua origem — o cuidado do yoga, o ritmo da música e a musicalidade da língua italiana.</p>
-        <div class="professora-tags">
-          <span class="badge badge-yoga" data-i18n="professora.tagYoga">Yoga</span>
-          <span class="badge badge-musica" data-i18n="professora.tagMusica">Música</span>
-          <span class="badge badge-italiano" data-i18n="professora.tagItaliano">Italiano</span>
-        </div>
 
         <div class="professora-toggle-group" role="tablist">
           <button class="professora-toggle-btn active" role="tab" aria-selected="true" data-panel-target="specialties" data-i18n="professora.specialties.title">Minhas especialidades</button>
@@ -420,63 +505,73 @@
     </div>
   </section>
 
-  <!-- ========== FEATURES DOS SERVIÇOS ========== -->
-  <section id="feature-italiano" class="section dot-grid feature-section">
-    <div class="wrapper feature-inner">
-      <div class="feature-photo">
-        <img src="assets/images/images (2).jpeg" alt="Aula de italiano" loading="lazy">
-      </div>
-      <div class="feature-text">
-        <span class="feature-eyebrow feature-eyebrow--italiano" data-i18n="servicos.italiano.feature.eyebrow">Italiano</span>
-        <h2 data-i18n="servicos.italiano.feature.title">Aprenda italiano no seu ritmo</h2>
-        <p data-i18n="servicos.italiano.feature.text">Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.</p>
-        <ul class="feature-list feature-list--italiano">
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic1">Turmas do zero ao avançado</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic2">Conversação com foco na fluência real</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic3">Cultura, culinária e tradições italianas</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic4">Aulas individuais ou em grupo</span></li>
-        </ul>
-        <a href="#agendamento" class="btn feature-cta feature-cta--italiano" data-i18n="servicos.italiano.feature.cta">Agendar aula</a>
-      </div>
-    </div>
-  </section>
+  <!-- ========== FEATURES DOS SERVIÇOS (tickets empilhados no scroll) ========== -->
+  <section class="section dot-grid ticket-stack-section">
+    <div class="wrapper">
+      <div class="ticket-stack">
 
-  <section id="feature-musica" class="section dot-grid feature-section">
-    <div class="wrapper feature-inner feature-inner--reverse">
-      <div class="feature-photo">
-        <img src="assets/images/360_F_497037243_OxBX9eF17AuTk3CAgCKK4hZ0VHFbeiSa.jpg" alt="Aula de música" loading="lazy">
-      </div>
-      <div class="feature-text">
-        <span class="feature-eyebrow feature-eyebrow--musica" data-i18n="servicos.musica.feature.eyebrow">Música</span>
-        <h2 data-i18n="servicos.musica.feature.title">Descubra o seu ritmo com o piano</h2>
-        <p data-i18n="servicos.musica.feature.text">Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.</p>
-        <ul class="feature-list feature-list--musica">
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic1">Piano do iniciante ao avançado</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic2">Teoria musical e leitura de partitura</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic3">Percepção auditiva e ritmo</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic4">Aulas individuais ou em grupo</span></li>
-        </ul>
-        <a href="#agendamento" class="btn feature-cta feature-cta--musica" data-i18n="servicos.musica.feature.cta">Agendar aula</a>
-      </div>
-    </div>
-  </section>
+        <article id="feature-italiano" class="ticket-card ticket-card--italiano">
+          <div class="feature-inner">
+            <div class="feature-text">
+              <span class="feature-eyebrow feature-eyebrow--italiano" data-i18n="servicos.italiano.feature.eyebrow">Italiano</span>
+              <h2 data-i18n="servicos.italiano.feature.title">Aprenda italiano no seu ritmo</h2>
+              <p data-i18n="servicos.italiano.feature.text">Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.</p>
+              <ul class="feature-list feature-list--italiano">
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic1">Turmas do zero ao avançado</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic2">Conversação com foco na fluência real</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic3">Cultura, culinária e tradições italianas</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic4">Aulas individuais ou em grupo</span></li>
+              </ul>
+              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.italiano.feature.cta">Agendar aula</a>
+            </div>
+            <div class="feature-photo">
+              <img src="assets/images/images (2).jpeg" alt="Aula de italiano" loading="lazy">
+            </div>
+          </div>
+        </article>
 
-  <section id="feature-yoga" class="section dot-grid feature-section">
-    <div class="wrapper feature-inner">
-      <div class="feature-photo">
-        <img src="assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga" loading="lazy">
-      </div>
-      <div class="feature-text">
-        <span class="feature-eyebrow feature-eyebrow--yoga" data-i18n="servicos.yoga.feature.eyebrow">Yoga</span>
-        <h2 data-i18n="servicos.yoga.feature.title">Encontre equilíbrio entre corpo e mente</h2>
-        <p data-i18n="servicos.yoga.feature.text">Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.</p>
-        <ul class="feature-list feature-list--yoga">
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic1">Turmas para iniciantes e avançados</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic2">Foco em respiração e relaxamento</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic3">Alongamento e mobilidade do corpo</span></li>
-          <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic4">Aulas individuais ou em grupo</span></li>
-        </ul>
-        <a href="#agendamento" class="btn feature-cta feature-cta--yoga" data-i18n="servicos.yoga.feature.cta">Agendar aula</a>
+        <article id="feature-musica" class="ticket-card ticket-card--musica">
+          <div class="feature-inner feature-inner--reverse">
+            <div class="feature-text">
+              <span class="feature-eyebrow feature-eyebrow--musica" data-i18n="servicos.musica.feature.eyebrow">Música</span>
+              <h2 data-i18n="servicos.musica.feature.title">Descubra o seu ritmo com o piano</h2>
+              <p data-i18n="servicos.musica.feature.text">Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.</p>
+              <ul class="feature-list feature-list--musica">
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic1">Piano do iniciante ao avançado</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic2">Teoria musical e leitura de partitura</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic3">Percepção auditiva e ritmo</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic4">Aulas individuais ou em grupo</span></li>
+              </ul>
+              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.musica.feature.cta">Agendar aula</a>
+            </div>
+            <div class="feature-photo">
+              <img src="assets/images/360_F_497037243_OxBX9eF17AuTk3CAgCKK4hZ0VHFbeiSa.jpg" alt="Aula de música" loading="lazy">
+            </div>
+          </div>
+        </article>
+
+        <article id="feature-yoga" class="ticket-card ticket-card--yoga">
+          <div class="feature-inner">
+            <div class="feature-text">
+              <span class="feature-eyebrow feature-eyebrow--yoga" data-i18n="servicos.yoga.feature.eyebrow">Yoga</span>
+              <h2 data-i18n="servicos.yoga.feature.title">Encontre equilíbrio entre corpo e mente</h2>
+              <p data-i18n="servicos.yoga.feature.text">Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.</p>
+              <ul class="feature-list feature-list--yoga">
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic1">Turmas para iniciantes e avançados</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic2">Foco em respiração e relaxamento</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic3">Alongamento e mobilidade do corpo</span></li>
+                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic4">Aulas individuais ou em grupo</span></li>
+              </ul>
+              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.yoga.feature.cta">Agendar aula</a>
+            </div>
+            <div class="feature-photo">
+              <img src="assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga" loading="lazy">
+            </div>
+          </div>
+        </article>
+
+        <div class="ticket-stack-spacer" aria-hidden="true"></div>
+
       </div>
     </div>
   </section>
@@ -544,8 +639,8 @@
   <section id="depoimentos" class="section dot-grid testimonials-section">
     <div class="wrapper">
       <h2 class="section-title">
-        <span class="light" data-i18n="depoimentos.title_light">O que dizem</span>
-        <span class="bold" data-i18n="depoimentos.title_bold">nossos alunos</span>
+        <span class="light" data-i18n="depoimentos.title_light">Depoimentos</span>
+        <span class="bold" data-i18n="depoimentos.title_bold">dos meus alunos</span>
       </h2>
 
       <a class="testimonial-badge" href="https://preply.com/en/tutor/6171938" target="_blank" rel="noopener">
@@ -838,41 +933,86 @@
     </div>
   </section>
 
-  <!-- ========== CONTATO ========== -->
-  <section id="contato" class="section contato-section">
-    <div class="wrapper">
-      <h2 class="section-title on-dark">
-        <span class="light" data-i18n="contato.title_light">Vamos</span>
-        <span class="bold" data-i18n="contato.title_bold">Conversar?</span>
-      </h2>
-      <p class="section-subtitle on-dark" data-i18n="contato.subtitle">Estamos aqui para te ajudar a começar</p>
-
-      <div class="contact-buttons">
-        <!-- Trocar href pelo número real: https://wa.me/55XXXXXXXXXXX -->
-        <a href="#" class="btn btn-contact btn-whatsapp">
-          <span data-i18n="contato.whatsapp">WhatsApp</span> [SEU WHATSAPP]
-        </a>
-        <!-- Trocar href pelo e-mail real -->
-        <a href="#" class="btn btn-contact btn-email">
-          <span data-i18n="contato.email">E-mail</span> [SEU EMAIL]
-        </a>
-        <!-- Trocar href pelo Instagram real -->
-        <a href="#" class="btn btn-contact btn-instagram">
-          <span data-i18n="contato.instagram">Instagram</span> [@SEU INSTAGRAM]
-        </a>
-      </div>
-    </div>
-  </section>
 
 </main>
 
 <!-- ========== FOOTER ========== -->
 <footer class="site-footer">
+
+  <div class="footer-backdrop" aria-hidden="true">
+    <!-- Torre de Pisa, estilizada -->
+    <svg class="footer-decor footer-decor--tower" viewBox="0 0 200 480" aria-hidden="true">
+      <rect x="58" y="438" width="94" height="28" rx="5" fill="currentColor"/>
+      <g transform="rotate(-6 105 438)">
+        <rect x="68" y="88" width="74" height="352" rx="6" fill="currentColor"/>
+        <rect x="68" y="160" width="74" height="4" fill="#254f1a"/>
+        <rect x="68" y="228" width="74" height="4" fill="#254f1a"/>
+        <rect x="68" y="296" width="74" height="4" fill="#254f1a"/>
+        <rect x="68" y="364" width="74" height="4" fill="#254f1a"/>
+        <circle cx="88" cy="124" r="6" fill="#254f1a"/>
+        <circle cx="122" cy="124" r="6" fill="#254f1a"/>
+        <circle cx="88" cy="192" r="6" fill="#254f1a"/>
+        <circle cx="122" cy="192" r="6" fill="#254f1a"/>
+        <circle cx="88" cy="260" r="6" fill="#254f1a"/>
+        <circle cx="122" cy="260" r="6" fill="#254f1a"/>
+        <ellipse cx="105" cy="88" rx="40" ry="20" fill="currentColor"/>
+        <rect x="98" y="52" width="14" height="42" rx="5" fill="currentColor"/>
+        <circle cx="105" cy="48" r="8" fill="currentColor"/>
+      </g>
+    </svg>
+
+    <!-- Coliseu, estilizado -->
+    <svg class="footer-decor footer-decor--colosseum" viewBox="0 0 320 190" aria-hidden="true">
+      <path d="M15,190 L15,120
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        a13,21 0 0 1 27,-4
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        a15,15 0 0 1 30,0
+        L305,190 Z" fill="currentColor"/>
+      <rect x="35" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="75" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="115" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="155" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="195" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="235" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+      <rect x="270" y="152" width="18" height="26" rx="3" fill="#254f1a"/>
+    </svg>
+  </div>
+
   <div class="wrapper footer-inner">
-    <a href="#hero" class="logo-placeholder small">
-      <img src="assets/img/logo-color.png" alt="Spazio Armonia" class="logo-img">
+    <a href="#hero" class="logo-placeholder">
+      <img src="assets/img/Prancheta 17.svg" alt="Spazio Armonia" class="logo-img footer-logo">
     </a>
     <p class="footer-tagline" data-i18n="footer.tagline">Toda grande aprendizagem começa com uma boa conexão.</p>
+
+    <div id="contato" class="footer-contact">
+      <h3 class="footer-contact-title">
+        <span class="light" data-i18n="contato.title_light">Vamos</span>
+        <span class="bold" data-i18n="contato.title_bold">Conversar?</span>
+      </h3>
+      <div class="contact-buttons">
+        <!-- Trocar href pelo número real: https://wa.me/55XXXXXXXXXXX -->
+        <a href="#" class="btn btn-contact btn-whatsapp">
+          <svg class="btn-contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.9 9.9 0 0 0 4.7 1.2h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.67c2.24 0 4.35.87 5.93 2.46a8.24 8.24 0 0 1 2.43 5.87c0 4.56-3.71 8.27-8.28 8.27a8.27 8.27 0 0 1-4.21-1.15l-.3-.18-3.13.82.84-3.05-.2-.31a8.22 8.22 0 0 1-1.27-4.42c0-4.57 3.72-8.31 8.19-8.31M8.53 6.7c-.16 0-.43.06-.65.31s-.86.84-.86 2.05.88 2.38 1 2.54 1.73 2.78 4.29 3.79c2.12.84 2.55.67 3.01.63s1.49-.6 1.7-1.19.21-1.09.15-1.19-.23-.16-.48-.28-1.49-.73-1.72-.82-.4-.13-.57.13-.65.82-.8.99-.29.19-.55.06a6.98 6.98 0 0 1-2.05-1.27 7.7 7.7 0 0 1-1.42-1.77c-.15-.25-.02-.39.11-.51s.26-.29.4-.44.18-.25.27-.42.05-.31 0-.44-.57-1.38-.78-1.89-.42-.44-.57-.45z"/></svg>
+          <span data-i18n="contato.whatsapp">WhatsApp</span> 
+        </a>
+        <!-- Trocar href pelo e-mail real -->
+        <a href="#" class="btn btn-contact btn-email">
+          <svg class="btn-contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5.5A1.5 1.5 0 0 1 4.5 4h15A1.5 1.5 0 0 1 21 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5zm2.2.5 6.36 5.09a.7.7 0 0 0 .88 0L18.8 6zM4.5 7.4v10.6h15V7.4l-6.8 5.44a2.2 2.2 0 0 1-2.75 0z"/></svg>
+          <span data-i18n="contato.email">E-mail</span>
+        </a>
+        <!-- Trocar href pelo Instagram real -->
+        <a href="#" class="btn btn-contact btn-instagram">
+          <svg class="btn-contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.42.47.66.25 1.22.6 1.77 1.15s.9 1.11 1.15 1.77c.25.63.42 1.36.47 2.42.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.42a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.63.25-1.36.42-2.42.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.42-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.63-.42-1.36-.47-2.42C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.42.25-.66.6-1.22 1.15-1.77S4.79 2.79 5.45 2.54c.63-.25 1.36-.42 2.42-.47C8.94 2.01 9.28 2 12 2m0 1.8c-2.67 0-2.99.01-4.04.06-.92.04-1.42.19-1.75.32-.44.17-.75.37-1.08.7s-.53.64-.7 1.08c-.13.33-.28.83-.32 1.75-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.92.19 1.42.32 1.75.17.44.37.75.7 1.08s.64.53 1.08.7c.33.13.83.28 1.75.32 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.92-.04 1.42-.19 1.75-.32.44-.17.75-.37 1.08-.7s.53-.64.7-1.08c.13-.33.28-.83.32-1.75.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.92-.19-1.42-.32-1.75a2.9 2.9 0 0 0-.7-1.08 2.9 2.9 0 0 0-1.08-.7c-.33-.13-.83-.28-1.75-.32C14.99 3.81 14.67 3.8 12 3.8m0 3.06a5.14 5.14 0 1 1 0 10.28 5.14 5.14 0 0 1 0-10.28m0 1.8a3.34 3.34 0 1 0 0 6.68 3.34 3.34 0 0 0 0-6.68m5.34-1.98a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0"/></svg>
+          <span data-i18n="contato.instagram">Instagram</span>
+        </a>
+      </div>
+    </div>
 
     <ul class="footer-links">
       <li><a href="#sobre" data-i18n="nav.sobre">Sobre</a></li>
@@ -883,9 +1023,15 @@
     </ul>
 
     <div class="lang-switch" id="langSwitchFooter">
-      <button type="button" data-lang="pt" class="lang-btn">PT</button>
-      <button type="button" data-lang="en" class="lang-btn">EN</button>
-      <button type="button" data-lang="it" class="lang-btn">IT</button>
+      <button type="button" data-lang="pt" class="lang-btn" aria-label="Português">
+        <img src="assets/img/icons8-brasil-circular-48.png" alt="PT">
+      </button>
+      <button type="button" data-lang="en" class="lang-btn" aria-label="English">
+        <img src="assets/img/icons8-grã-bretanha-circular-48.png" alt="EN">
+      </button>
+      <button type="button" data-lang="it" class="lang-btn" aria-label="Italiano">
+        <img src="assets/img/icons8-itália-circular-32.png" alt="IT">
+      </button>
     </div>
 
     <p class="footer-rights">&copy; 2026 Spazio Armonia. <span data-i18n="footer.rights">Todos os direitos reservados.</span></p>

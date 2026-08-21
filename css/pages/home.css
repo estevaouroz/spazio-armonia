@@ -25,6 +25,10 @@
   align-items: center;
 }
 
+h2 {
+  margin-bottom: 50px;
+}
+
 .section-title {
   font-size: 35px;
   font-weight: 800;
@@ -214,7 +218,7 @@
 .hero {
   position: relative;
   overflow: visible;
-  padding-top: 144px;
+  padding-top: 180px;
   background-color:#eff0ec;
   color: #144673;
 }
@@ -440,7 +444,12 @@
   display: block;
   margin: 0 auto;
   height: 40vh;
+  overflow: visible;
 }
+
+/* Escrita à mão (Sobre): toda a animação (estado escondido, transitions e
+   reveal) é controlada via estilo inline por initLogoWriteAnimation() em
+   main.js. Sem JS, o SVG não recebe nenhum estilo e aparece completo. */
 
 .about-inner {
   display: flex;
@@ -943,52 +952,99 @@
   }
 }
 
-/* ===== Feature sections dos serviços (Italiano / Música / Yoga) ===== */
+/* ===== Feature sections dos serviços — tickets empilhados no scroll (Italiano / Música / Yoga) =====
+   cada .ticket-card gruda (position: sticky) num "top" um pouco maior que o anterior, então,
+   ao rolar, o próximo ticket sobe e cobre a base do anterior, deixando só uma tira dele à mostra —
+   o efeito de baralho empilhando que aparece no design de referência. */
+.ticket-stack-section {
+  padding: 72px 0 48px;
+}
+
+.ticket-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ticket-card {
+  position: sticky;
+  height: 760px;
+  padding: 28px;
+  border: 2px dashed rgba(30, 35, 48, 0.28);
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(30, 35, 48, 0.18);
+  overflow: hidden;
+}
+
+.ticket-card--italiano { top: 104px; z-index: 1; background-color: #DCEBF0; }
+.ticket-card--musica { top: 132px; z-index: 2; background-color: #F5F0DC; }
+.ticket-card--yoga { top: 160px; z-index: 3; background-color: #FAE18C; }
+
+/* espaçador "fantasma" depois do último ticket: sem ele o yoga não teria distância de
+   scroll pra ficar travado — ele desgruda quase na hora, diferente dos anteriores, que
+   ficam presos enquanto o próximo card ainda está subindo. Essa div reserva o mesmo
+   espaço que um próximo ticket ocuparia, então o yoga trava pelo mesmo tempo que os
+   outros antes do restante da página (agendamento) subir por cima. */
+.ticket-stack-spacer {
+  height: 220px;
+}
+
 .feature-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 28px;
+  height: 100%;
 }
 
 .feature-photo {
   width: 100%;
+  flex: 0 0 auto;
 }
 
 .feature-photo img {
   display: block;
   width: 100%;
-  height: 320px;
+  height: 220px;
   object-fit: cover;
   border-radius: 16px;
 }
 
 .feature-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
   text-align: center;
+  overflow: hidden;
 }
 
 .feature-eyebrow {
-  display: inline-block;
-  margin-bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.65);
+  color: #1e2330;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.feature-eyebrow--italiano { color: #144673; }
-.feature-eyebrow--musica { color: #4d7fb3; }
-.feature-eyebrow--yoga { color: #b3901f; }
-
 .feature-text h2 {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 800;
+  line-height: 1.3;
+  color: #1e2330;
 }
 
 .feature-text > p {
-  margin-bottom: 24px;
-  color: #5a6070;
+  margin-bottom: 20px;
+  color: rgba(30, 35, 48, 0.65);
   font-size: 16px;
   line-height: 1.6;
 }
@@ -996,14 +1052,14 @@
 .feature-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-bottom: 32px;
+  gap: 12px;
+  margin-bottom: 28px;
   text-align: left;
 }
 
 .feature-list li {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   font-size: 15px;
   font-weight: 500;
@@ -1013,29 +1069,42 @@
 .feature-check {
   display: inline-flex;
   flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  margin-top: 1px;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.65);
+  color: #1e2330;
 }
 
 .feature-check svg {
-  width: 100%;
-  height: 100%;
+  width: 14px;
+  height: 14px;
 }
 
-.feature-list--italiano .feature-check { color: #144673; }
-.feature-list--musica .feature-check { color: #4d7fb3; }
-.feature-list--yoga .feature-check { color: #b3901f; }
+.feature-cta {
+  background-color: #1e2330;
+  color: #ffffff;
+}
 
-.feature-cta--italiano { background-color: #144673; }
-.feature-cta--musica { background-color: #4d7fb3; }
-.feature-cta--yoga { background-color: #b3901f; }
+@media (min-width: 640px) {
+  .ticket-card {
+    height: 500px;
+  }
 
-@media (min-width: 768px) {
+  .ticket-stack-spacer {
+    height: 100px;
+  }
+
+  .ticket-card--italiano { top: 116px; }
+  .ticket-card--musica { top: 152px; }
+  .ticket-card--yoga { top: 188px; }
+
   .feature-inner {
     flex-direction: row;
-    align-items: center;
-    gap: 64px;
+    align-items: stretch;
+    gap: 40px;
   }
 
   .feature-inner--reverse {
@@ -1048,15 +1117,27 @@
   }
 
   .feature-photo img {
-    height: 420px;
+    height: 100%;
   }
 
   .feature-text {
+    position: relative;
+    justify-content: center;
+    padding-left: 32px;
     text-align: left;
+    border-left: 2px dashed rgba(30, 35, 48, 0.28);
+  }
+
+  .feature-inner--reverse .feature-text {
+    padding-left: 0;
+    padding-right: 32px;
+    border-left: none;
+    border-right: 2px dashed rgba(30, 35, 48, 0.28);
   }
 
   .feature-text h2 {
-    font-size: 36px;
+    font-size: 30px;
+    line-height: 1.3;
   }
 }
 
@@ -1731,7 +1812,7 @@
 .accordion-trigger {
   position: relative;
   width: 100%;
-  padding: 18px 26px 18px 0;
+  padding: 18px 34px 18px 0;
   text-align: left;
   color: #1e2330;
   font-size: 16px;
@@ -1739,16 +1820,20 @@
 }
 
 .accordion-trigger::after {
-  content: "+";
+  content: "";
   position: absolute;
-  right: 0;
+  right: 2px;
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 21px;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 0.25s ease;
 }
 
 .accordion-trigger[aria-expanded="true"]::after {
-  content: "\2013";
+  transform: translateY(-30%) rotate(-135deg);
 }
 
 .accordion-panel {
@@ -1762,58 +1847,40 @@
   padding: 0 0 18px;
 }
 
-/* ===== Contato — CTA final de impacto ===== */
-.contato-section {
-  background-color: #254f1a;
-  text-align: center;
-}
-
-.contact-buttons {
+/* ----- FAQ: cada pergunta como um cartão separado (estilo Linktree) ----- */
+#faqAccordion {
+  padding: 0;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-top: 24px;
+  gap: 14px;
 }
 
-.btn-contact {
-  width: 100%;
-  max-width: 320px;
-  border-radius: 9999px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.btn-whatsapp {
-  background-color: #d2e823;
-  color: #1e2330;
-}
-
-.btn-email {
+#faqAccordion .accordion-item {
+  border-bottom: none;
   background-color: #ffffff;
-  color: #1e2330;
+  border-radius: 18px;
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(30, 35, 48, 0.05);
+  transition: box-shadow 0.2s ease;
+  max-width: 60%;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.btn-instagram {
-  background-color: #e9c0e9;
-  color: #1e2330;
+#faqAccordion .accordion-item:hover {
+  box-shadow: 0 6px 18px rgba(30, 35, 48, 0.08);
 }
 
-@media (min-width: 768px) {
-  .contact-buttons {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .btn-contact {
-    width: auto;
-  }
+#faqAccordion .accordion-trigger {
+  padding: 30px 34px 30px 0;
 }
+
 
 /* ===== Animações — scroll reveal ===== */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(-24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   will-change: opacity, transform;
 }

@@ -1,0 +1,40 @@
+/* ===========================================================
+   Splash de abertura — logo desenhado à mão no carregamento
+   (markup inserido só via JS, ver initSplashIntro em main.js)
+   =========================================================== */
+
+.splash-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* acima de .service-modal (1000) e de tudo mais no site */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eff0ec; /* mesma cor do body — a transição pro site fica imperceptível */
+  cursor: pointer;
+  transition: opacity 0.55s ease;
+}
+
+.splash-intro.is-closing {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-intro svg {
+  display: block;
+  width: min(94vw, 1100px);
+  height: auto;
+  overflow: visible;
+  transition: transform 0.55s ease, opacity 0.55s ease; /* "assenta" suavemente enquanto some */
+}
+
+.splash-intro.is-closing svg {
+  transform: scale(0.96);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-intro {
+    transition: none !important;
+  }
+}
