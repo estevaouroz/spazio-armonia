@@ -167,16 +167,15 @@
 }
 
 #langSwitchHeader {
-  position: absolute;
-  top: 35px;
-  right: -10px;
   z-index: 210;
   padding: 8px;
   border-radius: 9999px;
 }
 
-/* some com o menu mobile aberto — só o "X" fica visível no canto */
-.site-header.nav-open + #langSwitchHeader {
+/* some com o menu mobile aberto — só o "X" fica visível no canto.
+   agora que #langSwitchHeader mora dentro do header, .nav-open é
+   ancestral (não mais irmão), daí o seletor de descendente */
+.site-header.nav-open #langSwitchHeader {
   display: none;
 }
 
@@ -188,7 +187,10 @@
     padding-top: 64px;
   }
 
+  /* no mobile o pill não tem espaço sobrando pras bandeiras, então elas
+     saem do fluxo do flex e sobem pra uma faixa acima do pill */
   #langSwitchHeader {
+    position: absolute;
     top: 10px;
     right: auto;
     left: 50%;
@@ -222,19 +224,6 @@
 .lang-btn.active {
   opacity: 1;
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #144673;
-}
-
-/* ===== CTA do header =====
-   especificidade de elemento (a.btn-header-cta) para vencer a regra
-   genérica .btn de pages/home.css, que carrega depois no <head> */
-a.btn-header-cta {
-  flex-shrink: 0;
-  padding: 11px 24px;
-  background-color: #FAE18C;
-  color: #144673;
-  font-size: 14px;
-  font-weight: 600;
-  margin-right: 10px;
 }
 
 @media (min-width: 1024px) {
