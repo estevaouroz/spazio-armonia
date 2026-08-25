@@ -72,8 +72,18 @@ function initHeaderScroll(){
   const threshold = 80;
   let lastY = window.scrollY;
 
+  /* "is-top": ainda dentro do hero (topo da página). Só nesse estado o
+     header ganha o respiro extra pro barramento das bandeiras (ver
+     header.css); ao rolar pra outras seções, some e volta ao espaçamento
+     compacto normal. */
+  const updateTopState = (y) => {
+    header.classList.toggle('is-top', y <= threshold);
+  };
+  updateTopState(lastY);
+
   window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
+    updateTopState(currentY);
 
     if (nav && nav.classList.contains('open')){
       lastY = currentY;
@@ -422,16 +432,30 @@ function initMobileNav(){
   const nav = document.getElementById('mainNav');
   if (!hamburger || !nav) return;
 
-  hamburger.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('open');
+  const header = document.querySelector('.site-header');
+
+  function setOpen(isOpen){
+    nav.classList.toggle('open', isOpen);
+    hamburger.classList.toggle('is-active', isOpen);
     hamburger.setAttribute('aria-expanded', String(isOpen));
+
+    /* trava o scroll da página por trás do overlay e garante que o header
+       (que pode estar escondido por scroll, ver initHeaderScroll) fique
+       sempre visível e parado enquanto o menu está aberto — sem isso, um
+       header já com transform: translateY(-130%) arrasta o #mainNav (que
+       vive dentro dele) junto, já que um ancestral com transform vira o
+       containing block de um filho position: fixed. */
+    document.documentElement.style.overflow = isOpen ? 'hidden' : '';
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    if (header) header.classList.toggle('nav-open', isOpen);
+  }
+
+  hamburger.addEventListener('click', () => {
+    setOpen(!nav.classList.contains('open'));
   });
 
   nav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', () => setOpen(false));
   });
 }
 
@@ -1024,6 +1048,7 @@ function initServiceModal(){
       badgesEl.appendChild(nivelPill);
     }
 
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('is-open');
@@ -1053,6 +1078,7 @@ function initServiceModal(){
     if (!modal.classList.contains('is-open')) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     document.dispatchEvent(new CustomEvent('service-modal:close'));
   }
@@ -1241,6 +1267,7 @@ function initSplashIntro(){
   overlay.appendChild(splashSvg);
 
   document.body.insertBefore(overlay, document.body.firstChild);
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
   revealPage(); /* seguro agora — o overlay já está no DOM cobrindo a tela */
 
@@ -1258,13 +1285,14 @@ function initSplashIntro(){
   });
   if (!draw){
     overlay.remove();
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     markIntroSeen();
     return;
   }
 
   const HOLD_AFTER_DRAW = 350;    /* segura o logo completo por um instante antes de fechar sozinho */
-  const FADE_DURATION = 550;      /* duração do fade de saída */
+  const FADE_DURATION = 850;      /* duração do fade de saída (bate com splash-intro.css) */
   const SAFETY_TIMEOUT = draw.duration + 2000; /* rede de segurança bem depois do fim natural */
 
   let closed = false;
@@ -1278,6 +1306,7 @@ function initSplashIntro(){
     clearTimeout(safetyTimer);
     document.removeEventListener('keydown', onKeydown);
     overlay.removeEventListener('click', closeOnce);
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
     markIntroSeen();
 

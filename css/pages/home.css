@@ -26,7 +26,13 @@
 }
 
 h2 {
-  margin-bottom: 50px;
+  margin-bottom: 15px;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    margin-bottom: 50px;
+  }
 }
 
 .section-title {
@@ -251,7 +257,7 @@ h2 {
 }
 
 .hero-cta-row {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   justify-content: center;
   gap: 13px;
@@ -296,6 +302,8 @@ h2 {
 .hero-photo {
   position: relative;
   width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
   animation: pop-in 0.7s ease 0.1s both;
 }
 
@@ -352,7 +360,7 @@ h2 {
 
 .hero-photo-frame {
   width: 100%;
-  height: 320px;
+  height: 280px;
   margin: 0;
   border-radius: 2px;
   overflow: hidden;
@@ -405,6 +413,8 @@ h2 {
 
   .hero-photo {
     flex: 0 0 50%;
+    max-width: none;
+    margin: 0;
   }
 
   .hero-photo-frame {
@@ -413,7 +423,11 @@ h2 {
     max-height: 640px;
   }
 
-  .hero-cta-row,
+  .hero-cta-row {
+    display: flex;
+    justify-content: flex-start;
+  }
+
   .social-proof-pill {
     justify-content: flex-start;
   }
@@ -443,8 +457,18 @@ h2 {
 .sobre-watermark {
   display: block;
   margin: 0 auto;
-  height: 40vh;
+  height: 15vh;
   overflow: visible;
+}
+
+.sobre-section {
+  padding: 40px 0;
+}
+
+@media (min-width: 768px) {
+  .sobre-section {
+    padding: 80px 0;
+  }
 }
 
 /* Escrita à mão (Sobre): toda a animação (estado escondido, transitions e
@@ -730,21 +754,25 @@ h2 {
 
 @media (max-width: 640px) {
   .showcase {
-    --tilt-y: -24deg;
-    --tilt-x: 6deg;
-    --tilt-z: -3deg;
+    /* de frente no mobile — sem inclinação 3D, só o tamanho/perspectiva mudam */
+    --tilt-y: 0deg;
+    --tilt-x: 0deg;
+    --tilt-z: 0deg;
     --perspective: 750px;
-    padding: 0 56px 0 24px;
+    padding: 0 50px;
   }
 
   .showcase-stage {
-    width: min(70vw, 260px);
-    height: min(70vw * 1.55, 400px);
+    width: min(70vw, 300px);
+    height: min(70vw * 1.55, 500px);
   }
 
+  /* selo encostado no canto superior direito do próprio cartão, em vez
+     de flutuar solto pra fora (que estourava o padding no mobile) */
   .showcase-decor {
-    top: -8%;
-    left: calc(100% + 18px);
+    top: -10px;
+    left: auto;
+    right: -10px;
   }
 
   .showcase-social {
@@ -968,7 +996,7 @@ h2 {
 
 .ticket-card {
   position: sticky;
-  height: 760px;
+  height: 780px;
   padding: 28px;
   border: 2px dashed rgba(30, 35, 48, 0.28);
   border-radius: 24px;
@@ -1863,9 +1891,15 @@ h2 {
   padding: 0 24px;
   box-shadow: 0 1px 3px rgba(30, 35, 48, 0.05);
   transition: box-shadow 0.2s ease;
-  max-width: 60%;
+  max-width: 100%;
   margin: 0 auto;
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  #faqAccordion .accordion-item {
+    max-width: 60%;
+  }
 }
 
 #faqAccordion .accordion-item:hover {
