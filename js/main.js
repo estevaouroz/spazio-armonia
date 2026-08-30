@@ -72,10 +72,9 @@ function initHeaderScroll(){
   const threshold = 80;
   let lastY = window.scrollY;
 
-  /* "is-top": ainda dentro do hero (topo da página). Só nesse estado o
-     header ganha o respiro extra pro barramento das bandeiras (ver
-     header.css); ao rolar pra outras seções, some e volta ao espaçamento
-     compacto normal. */
+  /* "is-top": ainda dentro do hero (topo da página) — outras partes do
+     header.css podem usar esse estado pra ajustes visuais específicos do
+     topo; ao rolar pra outras seções, some. */
   const updateTopState = (y) => {
     header.classList.toggle('is-top', y <= threshold);
   };
@@ -116,7 +115,7 @@ const SHOWCASE_ICON = '<path d="M12 20.5S3.5 15.4 3.5 9.6C3.5 6.4 5.9 4.5 8.5 4.
 const SHOWCASE_THEMES = [
   {
     key: 'yoga',
-    photo: 'assets/images/marina/marina-1992.webp',
+    photo: 'assets/images/marina/marina-2029.webp',
     caption: 'Yoga',
     captionSub: 'Prática diária de equilíbrio',
     stickerRotate: -6,
@@ -870,12 +869,18 @@ function initGalleryMarquee(){
   const baseSet = track.querySelector('.clothesline-set');
   if (!baseSet) return;
 
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTOPLAY_SPEED = 32; // px por segundo — bem lento, tipo brisa
+
   let setWidth = 0;
   let pos = 0;
   let dragging = false;
   let dragStartX = 0;
   let dragStartPos = 0;
   let dragMoved = 0;
+  let autoplayPaused = false;
+  let rafId = null;
+  let lastFrameTime = null;
 
   function relabelCopy(setEl, index){
     setEl.querySelectorAll('[data-fancybox]').forEach(a => {
@@ -919,6 +924,32 @@ function initGalleryMarquee(){
 
   function render(){
     track.style.transform = `translateX(${pos}px)`;
+  }
+
+  /* varal anda sozinho pra esquerda feito uma esteira contínua (não é o slide
+     com paradas do carrossel dos serviços); pausa ao arrastar, passar o mouse
+     ou focar dentro dele, e nem começa a andar se o usuário prefere menos
+     movimento na tela. */
+  function autoplayTick(timestamp){
+    if (lastFrameTime === null) lastFrameTime = timestamp;
+    const deltaSeconds = (timestamp - lastFrameTime) / 1000;
+    lastFrameTime = timestamp;
+
+    if (!dragging && !autoplayPaused && setWidth > 0) {
+      pos -= AUTOPLAY_SPEED * deltaSeconds;
+      wrap();
+      render();
+    }
+    rafId = requestAnimationFrame(autoplayTick);
+  }
+
+  function pauseAutoplay(){
+    autoplayPaused = true;
+  }
+
+  function resumeAutoplay(){
+    autoplayPaused = false;
+    lastFrameTime = null;
   }
 
   function pointerDown(e){
@@ -987,6 +1018,14 @@ function initGalleryMarquee(){
   /* sem isso, clicar e arrastar em cima do link/imagem da foto dispara o
      "arrastar link" nativo do navegador em vez do nosso drag do varal */
   marquee.addEventListener('dragstart', e => e.preventDefault());
+
+  if (!reduceMotion) {
+    marquee.addEventListener('mouseenter', pauseAutoplay);
+    marquee.addEventListener('mouseleave', resumeAutoplay);
+    marquee.addEventListener('focusin', pauseAutoplay);
+    marquee.addEventListener('focusout', resumeAutoplay);
+    rafId = requestAnimationFrame(autoplayTick);
+  }
 }
 
 /* ============ MODAL DE DETALHES DA AULA ============
@@ -1123,6 +1162,14 @@ function prepareLogoDraw(svg, opts){
   const ICON_START = 0;                                  /* ícone começa a aparecer imediatamente */
   const WORDS_START = opts.wordsStart != null ? opts.wordsStart : ICON_START + 0.5; /* palavras começam a se desenhar logo depois */
 
+  /* a letra "A" (#logoLetterA) entra primeiro, sozinha, com um pequeno "pop"
+     de escala — dá o charme de destaque sem travar a animação parada no ar.
+     O resto do logo entra logo em seguida, com uma pequena sobreposição
+     (OVERLAP) pra fluir como continuação e não como uma pausa seca. */
+  const LETTER_A_HOLD = 0.85;
+  const LETTER_A_OVERLAP = 0.25;
+  const REST_START = Math.max(ICON_START, ICON_START + LETTER_A_HOLD - LETTER_A_OVERLAP);
+
   /* PASSO 1: aplica o estado escondido SEM transition ainda — se a transition
      fosse anexada junto, o navegador já dispararia a animação na hora (do
      valor padrão visível para o escondido), assim que a página carregasse. */
@@ -1130,6 +1177,11 @@ function prepareLogoDraw(svg, opts){
     path.classList.add('logo-icon-path');
     path.style.transition = 'none';
     path.style.opacity = '0';
+    if (path.id === 'logoLetterA'){
+      path.style.transformBox = 'fill-box';
+      path.style.transformOrigin = 'center';
+      path.style.transform = 'scale(.94)';
+    }
   });
 
   const wordInfo = wordPaths.map(path => {
@@ -1152,13 +1204,27 @@ function prepareLogoDraw(svg, opts){
   void svg.getBoundingClientRect();
 
   /* PASSO 3: agora sim anexa as transitions com o delay de cada letra/traço */
-  iconPaths.forEach((path, i) => {
-    path.style.transition = 'opacity ' + ICON_DURATION + 's ease ' + (ICON_START + i * ICON_STAGGER) + 's';
+  /* a letra A não entra no stagger normal do ícone — ela abre sozinha em
+     ICON_START (com seu próprio "pop" de escala), e o resto do ícone entra
+     em seguida a partir de REST_START, deslocando o stagger dos demais
+     paths pra trás */
+  let otherIconIndex = 0;
+  iconPaths.forEach(path => {
+    if (path.id === 'logoLetterA'){
+      const popDuration = ICON_DURATION * 1.3;
+      path.style.transition =
+        'opacity ' + ICON_DURATION + 's ease ' + ICON_START + 's, ' +
+        'transform ' + popDuration + 's cubic-bezier(.16,1,.3,1) ' + ICON_START + 's';
+    } else {
+      const delay = REST_START + otherIconIndex * ICON_STAGGER;
+      path.style.transition = 'opacity ' + ICON_DURATION + 's ease ' + delay + 's';
+      otherIconIndex++;
+    }
   });
 
   let lastWordFinish = 0;
   wordInfo.forEach((path, i) => {
-    const strokeDelay = WORDS_START + i * STROKE_STAGGER;
+    const strokeDelay = REST_START + WORDS_START + i * STROKE_STAGGER;
     const fillDelay = strokeDelay + STROKE_DURATION * 0.75;
     path.style.transition =
       'stroke-dashoffset ' + STROKE_DURATION + 's ease ' + strokeDelay + 's, ' +
@@ -1166,15 +1232,24 @@ function prepareLogoDraw(svg, opts){
     lastWordFinish = Math.max(lastWordFinish, fillDelay + FILL_DURATION);
   });
 
-  const lastIconFinish = iconPaths.length
-    ? ICON_START + (iconPaths.length - 1) * ICON_STAGGER + ICON_DURATION
-    : 0;
+  let otherIconCount = 0;
+  const lastIconFinish = iconPaths.reduce((max, path) => {
+    if (path.id === 'logoLetterA'){
+      return Math.max(max, ICON_START + ICON_DURATION * 1.3);
+    }
+    const delay = REST_START + otherIconCount * ICON_STAGGER;
+    otherIconCount++;
+    return Math.max(max, delay + ICON_DURATION);
+  }, 0);
 
   svg.classList.add('logo-draw-ready');
 
   function play(){
     svg.classList.add('logo-draw-active');
-    iconPaths.forEach(path => { path.style.opacity = '1'; });
+    iconPaths.forEach(path => {
+      path.style.opacity = '1';
+      if (path.id === 'logoLetterA') path.style.transform = 'scale(1)';
+    });
     wordInfo.forEach(path => {
       path.style.strokeDashoffset = '0';
       path.style.fillOpacity = '1';
@@ -1211,7 +1286,7 @@ function initLogoWriteAnimation(){
   observer.observe(svg);
 }
 
-/* ============ SPLASH DE ABERTURA (só na primeira visita) ============ */
+/* ============ SPLASH DE ABERTURA (toda carga da página) ============ */
 function initSplashIntro(){
   /* o script inline no <head> pode ter escondido a página (document.documentElement)
      pra evitar o flash "site → splash → site" — revela de volta em TODO caminho
@@ -1223,31 +1298,8 @@ function initSplashIntro(){
   const sourceSvg = document.getElementById('sobreLogo');
   if (!sourceSvg){ revealPage(); return; }
 
-  const params = new URLSearchParams(window.location.search);
-  const forcePreview = params.get('intro') === '1'; /* ?intro=1 força rever a splash em testes */
-
-  const STORAGE_KEY = 'spazioIntroSeen';
-
-  function introAlreadySeen(){
-    if (forcePreview) return false;
-    try {
-      return window.localStorage && window.localStorage.getItem(STORAGE_KEY) === '1';
-    } catch (e) {
-      return true; /* storage indisponível (modo privado, política do navegador) → nunca bloqueia o site */
-    }
-  }
-
-  function markIntroSeen(){
-    if (forcePreview) return;
-    try { window.localStorage && window.localStorage.setItem(STORAGE_KEY, '1'); }
-    catch (e) { /* não é crítico se não conseguir gravar */ }
-  }
-
-  if (introAlreadySeen()){ revealPage(); return; }
-
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion){
-    markIntroSeen(); /* não mostra a splash, mas não pergunta de novo nesse navegador */
     revealPage();
     return;
   }
@@ -1280,14 +1332,13 @@ function initSplashIntro(){
     strokeStagger: 0.09,    /* intervalo entre uma letra e a próxima */
     fillDuration: 0.22,     /* tempo do "tinteiro" preenchendo a letra */
     iconDuration: 0.6,      /* fade do ícone ARMONIA */
-    iconStagger: 0.05,
+    iconStagger: 0.16,      /* intervalo entre uma letra e a próxima do ícone — maior pra não parecer que "estoura" tudo junto */
     wordsStart: 0.35        /* espera antes de começar a desenhar as letras */
   });
   if (!draw){
     overlay.remove();
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    markIntroSeen();
     return;
   }
 
@@ -1308,7 +1359,6 @@ function initSplashIntro(){
     overlay.removeEventListener('click', closeOnce);
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    markIntroSeen();
 
     overlay.classList.add('is-closing');
     /* transitionend borbulha das letras do SVG ainda em desenho (fill-opacity,

@@ -7,15 +7,13 @@
 /* Esconde a página ANTES da primeira pintura se a splash vai rodar — sem
    isso, o navegador chega a mostrar o site (main.js só roda no fim do body)
    e só depois cobre com a splash, causando um "flash" site→splash→site.
-   Mesma checagem de gate/reduced-motion do initSplashIntro em js/main.js;
+   A splash roda em TODA carga da página (sem gate de "já visto") — só
+   reduced-motion pula ela. Mesma checagem do initSplashIntro em js/main.js;
    mantenha as duas em sincronia se uma mudar. */
 (function(){
   try {
-    var params = new URLSearchParams(window.location.search);
-    var forced = params.get('intro') === '1';
-    var seen = !forced && window.localStorage && localStorage.getItem('spazioIntroSeen') === '1';
     var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!seen && !reduced){
+    if (!reduced){
       document.documentElement.style.visibility = 'hidden';
       /* rede de segurança: se o JS travar antes de revelar a página, não
          pode ficar escondida pra sempre */
@@ -83,6 +81,24 @@
           <li><a href="#contato" data-i18n="nav.contato">Contato</a></li>
           <li><a href="#agendamento" data-i18n="nav.agendamento">Agendar</a></li>
         </ul>
+
+        <!-- mesmas bandeiras do #langSwitchHeader (que continua visível no
+             pill em qualquer tamanho de tela), repetidas aqui dentro do
+             overlay do menu mobile — no desktop o #mainNav vira a barra de
+             navegação normal e esse bloco some (ver header.css). Sincroniza
+             sozinho com o #langSwitchHeader porque o JS do i18n escuta TODO
+             ".lang-btn" da página, não um switch específico. -->
+        <div class="lang-switch" id="langSwitchNav">
+          <button type="button" data-lang="pt" class="lang-btn" aria-label="Português">
+            <img src="assets/img/icons8-brasil-circular-48.png" alt="PT">
+          </button>
+          <button type="button" data-lang="en" class="lang-btn" aria-label="English">
+            <img src="assets/img/icons8-grã-bretanha-circular-48.png" alt="EN">
+          </button>
+          <button type="button" data-lang="it" class="lang-btn" aria-label="Italiano">
+            <img src="assets/img/icons8-itália-circular-32.png" alt="IT">
+          </button>
+        </div>
       </nav>
 
       <div class="lang-switch" id="langSwitchHeader">
@@ -149,7 +165,7 @@
         </figure>
         <figure class="hero-polaroid" data-stack-index="3">
           <div class="hero-photo-frame">
-            <img src="/assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga no Spazio Armonia" loading="lazy">
+            <img src="/assets/images/marina/marina-2025.webp" alt="Aula de yoga no Spazio Armonia" loading="lazy">
           </div>
           <figcaption class="hero-polaroid-caption" data-i18n="hero.photoCaptionYoga">Yoga</figcaption>
         </figure>
@@ -236,7 +252,7 @@
 
             <article class="service-card">
               <div class="service-card-photo">
-                <img src="assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Yoga" loading="lazy">
+                <img src="assets/images/yoga-aula-1.webp" alt="Yoga" loading="lazy">
               </div>
               <div class="service-card-body">
                 <span class="service-card-icon" aria-hidden="true"><img src="assets/img/yoga-02-svgrepo-com.svg" alt=""></span>
@@ -296,7 +312,7 @@
 
             <article class="service-card">
               <div class="service-card-photo">
-                <img src="assets/images/images.jpeg" alt="Yoga" loading="lazy">
+                <img src="assets/images/yoga-aula-2.webp" alt="Yoga" loading="lazy">
               </div>
               <div class="service-card-body">
                 <span class="service-card-icon" aria-hidden="true"><img src="assets/img/yoga-02-svgrepo-com.svg" alt=""></span>
@@ -348,7 +364,7 @@
     </defs>
     <g transform="translate(1938.13,0) rotate(90)">
     <g>
-      <path class="cls-3" d="M356.01,1452.37c.5-3.99,4.22-6.85,8.21-6.33,10.21,1.34,24.76,2.17,36.39,2.17h424.79c6.69,0,12.85-.52,18.15-1.39,4.45-.73,8.49,2.65,8.49,7.16v21.78c0,4.35-3.84,7.67-8.15,7.07-5.07-.71-10.83-.98-18.49-.98h-33.34c-4.02,0-7.28,3.26-7.28,7.28v122.21c0,4.02,3.26,7.28,7.28,7.28h5.9c114.66,0,233.26,23.72,233.26,141.01,0,73.8-46.79,106.09-86.32,106.09-35.58,0-58.64-25.7-58.64-51.4,0-21.75,16.47-34.26,30.31-34.26h1.96c-3.95,4.61-6.59,11.86-6.59,18.45,0,13.83,11.86,28.33,32.94,28.33,22.4,0,51.39-17.13,51.39-66.54,0-84.32-82.35-108.04-196.98-108.04h-143.12c-206.05-.67-301.71-68.24-301.71-174.6,0-6.82.41-16.11,1.56-25.29ZM753.39,1609.11v-119.97c0-4.02-3.26-7.28-7.28-7.28h-348.67c-4.02,0-7.28,3.26-7.28,7.28v4.65c0,64.94,81.53,122.6,269.11,122.6h86.84c4.02,0,7.28-3.26,7.28-7.28Z"/>
+      <path id="logoLetterA" class="cls-3" d="M356.01,1452.37c.5-3.99,4.22-6.85,8.21-6.33,10.21,1.34,24.76,2.17,36.39,2.17h424.79c6.69,0,12.85-.52,18.15-1.39,4.45-.73,8.49,2.65,8.49,7.16v21.78c0,4.35-3.84,7.67-8.15,7.07-5.07-.71-10.83-.98-18.49-.98h-33.34c-4.02,0-7.28,3.26-7.28,7.28v122.21c0,4.02,3.26,7.28,7.28,7.28h5.9c114.66,0,233.26,23.72,233.26,141.01,0,73.8-46.79,106.09-86.32,106.09-35.58,0-58.64-25.7-58.64-51.4,0-21.75,16.47-34.26,30.31-34.26h1.96c-3.95,4.61-6.59,11.86-6.59,18.45,0,13.83,11.86,28.33,32.94,28.33,22.4,0,51.39-17.13,51.39-66.54,0-84.32-82.35-108.04-196.98-108.04h-143.12c-206.05-.67-301.71-68.24-301.71-174.6,0-6.82.41-16.11,1.56-25.29ZM753.39,1609.11v-119.97c0-4.02-3.26-7.28-7.28-7.28h-348.67c-4.02,0-7.28,3.26-7.28,7.28v4.65c0,64.94,81.53,122.6,269.11,122.6h86.84c4.02,0,7.28-3.26,7.28-7.28Z"/>
       <path class="cls-3" d="M495.53,1418.44c-2.31.45-4.47-1.27-4.47-3.62v-46.68c0-76.05,54.89-130.28,122.35-130.28,47.54,0,93.79,30.13,116.66,80.94.65,1.43,2.1,2.36,3.67,2.27,66.64-3.82,84.68-53.77,84.68-78.58v-5.43c-.02-2.24,1.81-4.08,4.06-4.08h25.96c1.44,0,2.77.82,3.38,2.13,2.14,4.61,2.14,9.35,2.14,15.08,0,40.37-42.77,107.87-130.94,104.56-7.05-.59-13.05-1.71-19.4-3.82-1.41-.47-2.37-1.77-2.52-3.25-4-40.05-42.79-75.65-86-75.65-36.85,0-88.17,29.12-88.17,88.68v18.75c0,2.07,1.68,3.75,3.75,3.75h292.55c8.42,0,16.01-.83,22.1-2.15,2.31-.5,4.48,1.3,4.48,3.66v30.03c0,2.34-2.13,4.15-4.42,3.7-6-1.18-12.59-1.61-22.15-1.61h-305.6c-9.04,0-15.96.42-22.11,1.61Z"/>
       <path class="cls-3" d="M584.28,963.66l240.05,80.71c1.82.61,3.05,2.32,3.05,4.24v28.56c0,1.92-1.23,3.63-3.05,4.25l-238.66,80.05c-4.81,1.61-3.65,8.72,1.42,8.72h236.34c7.94,0,15.14-.75,21.02-1.96,2.77-.57,5.36,1.54,5.36,4.37v27.47c0,2.92-2.74,5.07-5.56,4.33-5.61-1.47-12.3-2.32-20.05-2.81-.11,0-.22-.01-.33-.01h-301.89c-8.67,0-15.38,0-21.33.91-2.7.41-5.11-1.7-5.11-4.42v-39.7c0-2.29,1.78-4.16,4.07-4.31,5.18-.33,11.44-2.11,19.73-4.7l252.05-84.03c4.15-1.38,4.06-7.29-.13-8.54-31.51-9.34-75.55-24-251.92-82.61-8.15-2.55-14.73-3.92-19.74-4.41-2.3-.23-4.06-2.14-4.06-4.45v-41.06c0-2.79,2.52-4.91,5.27-4.4,5.74,1.06,12.11,1.44,21.17,1.44h301.91c.09,0,.19,0,.28,0,8.31-.49,14.81-.98,20.3-2.02,2.78-.52,5.34,1.6,5.34,4.42v28.82c0,2.83-2.58,4.95-5.36,4.37-5.88-1.22-13.08-1.96-21.02-1.96h-237.72c-5.07,0-6.24,7.11-1.43,8.72Z"/>
       <path class="cls-2" d="M495.26,750.72c6.23-66.85,64.04-118.51,131.18-117.94,71.74.61,129.46,58.71,129.46,129.93s-58.34,129.28-130.6,129.28-137.15-65.03-130.04-141.26ZM852.05,858.83v8.15c0,4.9-4.37,8.65-9.21,7.91l-15.13-2.32c-5.35-.82-9.29-5.42-9.29-10.83l2.24-7.55v-185.7c-.01-5.53,3.72-10.37,9.08-11.74,4.85-1.24,9.18-2.44,13.53-3.67,4.41-1.25,8.79,2.06,8.79,6.65v6.86s0,192.25,0,192.25ZM722.76,762.7c0-53.04-42.43-94.8-97.45-94.8s-97.45,41.76-97.45,94.8,43.09,94.14,97.45,94.14,97.45-41.11,97.45-94.14Z"/>
@@ -570,7 +586,7 @@
               <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.yoga.feature.cta">Agendar aula</a>
             </div>
             <div class="feature-photo">
-              <img src="assets/images/female-instructor-with-yoga-class-in-the-gym-royalty-free-image-700718696-1561407106.avif" alt="Aula de yoga" loading="lazy">
+              <img src="assets/images/yoga-aula-2.webp" alt="Aula de yoga" loading="lazy">
             </div>
           </div>
         </article>
@@ -813,62 +829,38 @@
           <div class="clothesline-set">
             <figure class="peg-photo size-lg tilt-1">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-yoga-1/1200/1200" data-fancybox="galeria" data-caption="Yoga" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-yoga-1/440/440" alt="Yoga" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2071.webp" data-fancybox="galeria" data-caption="Vela em dupla" draggable="false">
+                <img src="assets/images/galeria/galeria-2071.webp" alt="Vela em dupla" loading="lazy" draggable="false">
               </a>
             </figure>
             <figure class="peg-photo size-sm tilt-2">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-musica-1/1200/1200" data-fancybox="galeria" data-caption="Música" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-musica-1/440/440" alt="Música" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2072.webp" data-fancybox="galeria" data-caption="Alongamento em dupla" draggable="false">
+                <img src="assets/images/galeria/galeria-2072.webp" alt="Alongamento em dupla" loading="lazy" draggable="false">
               </a>
             </figure>
             <figure class="peg-photo tilt-3">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-italiano-1/1200/1200" data-fancybox="galeria" data-caption="Italiano" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-italiano-1/440/440" alt="Italiano" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2073.webp" data-fancybox="galeria" data-caption="Vela e sorriso" draggable="false">
+                <img src="assets/images/galeria/galeria-2073.webp" alt="Vela e sorriso" loading="lazy" draggable="false">
               </a>
             </figure>
             <figure class="peg-photo size-sm tilt-4">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-espaco-1/1200/1200" data-fancybox="galeria" data-caption="Espaço físico" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-espaco-1/440/440" alt="Espaço físico" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2078.webp" data-fancybox="galeria" data-caption="Turma em vela" draggable="false">
+                <img src="assets/images/galeria/galeria-2078.webp" alt="Turma em vela" loading="lazy" draggable="false">
               </a>
             </figure>
             <figure class="peg-photo size-lg tilt-5">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-yoga-2/1200/1200" data-fancybox="galeria" data-caption="Yoga em grupo" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-yoga-2/440/440" alt="Yoga em grupo" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2086.webp" data-fancybox="galeria" data-caption="Relaxamento guiado" draggable="false">
+                <img src="assets/images/galeria/galeria-2086.webp" alt="Relaxamento guiado" loading="lazy" draggable="false">
               </a>
             </figure>
             <figure class="peg-photo tilt-1">
               <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-musica-2/1200/1200" data-fancybox="galeria" data-caption="Aula de música" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-musica-2/440/440" alt="Aula de música" loading="lazy" draggable="false">
-              </a>
-            </figure>
-            <figure class="peg-photo size-sm tilt-2">
-              <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-italiano-2/1200/1200" data-fancybox="galeria" data-caption="Conversação em italiano" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-italiano-2/440/440" alt="Conversação em italiano" loading="lazy" draggable="false">
-              </a>
-            </figure>
-            <figure class="peg-photo size-lg tilt-3">
-              <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-yoga-3/1200/1200" data-fancybox="galeria" data-caption="Alongamento" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-yoga-3/440/440" alt="Alongamento" loading="lazy" draggable="false">
-              </a>
-            </figure>
-            <figure class="peg-photo tilt-4">
-              <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-espaco-2/1200/1200" data-fancybox="galeria" data-caption="Espaço físico" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-espaco-2/440/440" alt="Espaço físico" loading="lazy" draggable="false">
-              </a>
-            </figure>
-            <figure class="peg-photo size-sm tilt-5">
-              <span class="clip" aria-hidden="true"></span>
-              <a href="https://picsum.photos/seed/spazio-musica-3/1200/1200" data-fancybox="galeria" data-caption="Piano" draggable="false">
-                <img src="https://picsum.photos/seed/spazio-musica-3/440/440" alt="Piano" loading="lazy" draggable="false">
+              <a href="assets/images/galeria/galeria-2093.webp" data-fancybox="galeria" data-caption="Meditação em grupo" draggable="false">
+                <img src="assets/images/galeria/galeria-2093.webp" alt="Meditação em grupo" loading="lazy" draggable="false">
               </a>
             </figure>
           </div>
@@ -896,11 +888,18 @@
         <p data-i18n="localizacao.endereco">Rua Exemplo, 123 - Florianópolis, SC</p>
       </div>
       <div class="location-map">
-        <!-- Iframe do Google Maps: coordenadas genéricas de Florianópolis, trocar pelo endereço real depois -->
+        <!-- Iframe do Google Maps: coordenadas genéricas de Florianópolis, trocar pelo endereço real depois.
+             formato "q=lat,lng&z=NÍVEL&output=embed": z vai de 1 (mundo todo) a 20 (nível de prédio) —
+             pra dar mais ou menos zoom no mapa, só mudar o número depois do "z=". -->
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14184.0!2d-48.5482!3d-27.5954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDM1JzQzLjQiUyA0OMKwMzInNTMuNSJX!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
-          width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy"
+          src="https://www.google.com/maps?q=-27.5954,-48.5482&z=17&output=embed"
+          style="border:0;" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade" title="Mapa Florianópolis"></iframe>
+        <!-- substitui visualmente o pin padrão do Google pelo monograma da marca;
+             fica sempre centralizado porque o embed "q=lat,lng" centraliza o marcador -->
+        <div class="location-pin" aria-hidden="true">
+          <span class="location-pin-badge"><img src="assets/img/icon-navy.png" alt=""></span>
+        </div>
       </div>
     </div>
   </section>

@@ -466,6 +466,11 @@ h2 {
 }
 
 @media (min-width: 768px) {
+
+  .sobre-watermark {
+    height: 30vh;
+    max-height: 600px;
+  }
   .sobre-section {
     padding: 80px 0;
   }
@@ -963,7 +968,11 @@ h2 {
 }
 
 
-@media (min-width: 768px) {
+/* o showcase (foto da professora) tem largura fixa de 500px (.showcase-stage)
+   + padding próprio — lado a lado com o texto a partir de 768px isso
+   espremia o conteúdo no tablet (768-1023px). Empilhado (coluna) até
+   1024px, só vira linha no desktop de verdade, onde sobra espaço. */
+@media (min-width: 1024px) {
   .professora-inner {
     flex-direction: row;
     align-items: center;
@@ -996,7 +1005,11 @@ h2 {
 
 .ticket-card {
   position: sticky;
-  height: 780px;
+  /* 780px não sobrava espaço suficiente pro conteúdo (foto + texto + lista
+     de 4 itens + botão) em telas mais estreitas (~320-390px), onde o texto
+     quebra em mais linhas — o overflow:hidden cortava o botão "Agendar
+     aula" ao meio. 900px dá folga até no iPhone SE (320px de largura). */
+  height: 900px;
   padding: 28px;
   border: 2px dashed rgba(30, 35, 48, 0.28);
   border-radius: 24px;
@@ -1617,10 +1630,12 @@ h2 {
   .clothesline-heading { font-size: 42px; }
 }
 
-/* o varal infinito — parado por padrão, só anda quando arrastado (mouse/touch),
-   pra qualquer lado, sem fim. Antes do JS entrar, é uma fileira só com scroll
-   nativo (fallback); o JS então clona cópias do conjunto o quanto for preciso
-   pra cobrir a tela inteira (não importa o tamanho dela) e assume o arraste. */
+/* o varal infinito — anda sozinho pra esquerda feito uma esteira (autoplay
+   contínuo via rAF no JS), pausa ao passar o mouse/focar, e também pode ser
+   arrastado (mouse/touch) pra qualquer lado, sem fim. Antes do JS entrar, é
+   uma fileira só com scroll nativo (fallback); o JS então clona cópias do
+   conjunto o quanto for preciso pra cobrir a tela inteira (não importa o
+   tamanho dela) e assume tanto o autoplay quanto o arraste. */
 .clothesline-marquee {
   position: relative;
   overflow-x: auto;
@@ -1796,29 +1811,101 @@ h2 {
 }
 
 /* ===== Localização ===== */
+/* mesmo layout empilhado e centralizado do mobile em qualquer tamanho de
+   tela — título e subtítulo centralizados, mapa embaixo também centralizado,
+   só que maior conforme a tela cresce. */
 .location-inner {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 32px;
 }
 
-.location-map iframe {
+.location-text {
+  max-width: 640px;
+}
+
+.location-text p {
+  font-size: 17px;
+}
+
+.location-map {
+  position: relative;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* quadrado 800x800 no desktop; aspect-ratio mantém o formato quadrado
+   enquanto encolhe pra caber em telas menores (max-width: 100% do pai) */
+.location-map iframe {
+  width: 1200px;
+  max-width: 100%;
+  height: 800px;
   border-radius: 20px;
 }
 
+/* logo da Spazio Armonia por cima do pin padrão do Google Maps, bem no
+   centro do mapa — mesmo ponto onde o marcador cai (o embed via "q=lat,lng"
+   sempre centraliza o pin). Um badge redondo com "rabinho" pra imitar um
+   pin de mapa de verdade; pointer-events:none pra não travar o arraste/zoom
+   do mapa por baixo. */
+.location-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.location-pin-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;
+  height: 65px;
+  background-color: #fdfdfb;
+  border-radius: 50%;
+  box-shadow: 0 8px 16px rgba(30, 35, 48, 0.32);
+}
+
+.location-pin-badge img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.location-pin::after {
+  content: '';
+  width: 0;
+  height: 0;
+  margin-top: -3px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #fdfdfb;
+  filter: drop-shadow(0 4px 4px rgba(30, 35, 48, 0.25));
+}
+
 @media (min-width: 768px) {
-  .location-inner {
-    flex-direction: row;
-    align-items: flex-start;
+  .location-pin-badge {
+    width: 64px;
+    height: 64px;
   }
 
-  .location-text {
-    flex: 0 0 320px;
+  .location-pin-badge img {
+    width: 36px;
+    height: 36px;
   }
+}
 
-  .location-map {
-    flex: 1;
+@media (min-width: 768px) {
+  .location-text p {
+    font-size: 20px;
   }
 }
 
@@ -2088,4 +2175,53 @@ h2 {
   #serviceModalTitle {
     font-size: 28px;
   }
+}
+
+/* ===== Fancybox — lightbox da galeria =====
+   !important aqui é necessário: o CSS do Fancybox vem de um CDN carregado
+   DEPOIS do nosso <link> no <head>, então em empate de especificidade a
+   regra dele vence a nossa por ordem de cascata — e pra fotos ele ainda tem
+   uma regra mais específica (.fancybox__slide.has-image > .fancybox__content)
+   zerando o padding, por isso ela também precisa ser repetida aqui. */
+.fancybox__content,
+.fancybox__slide.has-image > .fancybox__content {
+  padding: 20px !important;
+}
+
+.fancybox__caption {
+  display: none !important;
+}
+
+.fancybox__backdrop {
+  background-color: #e7e2d3 !important;
+  opacity: 0.9 !important;
+}
+
+/* botões de navegação e da barra de ferramentas: sem fundo, ícone na cor da
+   marca, e um fundo suave no hover — sobrescrevendo as custom properties que
+   o próprio Fancybox usa (--f-button-*), com !important pelo mesmo motivo do
+   bloco acima (CSS do CDN carrega depois do nosso e empata em especificidade,
+   inclusive nas custom properties) */
+.fancybox__nav,
+.fancybox__toolbar.is-absolute {
+  --f-button-color: #144673 !important;
+  --f-button-hover-color: #144673 !important;
+  --f-button-bg: transparent !important;
+  --f-button-hover-bg: #F5F0DC !important;
+  --f-button-active-bg: #F5F0DC !important;
+}
+
+/* a coluna esquerda da toolbar (contador "1/6") não usa --f-button-color —
+   ela herda a cor do texto do Fancybox (--fancybox-color, cinza claro por
+   padrão), por isso precisa da própria declaração de "color" */
+.fancybox__toolbar__column.is-left {
+  color: #144673 !important;
+}
+
+/* rodapé no mobile (.is-compact): por padrão é uma faixa escura translúcida
+   atrás da legenda; como a legenda já fica escondida (.fancybox__caption
+   acima), troca pra a mesma cor do fundo/backdrop pra não sobrar uma faixa
+   escura solta embaixo da foto */
+.is-compact .fancybox__footer {
+  background: #e7e2d3 !important;
 }

@@ -39,7 +39,7 @@
   width: auto;
   max-width: none;
   margin: 0;
-  padding: 11px 11px 11px 24px;
+  padding: 11px 16px 11px 24px;
   background-color: #ffffff;
   border-radius: 9999px;
   box-shadow: 0 8px 30px rgba(20, 70, 115, 0.1);
@@ -50,9 +50,26 @@
   align-items: center;
 }
 
+@media (max-width: 1023px) {
+  /* ordem visual no pill do mobile: logo, bandeiras, hambúrguer — via
+     "order" porque no DOM o hambúrguer vem antes das bandeiras (ele abre
+     o #mainNav, que fica entre os dois na marcação) */
+  .logo-placeholder {
+    order: 1;
+  }
+
+  #langSwitchHeader {
+    order: 2;
+  }
+
+  .hamburger {
+    order: 3;
+  }
+}
+
 .logo-img {
   display: block;
-  height: 55px;
+  height: 65px;
   width: auto;
   padding: 4px;
 }
@@ -172,30 +189,27 @@
   border-radius: 9999px;
 }
 
-/* some com o menu mobile aberto — só o "X" fica visível no canto.
-   agora que #langSwitchHeader mora dentro do header, .nav-open é
-   ancestral (não mais irmão), daí o seletor de descendente */
+/* com o menu mobile aberto, #langSwitchHeader fica por cima do overlay
+   (o próprio z-index:210 dele é maior que o do #mainNav, de propósito,
+   pra também segurar o botão de fechar) — então enquanto o menu está
+   aberto ele soma quem mostra as bandeiras: o #langSwitchNav lá dentro. */
 .site-header.nav-open #langSwitchHeader {
   display: none;
 }
 
-@media (max-width: 1023px) {
-  /* Enquanto a página está no topo (hero), o header ganha um respiro extra
-     acima do pill — um "barramento" só pras bandeiras não ficarem coladas
-     no menu. Some assim que rola pra outras seções (ver initHeaderScroll). */
-  .site-header.is-top {
-    padding-top: 64px;
-  }
+/* bandeiras também dentro do overlay do menu mobile — além das que já
+   ficam visíveis no pill (#langSwitchHeader, com o menu fechado, em
+   qualquer tamanho de tela); escondidas no desktop (ver @media
+   min-width:1024px), onde o menu deixa de ser overlay e vira a barra de
+   navegação normal */
+#langSwitchNav {
+  margin-top: 32px;
+  gap: 16px;
+}
 
-  /* no mobile o pill não tem espaço sobrando pras bandeiras, então elas
-     saem do fluxo do flex e sobem pra uma faixa acima do pill */
-  #langSwitchHeader {
-    position: absolute;
-    top: 10px;
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+#langSwitchNav .lang-btn img {
+  width: 30px;
+  height: 30px;
 }
 
 .lang-btn {
@@ -260,6 +274,12 @@
     display: none;
   }
 
+  /* no desktop o #mainNav vira a barra de navegação normal — quem mostra
+     as bandeiras aqui é o #langSwitchHeader no pill, não esse bloco */
+  #langSwitchNav {
+    display: none;
+  }
+
   .main-nav ul {
     flex-direction: row;
     flex-wrap: nowrap;
@@ -277,7 +297,7 @@
     border-radius: 0;
     background-color: transparent;
     color: inherit;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
   }
 
