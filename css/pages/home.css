@@ -1586,10 +1586,23 @@ h2 {
 
 /* ===== Galeria — varal de fotos com pregadores, réplica do layout de refer­ência
    (dois blocos de texto + fio único + fotos quadradas sem legenda), no tom cru do site ===== */
+/* o bege do mural nasce e morre no #eff0ec das seções vizinhas (degradê
+   vertical), em vez de um corte seco de cor nas bordas da seção */
 .gallery-mural {
-  background-color: #e7e2d3;
-  background-image: radial-gradient(rgba(30, 35, 48, 0.08) 1.2px, transparent 1.6px);
-  background-size: 22px 22px;
+  background-color: #eff0ec;
+  background-image:
+    radial-gradient(rgba(30, 35, 48, 0.08) 1.2px, transparent 1.6px),
+    linear-gradient(180deg, #eff0ec 0%, #e7e2d3 22%, #e7e2d3 78%, #eff0ec 100%);
+  background-size: 22px 22px, 100% 100%;
+}
+
+/* no desktop a seção ganha altura extra só pro degradê ter espaço de sobra
+   pra esmaecer — o conteúdo fica centralizado (o .section é flex column com
+   justify-content: center) */
+@media (min-width: 1024px) {
+  .gallery-mural {
+    min-height: 1000px;
+  }
 }
 
 /* bloco de texto de abertura — título curto à esquerda, parágrafo de apoio à direita */
@@ -1719,31 +1732,22 @@ h2 {
   aspect-ratio: 1 / 1;
 }
 
-/* pregador de roupa — clipe metálico preso na moldura, "pendurando" a foto no fio */
-.peg-photo .clip {
+/* prendedor (assets/img/adesivos/prancheta-26.svg) preso na moldura,
+   "pendurando" a foto no fio — o top é calculado pro furo do prendedor cair
+   bem na altura do .clothesline-wire. Seletor com "img" pra vencer o
+   ".peg-photo img" (width 100% / aspect-ratio 1:1 / object-fit da foto). */
+.peg-photo img.clip {
   position: absolute;
-  top: -12px;
+  top: -13px;
   left: 50%;
-  width: 26px;
-  height: 17px;
-  margin-left: -13px;
-  background: linear-gradient(180deg, #ddc08a 0%, #b99a5e 55%, #97783f 100%);
-  border-radius: 3px;
-  box-shadow: 0 3px 5px rgba(30, 35, 48, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  width: 48px;
+  height: auto;
+  aspect-ratio: auto;
+  margin-left: -24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(30, 35, 48, 0.3));
+  pointer-events: none;
   z-index: 2;
-}
-
-.peg-photo .clip::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  width: 15px;
-  height: 11px;
-  margin-left: -7.5px;
-  border: 2px solid rgba(243, 243, 241, 0.75);
-  border-bottom: none;
-  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
 }
 
 /* leve balanço de cada foto */
@@ -2224,4 +2228,79 @@ h2 {
    escura solta embaixo da foto */
 .is-compact .fancybox__footer {
   background: #e7e2d3 !important;
+}
+
+/* ===== Adesivos decorativos (assets/img/adesivos/) =====
+   Camada absoluta por cima da seção, colada nas margens laterais. Cada <img>
+   define posição/tamanho/giro inline via variáveis (--w, --top/--bottom,
+   --left/--right, --rot). pointer-events: none pra nunca atrapalhar clique. */
+.has-adesivos {
+  position: relative;
+}
+
+.adesivos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.adesivo {
+  position: absolute;
+  top: var(--top, auto);
+  bottom: var(--bottom, auto);
+  left: var(--left, auto);
+  right: var(--right, auto);
+  width: calc(var(--w, 120px) * 0.55);
+  height: auto;
+  transform: rotate(var(--rot, 0deg));
+  filter: drop-shadow(0 4px 6px rgba(30, 35, 48, 0.18));
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* no celular os adesivos ficam menores (55%) pra não cobrir o conteúdo —
+   crescem no tablet e só no desktop aparecem no tamanho cheio */
+@media (min-width: 768px) {
+  .adesivo { width: calc(var(--w, 120px) * 0.75); }
+}
+
+@media (min-width: 1200px) {
+  .adesivo { width: var(--w, 120px); }
+}
+
+/* efeito "carimbada": o adesivo cai de cima, grande e torto, bate na página
+   (encolhe um pouco com o impacto), quica e assenta no giro final (--rot).
+   A sombra começa longe (adesivo no ar) e encosta no fim. As classes
+   .stamp-ready / .is-stamped vêm do initStickerStamp() em main.js. */
+.adesivo.stamp-ready,
+.footer-decor.stamp-ready {
+  opacity: 0;
+}
+
+.adesivo.is-stamped,
+.footer-decor.is-stamped {
+  animation: sticker-stamp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes sticker-stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--rot, 0deg) + 18deg)) scale(1.9);
+    filter: drop-shadow(0 26px 22px rgba(30, 35, 48, 0.25));
+  }
+  45% {
+    opacity: 1;
+    transform: rotate(calc(var(--rot, 0deg) - 3deg)) scale(0.88);
+    filter: drop-shadow(0 1px 1px rgba(30, 35, 48, 0.3));
+  }
+  70% {
+    transform: rotate(calc(var(--rot, 0deg) + 1.5deg)) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(var(--rot, 0deg)) scale(1);
+    filter: drop-shadow(0 4px 6px rgba(30, 35, 48, 0.18));
+  }
 }

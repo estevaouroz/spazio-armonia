@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProfessoraToggle();
   initResumeTabs();
   initScrollReveal();
+  initStickerStamp();
   initHeaderScroll();
   initShowcase();
   initHeroPhotoStack();
@@ -615,6 +616,35 @@ function initFormatToggle(){
   });
 }
 
+/* ============ ADESIVOS (efeito "carimbada" ao entrar na tela) ============ */
+/* os adesivos (.adesivo e os .footer-decor do rodapé) ficam escondidos até
+   aparecerem na tela e aí "batem" na página — ver @keyframes sticker-stamp em
+   home.css. Sem JS (ou com movimento reduzido) eles só ficam visíveis. */
+function initStickerStamp(){
+  const stickers = document.querySelectorAll('.adesivo, .footer-decor');
+  if (!stickers.length) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+  stickers.forEach((el, i) => {
+    el.classList.add('stamp-ready');
+    // atraso levemente diferente pra cada um, pra dois adesivos da mesma seção não baterem juntos
+    el.style.animationDelay = (120 + (i % 3) * 180) + 'ms';
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-stamped');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  stickers.forEach(el => observer.observe(el));
+}
+
 /* ============ SCROLL REVEAL (fade-in on scroll) ============ */
 function initScrollReveal(){
   const selectors = [
@@ -1162,14 +1192,6 @@ function prepareLogoDraw(svg, opts){
   const ICON_START = 0;                                  /* ícone começa a aparecer imediatamente */
   const WORDS_START = opts.wordsStart != null ? opts.wordsStart : ICON_START + 0.5; /* palavras começam a se desenhar logo depois */
 
-  /* a letra "A" (#logoLetterA) entra primeiro, sozinha, com um pequeno "pop"
-     de escala — dá o charme de destaque sem travar a animação parada no ar.
-     O resto do logo entra logo em seguida, com uma pequena sobreposição
-     (OVERLAP) pra fluir como continuação e não como uma pausa seca. */
-  const LETTER_A_HOLD = 0.85;
-  const LETTER_A_OVERLAP = 0.25;
-  const REST_START = Math.max(ICON_START, ICON_START + LETTER_A_HOLD - LETTER_A_OVERLAP);
-
   /* PASSO 1: aplica o estado escondido SEM transition ainda — se a transition
      fosse anexada junto, o navegador já dispararia a animação na hora (do
      valor padrão visível para o escondido), assim que a página carregasse. */
@@ -1177,11 +1199,6 @@ function prepareLogoDraw(svg, opts){
     path.classList.add('logo-icon-path');
     path.style.transition = 'none';
     path.style.opacity = '0';
-    if (path.id === 'logoLetterA'){
-      path.style.transformBox = 'fill-box';
-      path.style.transformOrigin = 'center';
-      path.style.transform = 'scale(.94)';
-    }
   });
 
   const wordInfo = wordPaths.map(path => {
@@ -1204,27 +1221,13 @@ function prepareLogoDraw(svg, opts){
   void svg.getBoundingClientRect();
 
   /* PASSO 3: agora sim anexa as transitions com o delay de cada letra/traço */
-  /* a letra A não entra no stagger normal do ícone — ela abre sozinha em
-     ICON_START (com seu próprio "pop" de escala), e o resto do ícone entra
-     em seguida a partir de REST_START, deslocando o stagger dos demais
-     paths pra trás */
-  let otherIconIndex = 0;
-  iconPaths.forEach(path => {
-    if (path.id === 'logoLetterA'){
-      const popDuration = ICON_DURATION * 1.3;
-      path.style.transition =
-        'opacity ' + ICON_DURATION + 's ease ' + ICON_START + 's, ' +
-        'transform ' + popDuration + 's cubic-bezier(.16,1,.3,1) ' + ICON_START + 's';
-    } else {
-      const delay = REST_START + otherIconIndex * ICON_STAGGER;
-      path.style.transition = 'opacity ' + ICON_DURATION + 's ease ' + delay + 's';
-      otherIconIndex++;
-    }
+  iconPaths.forEach((path, i) => {
+    path.style.transition = 'opacity ' + ICON_DURATION + 's ease ' + (ICON_START + i * ICON_STAGGER) + 's';
   });
 
   let lastWordFinish = 0;
   wordInfo.forEach((path, i) => {
-    const strokeDelay = REST_START + WORDS_START + i * STROKE_STAGGER;
+    const strokeDelay = WORDS_START + i * STROKE_STAGGER;
     const fillDelay = strokeDelay + STROKE_DURATION * 0.75;
     path.style.transition =
       'stroke-dashoffset ' + STROKE_DURATION + 's ease ' + strokeDelay + 's, ' +
@@ -1232,24 +1235,15 @@ function prepareLogoDraw(svg, opts){
     lastWordFinish = Math.max(lastWordFinish, fillDelay + FILL_DURATION);
   });
 
-  let otherIconCount = 0;
-  const lastIconFinish = iconPaths.reduce((max, path) => {
-    if (path.id === 'logoLetterA'){
-      return Math.max(max, ICON_START + ICON_DURATION * 1.3);
-    }
-    const delay = REST_START + otherIconCount * ICON_STAGGER;
-    otherIconCount++;
-    return Math.max(max, delay + ICON_DURATION);
-  }, 0);
+  const lastIconFinish = iconPaths.length
+    ? ICON_START + (iconPaths.length - 1) * ICON_STAGGER + ICON_DURATION
+    : 0;
 
   svg.classList.add('logo-draw-ready');
 
   function play(){
     svg.classList.add('logo-draw-active');
-    iconPaths.forEach(path => {
-      path.style.opacity = '1';
-      if (path.id === 'logoLetterA') path.style.transform = 'scale(1)';
-    });
+    iconPaths.forEach(path => { path.style.opacity = '1'; });
     wordInfo.forEach(path => {
       path.style.strokeDashoffset = '0';
       path.style.fillOpacity = '1';
@@ -1332,7 +1326,7 @@ function initSplashIntro(){
     strokeStagger: 0.09,    /* intervalo entre uma letra e a próxima */
     fillDuration: 0.22,     /* tempo do "tinteiro" preenchendo a letra */
     iconDuration: 0.6,      /* fade do ícone ARMONIA */
-    iconStagger: 0.16,      /* intervalo entre uma letra e a próxima do ícone — maior pra não parecer que "estoura" tudo junto */
+    iconStagger: 0.05,
     wordsStart: 0.35        /* espera antes de começar a desenhar as letras */
   });
   if (!draw){
