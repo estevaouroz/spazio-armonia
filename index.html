@@ -825,10 +825,65 @@
         </div>
       </div>
 
-      <!-- AQUI VAI O EMBED DO CAL.COM -->
-      <div class="calcom-placeholder">
-        <p data-i18n="agendamento.calcomPlaceholder">Widget de agendamento Cal.com aqui</p>
+      <!-- agenda viva: aulas do calendário "Spazio Armonia · Aulas" no Google
+           Calendar da escola, lidas em tempo real pela Netlify Function
+           /api/aulas (netlify/functions). O JS (initAgenda em main.js) monta a
+           semana aqui dentro; a inscrição na aula experimental vai pro
+           /api/agendar, que adiciona a pessoa como convidada do evento.
+           Configuração do Google: ver AGENDA-SETUP.md. -->
+      <div class="agenda" id="agendaViva">
+        <div class="agenda-toolbar">
+          <div class="agenda-weeknav">
+            <button type="button" class="agenda-nav" data-dir="-1" data-i18n-aria="agendamento.agenda.prevWeek" aria-label="Semana anterior">&#8249;</button>
+            <span class="agenda-range" id="agendaRange"></span>
+            <button type="button" class="agenda-nav" data-dir="1" data-i18n-aria="agendamento.agenda.nextWeek" aria-label="Próxima semana">&#8250;</button>
+          </div>
+          <div class="agenda-filters" id="agendaFilters" role="group">
+            <button type="button" class="agenda-chip active" data-modalidade="todas" data-i18n="agendamento.agenda.todas">Todas</button>
+            <button type="button" class="agenda-chip agenda-chip--italiano" data-modalidade="italiano" data-i18n="servicos.italiano.nome">Italiano</button>
+            <button type="button" class="agenda-chip agenda-chip--musica" data-modalidade="musica" data-i18n="servicos.musica.nome">Música</button>
+            <button type="button" class="agenda-chip agenda-chip--yoga" data-modalidade="yoga" data-i18n="servicos.yoga.nome">Yoga</button>
+          </div>
+        </div>
+        <div class="agenda-week" id="agendaWeek" aria-live="polite"></div>
+        <p class="agenda-demo" id="agendaDemo" hidden data-i18n="agendamento.agenda.demo">Modo demonstração — aulas de exemplo, nenhuma inscrição é gravada.</p>
       </div>
+
+      <!-- janela de inscrição na aula experimental -->
+      <dialog class="agenda-dialog" id="agendaDialog" aria-labelledby="agendaDialogTitle">
+        <button type="button" class="agenda-dialog-close" data-close data-i18n-aria="agendamento.agenda.fechar" aria-label="Fechar">&times;</button>
+        <div class="agenda-dialog-body" id="agendaDialogForm">
+          <span class="tt-label" data-i18n="agendamento.agenda.experimental">Aula experimental</span>
+          <h3 class="agenda-dialog-title" id="agendaDialogTitle"></h3>
+          <p class="agenda-dialog-when" id="agendaDialogWhen"></p>
+          <form class="agenda-form" id="agendaForm" novalidate>
+            <label>
+              <span data-i18n="agendamento.agenda.nome">Nome</span>
+              <input type="text" name="nome" required minlength="2" maxlength="80" autocomplete="name">
+            </label>
+            <label>
+              <span data-i18n="agendamento.agenda.email">E-mail</span>
+              <input type="email" name="email" required maxlength="120" autocomplete="email">
+            </label>
+            <label>
+              <span data-i18n="agendamento.agenda.telefone">WhatsApp (opcional)</span>
+              <input type="tel" name="telefone" maxlength="30" autocomplete="tel">
+            </label>
+            <!-- campo-isca contra robôs: escondido de pessoas, robôs costumam preencher -->
+            <label class="agenda-hp" aria-hidden="true">
+              Website <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </label>
+            <p class="agenda-form-error" id="agendaFormError" role="alert" hidden></p>
+            <button type="submit" class="btn agenda-submit" data-i18n="agendamento.agenda.confirmar">Confirmar inscrição</button>
+          </form>
+        </div>
+        <div class="agenda-dialog-body agenda-dialog-done" id="agendaDialogDone" hidden>
+          <span class="agenda-done-icon" aria-hidden="true">✓</span>
+          <h3 class="agenda-dialog-title" data-i18n="agendamento.agenda.sucessoTitulo">Inscrição feita!</h3>
+          <p data-i18n="agendamento.agenda.sucessoTexto">Você vai receber o convite da aula no seu e-mail. Até lá!</p>
+          <button type="button" class="btn agenda-submit" data-close data-i18n="agendamento.agenda.fechar">Fechar</button>
+        </div>
+      </dialog>
     </div>
   </section>
 

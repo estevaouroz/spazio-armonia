@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel();
   initServiceModal();
   initFormatToggle();
+  initAgenda();
   initAccordion();
   initProfessoraToggle();
   initResumeTabs();
@@ -411,12 +412,21 @@ function initI18n(){
       if (value !== undefined) el.textContent = value;
     });
 
+    // botões só com ícone traduzem o aria-label
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const value = resolveKey(dict, el.getAttribute('data-i18n-aria'));
+      if (value !== undefined) el.setAttribute('aria-label', value);
+    });
+
     document.documentElement.lang = lang;
     localStorage.setItem(STORAGE_KEY, lang);
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
+
+    // partes montadas pelo JS (ex.: a agenda) se redesenham no idioma novo
+    document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
   }
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -612,6 +622,9 @@ function initFormatToggle(){
       const format = btn.getAttribute('data-format');
       panelIndividual.classList.toggle('active', format === 'individual');
       panelGrupo.classList.toggle('active', format === 'grupo');
+
+      // avisa a agenda (initAgenda) pra filtrar pelo formato escolhido
+      toggle.dispatchEvent(new CustomEvent('formatchange', { detail: { format } }));
     });
   });
 }
@@ -645,6 +658,285 @@ function initStickerStamp(){
   stickers.forEach(el => observer.observe(el));
 }
 
+/* ============ AGENDA VIVA (aulas do Google Calendar da escola) ============ */
+/* mostra a semana com as aulas do calendário da escola, lidas da Netlify
+   Function /api/aulas (que consulta o Google Calendar na hora), e inscreve a
+   pessoa numa aula experimental via /api/agendar. Os filtros combinam o toggle
+   Individual/Grupo (formato) com as matérias. Atualiza sozinha a cada minuto
+   enquanto a seção está na tela, pra vagas e aulas novas aparecerem. */
+function initAgenda(){
+  const root = document.getElementById('agendaViva');
+  if (!root) return;
+
+  const TZ = 'America/Sao_Paulo';
+  const LOCALES = { pt: 'pt-BR', en: 'en-GB', it: 'it-IT' };
+  const DAY = 86400000;
+  const REFRESH_MS = 60000;
+
+  const weekEl = document.getElementById('agendaWeek');
+  const rangeEl = document.getElementById('agendaRange');
+  const demoEl = document.getElementById('agendaDemo');
+  const filtersEl = document.getElementById('agendaFilters');
+  const dialog = document.getElementById('agendaDialog');
+  const form = document.getElementById('agendaForm');
+  const formError = document.getElementById('agendaFormError');
+
+  const state = {
+    weekStart: null,      // 'AAAA-MM-DD' da segunda-feira mostrada
+    formato: 'individual',
+    modalidade: 'todas',
+    aulas: [],
+    status: 'idle',       // idle | loading | ok | error
+    selected: null,
+    visible: false
+  };
+  let refreshTimer = null;
+  let requestId = 0;
+
+  /* ---------- datas (sempre no fuso de São Paulo, UTC-3) ---------- */
+  const dateKey = d => new Intl.DateTimeFormat('en-CA', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+  const keyToDate = key => new Date(key + 'T00:00:00-03:00');
+  const addDays = (key, n) => dateKey(new Date(keyToDate(key).getTime() + n * DAY + 12 * 3600000));
+
+  function mondayOf(key){
+    const weekday = new Date(key + 'T12:00:00Z').getUTCDay(); // 0 = domingo
+    return addDays(key, weekday === 0 ? -6 : 1 - weekday);
+  }
+
+  /* ---------- textos ---------- */
+  const lang = () => (translations[document.documentElement.lang] ? document.documentElement.lang : 'pt');
+  const locale = () => LOCALES[lang()];
+  const t = key => {
+    const value = key.split('.').reduce((acc, part) => (acc ? acc[part] : undefined), translations[lang()].agendamento.agenda);
+    return value !== undefined ? value : key;
+  };
+  const fmt = (date, opts) => new Intl.DateTimeFormat(locale(), { timeZone: TZ, ...opts }).format(date);
+  const time = date => fmt(date, { hour: '2-digit', minute: '2-digit' });
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  /* ---------- dados ---------- */
+  async function load({ silent = false } = {}){
+    const id = ++requestId;
+    if (!silent){
+      state.status = 'loading';
+      render();
+    }
+
+    const from = keyToDate(state.weekStart).toISOString();
+    const to = keyToDate(addDays(state.weekStart, 7)).toISOString();
+
+    try {
+      const res = await fetch(`/api/aulas?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(res.status);
+      const data = await res.json();
+      if (id !== requestId) return; // chegou resposta de uma semana que já saiu da tela
+      state.aulas = data.aulas || [];
+      state.status = 'ok';
+      demoEl.hidden = !data.demo;
+    } catch (err){
+      if (id !== requestId) return;
+      if (silent) return; // falha na atualização automática: mantém o que já estava na tela
+      state.status = 'error';
+    }
+    render();
+  }
+
+  /* ---------- desenho da semana ---------- */
+  function render(){
+    const start = keyToDate(state.weekStart);
+    const end = keyToDate(addDays(state.weekStart, 6));
+    rangeEl.textContent = `${fmt(start, { day: 'numeric', month: 'short' })} – ${fmt(end, { day: 'numeric', month: 'short' })}`;
+
+    // não deixa voltar pra semanas que já passaram
+    root.querySelector('.agenda-nav[data-dir="-1"]').disabled = state.weekStart <= mondayOf(dateKey(new Date()));
+
+    if (state.status === 'loading' && !state.aulas.length){
+      weekEl.innerHTML = `<p class="agenda-message">${escapeHtml(t('carregando'))}</p>`;
+      return;
+    }
+    if (state.status === 'error'){
+      weekEl.innerHTML = `<p class="agenda-message">${escapeHtml(t('erro'))}
+        <button type="button" class="agenda-retry">${escapeHtml(t('tentar'))}</button></p>`;
+      return;
+    }
+
+    const aulas = state.aulas.filter(a =>
+      a.formato === state.formato && (state.modalidade === 'todas' || a.modalidade === state.modalidade)
+    );
+
+    if (!aulas.length){
+      const msg = state.aulas.length ? t('semAulasFiltro') : t('semAulas');
+      weekEl.innerHTML = `<p class="agenda-message">${escapeHtml(msg)}</p>`;
+      weekEl.classList.toggle('is-loading', state.status === 'loading');
+      return;
+    }
+
+    const today = dateKey(new Date());
+    let html = '';
+    for (let i = 0; i < 7; i++){
+      const key = addDays(state.weekStart, i);
+      const date = keyToDate(key);
+      const dayAulas = aulas.filter(a => dateKey(new Date(a.start)) === key);
+      const classes = ['agenda-day'];
+      if (!dayAulas.length) classes.push('is-empty');
+      if (key === today) classes.push('is-today');
+
+      html += `<div class="${classes.join(' ')}">
+        <div class="agenda-day-head">
+          <span class="agenda-day-name">${escapeHtml(fmt(date, { weekday: 'short' }).replace('.', ''))}</span>
+          <span class="agenda-day-num">${escapeHtml(fmt(date, { day: 'numeric' }))}</span>
+        </div>
+        <div class="agenda-day-list">${dayAulas.map(cardHtml).join('')}</div>
+      </div>`;
+    }
+    weekEl.innerHTML = html;
+    weekEl.classList.toggle('is-loading', state.status === 'loading');
+  }
+
+  function cardHtml(aula){
+    const full = aula.restantes <= 0;
+    const vagas = aula.formato === 'individual'
+      ? (full ? t('lotada') : t('individual'))
+      : (full ? t('lotada') : aula.restantes === 1 ? t('vaga') : t('vagas').replace('{n}', aula.restantes));
+
+    return `<button type="button" class="agenda-card agenda-card--${escapeHtml(aula.modalidade)}${full ? ' is-full' : ''}"
+        data-id="${escapeHtml(aula.id)}" ${full ? 'disabled' : ''}>
+      <span class="agenda-card-time">${escapeHtml(time(new Date(aula.start)))} – ${escapeHtml(time(new Date(aula.end)))}</span>
+      <span class="agenda-card-title">${escapeHtml(aula.title)}</span>
+      <span class="agenda-card-meta">
+        <span class="agenda-card-vagas">${escapeHtml(vagas)}</span>
+        ${aula.online ? `<span class="agenda-card-tag">${escapeHtml(t('online'))}</span>` : ''}
+      </span>
+      ${full ? '' : `<span class="agenda-card-cta">${escapeHtml(t('experimentar'))} →</span>`}
+    </button>`;
+  }
+
+  /* ---------- inscrição ---------- */
+  function openDialog(aula){
+    state.selected = aula;
+    const start = new Date(aula.start);
+    document.getElementById('agendaDialogTitle').textContent = aula.title;
+    document.getElementById('agendaDialogWhen').textContent =
+      `${fmt(start, { weekday: 'long', day: 'numeric', month: 'long' })} · ${time(start)} – ${time(new Date(aula.end))}`;
+    document.getElementById('agendaDialogForm').hidden = false;
+    document.getElementById('agendaDialogDone').hidden = true;
+    formError.hidden = true;
+    dialog.showModal();
+    form.querySelector('input[name="nome"]').focus();
+  }
+
+  async function submit(e){
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const button = form.querySelector('.agenda-submit');
+    const data = Object.fromEntries(new FormData(form));
+    button.disabled = true;
+    button.textContent = t('enviando');
+    formError.hidden = true;
+
+    try {
+      const res = await fetch('/api/agendar', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...data, aulaId: state.selected.id })
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body.ok) throw new Error(body.error || 'agenda_indisponivel');
+
+      document.getElementById('agendaDialogForm').hidden = true;
+      document.getElementById('agendaDialogDone').hidden = false;
+      form.reset();
+      load({ silent: true });
+    } catch (err){
+      const key = 'erros.' + err.message;
+      const msg = t(key);
+      formError.textContent = msg === key ? t('erros.agenda_indisponivel') : msg;
+      formError.hidden = false;
+      // aula lotou/saiu enquanto a pessoa preenchia: atualiza a semana atrás da janela
+      if (['lotada', 'aula_nao_encontrada', 'prazo_encerrado'].includes(err.message)) load({ silent: true });
+    } finally {
+      button.disabled = false;
+      button.textContent = t('confirmar');
+    }
+  }
+
+  /* ---------- eventos ---------- */
+  root.querySelectorAll('.agenda-nav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.weekStart = addDays(state.weekStart, 7 * parseInt(btn.dataset.dir, 10));
+      state.aulas = [];
+      load();
+    });
+  });
+
+  filtersEl.addEventListener('click', e => {
+    const chip = e.target.closest('.agenda-chip');
+    if (!chip) return;
+    filtersEl.querySelectorAll('.agenda-chip').forEach(c => c.classList.toggle('active', c === chip));
+    state.modalidade = chip.dataset.modalidade;
+    render();
+  });
+
+  weekEl.addEventListener('click', e => {
+    if (e.target.closest('.agenda-retry')){
+      load();
+      return;
+    }
+    const card = e.target.closest('.agenda-card');
+    if (!card || card.disabled) return;
+    const aula = state.aulas.find(a => a.id === card.dataset.id);
+    if (aula) openDialog(aula);
+  });
+
+  form.addEventListener('submit', submit);
+  dialog.addEventListener('click', e => {
+    // clique no "fundo" (fora do conteúdo) ou num botão de fechar
+    if (e.target === dialog || e.target.closest('[data-close]')) dialog.close();
+  });
+
+  const toggle = document.getElementById('formatToggle');
+  if (toggle){
+    toggle.addEventListener('formatchange', e => {
+      state.formato = e.detail.format;
+      render();
+    });
+  }
+
+  document.addEventListener('langchange', () => {
+    if (state.weekStart) render();
+  });
+
+  /* ---------- começo + atualização automática ---------- */
+  state.weekStart = mondayOf(dateKey(new Date()));
+
+  function setRefresh(on){
+    clearInterval(refreshTimer);
+    refreshTimer = on ? setInterval(() => {
+      if (!document.hidden && !dialog.open) load({ silent: true });
+    }, REFRESH_MS) : null;
+  }
+
+  if (!('IntersectionObserver' in window)){
+    load();
+    setRefresh(true);
+    return;
+  }
+
+  let loaded = false;
+  new IntersectionObserver(entries => {
+    state.visible = entries.some(entry => entry.isIntersecting);
+    if (state.visible && !loaded){
+      loaded = true;
+      load();
+    }
+    setRefresh(state.visible);
+  }, { rootMargin: '400px 0px' }).observe(root);
+}
+
 /* ============ SCROLL REVEAL (fade-in on scroll) ============ */
 function initScrollReveal(){
   const selectors = [
@@ -652,7 +944,7 @@ function initScrollReveal(){
     '.about-photo', '.about-text',
     '.showcase', '.professora-text',
     '.section-title', '.section-subtitle',
-    '.pill-toggle', '.format-content', '.calcom-placeholder',
+    '.pill-toggle', '.format-content', '.agenda',
     '.how-item',
     '.clothesline-heading', '.clothesline-lead', '.clothesline-tagline', '.clothesline-pillars',
     '.location-text', '.location-map',
