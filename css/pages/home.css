@@ -989,10 +989,12 @@ h2 {
   }
 }
 
-/* ===== Feature sections dos serviços — tickets empilhados no scroll (Italiano / Música / Yoga) =====
+/* ===== Feature sections dos serviços — bilhetes de trem empilhados no scroll (Italiano / Música / Yoga) =====
    cada .ticket-card gruda (position: sticky) num "top" um pouco maior que o anterior, então,
-   ao rolar, o próximo ticket sobe e cobre a base do anterior, deixando só uma tira dele à mostra —
-   o efeito de baralho empilhando que aparece no design de referência. */
+   ao rolar, o próximo bilhete sobe e cobre a base do anterior, deixando só uma tira dele à mostra.
+   Visual de passagem de trem: faixa colorida no topo, campos com rótulo em caixa alta, linha
+   de células na base e um canhoto destacável separado por picote, com os recortes
+   semicirculares feitos por máscara (aparecem vazados mesmo por cima do bilhete de baixo). */
 .ticket-stack-section {
   padding: 72px 0 48px;
 }
@@ -1005,21 +1007,19 @@ h2 {
 
 .ticket-card {
   position: sticky;
-  /* 780px não sobrava espaço suficiente pro conteúdo (foto + texto + lista
-     de 4 itens + botão) em telas mais estreitas (~320-390px), onde o texto
-     quebra em mais linhas — o overflow:hidden cortava o botão "Agendar
-     aula" ao meio. 900px dá folga até no iPhone SE (320px de largura). */
-  height: 900px;
-  padding: 28px;
-  border: 2px dashed rgba(30, 35, 48, 0.28);
-  border-radius: 24px;
-  box-shadow: 0 24px 48px rgba(30, 35, 48, 0.18);
-  overflow: hidden;
+  /* a sombra vai no card (drop-shadow) e não no .train-ticket porque a máscara
+     dos recortes cortaria um box-shadow junto */
+  filter: drop-shadow(0 12px 18px rgba(30, 35, 48, 0.16));
+  --tt-paper: #f5ecd2;
+  --tt-paper-line: #fbf6e6;
+  --tt-ink: #2a2620;
+  --tt-band: #144673;
+  --tt-band-text: #f7e9bd;
 }
 
-.ticket-card--italiano { top: 104px; z-index: 1; background-color: #DCEBF0; }
-.ticket-card--musica { top: 132px; z-index: 2; background-color: #F5F0DC; }
-.ticket-card--yoga { top: 160px; z-index: 3; background-color: #FAE18C; }
+.ticket-card--italiano { top: 104px; z-index: 1; --tt-band: #144673; }
+.ticket-card--musica { top: 132px; z-index: 2; --tt-band: #b65632; }
+.ticket-card--yoga { top: 160px; z-index: 3; --tt-band: #5d7a45; }
 
 /* espaçador "fantasma" depois do último ticket: sem ele o yoga não teria distância de
    scroll pra ficar travado — ele desgruda quase na hora, diferente dos anteriores, que
@@ -1030,108 +1030,354 @@ h2 {
   height: 220px;
 }
 
-.feature-inner {
+/* --- o papel do bilhete ---
+   no celular o canhoto fica embaixo (picote horizontal, recortes nas laterais);
+   a partir de 900px ele vai pra direita (picote vertical, recortes em cima/embaixo
+   + um recorte em cada lateral, como no bilhete de referência). --tt-cut = raio. */
+.train-ticket {
+  --tt-cut: 16px;
+  --tt-stub-h: 172px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 28px;
-  height: 100%;
+  border-radius: 20px;
+  background-color: var(--tt-paper);
+  color: var(--tt-ink);
+  /* contorno claro por dentro, que nem a borda do papel na referência */
+  box-shadow: inset 0 0 0 6px var(--tt-paper), inset 0 0 0 8px var(--tt-paper-line);
+  -webkit-mask:
+    radial-gradient(circle at 0 calc(100% - var(--tt-stub-h)), transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+    radial-gradient(circle at 100% calc(100% - var(--tt-stub-h)), transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px));
+  -webkit-mask-composite: source-in;
+  mask:
+    radial-gradient(circle at 0 calc(100% - var(--tt-stub-h)), transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+    radial-gradient(circle at 100% calc(100% - var(--tt-stub-h)), transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px));
+  mask-composite: intersect;
 }
 
-.feature-photo {
-  width: 100%;
-  flex: 0 0 auto;
-}
-
-.feature-photo img {
-  display: block;
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 16px;
-}
-
-.feature-text {
+.tt-main {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100%;
   flex: 1 1 auto;
-  min-height: 0;
-  text-align: center;
-  overflow: hidden;
+  min-width: 0;
 }
 
-.feature-eyebrow {
-  display: inline-flex;
+/* faixa colorida do topo */
+.tt-band {
+  display: flex;
   align-items: center;
-  margin-bottom: 14px;
-  padding: 6px 16px;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.65);
-  color: #1e2330;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  min-height: 64px;
+  padding: 14px 28px;
+  background-color: var(--tt-band);
+  color: var(--tt-band-text);
+}
+
+.tt-band-title {
+  font-family: 'Oswald', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
-.feature-text h2 {
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1.3;
-  color: #1e2330;
+.tt-band-sep {
+  opacity: 0.6;
 }
 
-.feature-text > p {
-  margin-bottom: 20px;
-  color: rgba(30, 35, 48, 0.65);
-  font-size: 16px;
-  line-height: 1.6;
+.tt-code {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border: 1.5px solid currentColor;
+  font-family: 'Oswald', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 
-.feature-list {
+.tt-code b {
+  font-weight: 600;
+}
+
+/* rótulo e valor dos campos */
+.tt-label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tt-ink);
+}
+
+.tt-value {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.25;
+}
+
+.tt-body {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 28px;
-  text-align: left;
+  gap: 22px;
+  padding: 24px 28px 20px;
 }
 
-.feature-list li {
+.tt-info {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 15px;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.tt-field--title {
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--tt-band);
+}
+
+.tt-field--title h2 {
+  margin: 0;
+  font-family: 'Oswald', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
   font-weight: 500;
-  color: #1e2330;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--tt-ink);
 }
 
-.feature-check {
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
+.tt-field p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(42, 38, 32, 0.72);
+}
+
+/* itinerário: os tópicos viram estações numa linha de trem */
+.tt-route {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 22px;
+}
+
+.tt-route::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  border-left: 2px dotted var(--tt-band);
+}
+
+.tt-route li {
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.tt-route li::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -22px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--tt-band);
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.65);
-  color: #1e2330;
+  background-color: var(--tt-paper);
 }
 
-.feature-check svg {
-  width: 14px;
-  height: 14px;
+.tt-route li:last-child::before {
+  background-color: var(--tt-band);
 }
 
-.feature-cta {
-  background-color: #1e2330;
-  color: #ffffff;
+/* foto no lugar do QR code da referência, com as cantoneiras em volta */
+.tt-photo {
+  position: relative;
+  padding: 10px;
+  background:
+    linear-gradient(var(--tt-band), var(--tt-band)) top left / 22px 2px,
+    linear-gradient(var(--tt-band), var(--tt-band)) top left / 2px 22px,
+    linear-gradient(var(--tt-band), var(--tt-band)) top right / 22px 2px,
+    linear-gradient(var(--tt-band), var(--tt-band)) top right / 2px 22px,
+    linear-gradient(var(--tt-band), var(--tt-band)) bottom left / 22px 2px,
+    linear-gradient(var(--tt-band), var(--tt-band)) bottom left / 2px 22px,
+    linear-gradient(var(--tt-band), var(--tt-band)) bottom right / 22px 2px,
+    linear-gradient(var(--tt-band), var(--tt-band)) bottom right / 2px 22px;
+  background-repeat: no-repeat;
+}
+
+.tt-photo img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* linha de células da base (nível / formato / botão no lugar do "price") */
+.tt-cells {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: auto 28px 24px;
+  border-top: 1.5px solid var(--tt-band);
+}
+
+.tt-cell {
+  padding: 12px 14px 4px 0;
+}
+
+.tt-cell + .tt-cell {
+  padding-left: 14px;
+  border-left: 1.5px solid var(--tt-band);
+}
+
+.tt-cell .tt-value {
+  font-size: 15px;
+}
+
+.tt-cta {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background-color: var(--tt-band);
+  color: var(--tt-band-text);
+  text-decoration: none;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.tt-cta .tt-label {
+  margin-bottom: 2px;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.tt-cta-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.tt-cta-text::after {
+  content: " →";
+}
+
+.tt-cta:hover,
+.tt-cta:focus-visible {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+/* --- canhoto --- */
+.tt-stub {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 var(--tt-stub-h);
+  /* picote: tracejado entre o corpo e o canhoto */
+  border-top: 2px dashed rgba(42, 38, 32, 0.45);
+  margin: 0 var(--tt-cut);
+}
+
+.tt-band--stub {
+  display: none;
+}
+
+.tt-stub-body {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px 16px;
+  padding: 18px 12px;
+}
+
+.tt-stub-body .tt-value {
+  font-size: 15px;
+}
+
+/* carimbo de "validado" batido no canhoto */
+.tt-stamp {
+  display: none;
+}
+
+.tt-barcode {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* código de barras "falso" — listras de larguras variadas */
+.tt-barcode-bars {
+  display: block;
+  height: 44px;
+  background: repeating-linear-gradient(90deg,
+    var(--tt-ink) 0 2px, transparent 2px 4px,
+    var(--tt-ink) 4px 5px, transparent 5px 8px,
+    var(--tt-ink) 8px 11px, transparent 11px 12px,
+    var(--tt-ink) 12px 13px, transparent 13px 16px,
+    var(--tt-ink) 16px 18px, transparent 18px 21px);
+  opacity: 0.85;
+}
+
+.tt-barcode-code {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-align: center;
 }
 
 @media (min-width: 640px) {
+  .tt-body {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .tt-info {
+    flex: 1 1 auto;
+  }
+
+  .tt-photo {
+    flex: 0 0 210px;
+  }
+
+  .tt-photo img {
+    height: 210px;
+  }
+
+  .tt-cells {
+    grid-template-columns: 1fr 1fr 1.3fr;
+  }
+
+  .tt-cta {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .tt-field--title h2 {
+    font-size: 30px;
+  }
+}
+
+/* desktop: canhoto à direita, picote vertical, altura fixa pro empilhamento */
+@media (min-width: 900px) {
   .ticket-card {
-    height: 500px;
+    height: 520px;
   }
 
   .ticket-stack-spacer {
@@ -1142,43 +1388,99 @@ h2 {
   .ticket-card--musica { top: 152px; }
   .ticket-card--yoga { top: 188px; }
 
-  .feature-inner {
+  .train-ticket {
+    --tt-cut: 20px;
+    --tt-stub-w: 260px;
     flex-direction: row;
-    align-items: stretch;
-    gap: 40px;
-  }
-
-  .feature-inner--reverse {
-    flex-direction: row-reverse;
-  }
-
-  .feature-photo,
-  .feature-text {
-    flex: 1 1 50%;
-  }
-
-  .feature-photo img {
     height: 100%;
+    -webkit-mask:
+      radial-gradient(circle at calc(100% - var(--tt-stub-w)) 0, transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+      radial-gradient(circle at calc(100% - var(--tt-stub-w)) 100%, transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+      radial-gradient(circle at 0 50%, transparent 30px, #000 30.5px),
+      radial-gradient(circle at 100% 50%, transparent 30px, #000 30.5px);
+    -webkit-mask-composite: source-in;
+    mask:
+      radial-gradient(circle at calc(100% - var(--tt-stub-w)) 0, transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+      radial-gradient(circle at calc(100% - var(--tt-stub-w)) 100%, transparent var(--tt-cut), #000 calc(var(--tt-cut) + 0.5px)),
+      radial-gradient(circle at 0 50%, transparent 30px, #000 30.5px),
+      radial-gradient(circle at 100% 50%, transparent 30px, #000 30.5px);
+    mask-composite: intersect;
   }
 
-  .feature-text {
-    position: relative;
-    justify-content: center;
-    padding-left: 32px;
-    text-align: left;
-    border-left: 2px dashed rgba(30, 35, 48, 0.28);
-  }
-
-  .feature-inner--reverse .feature-text {
-    padding-left: 0;
+  /* folga à esquerda pro recorte lateral (raio 30px) não comer o conteúdo */
+  .tt-band,
+  .tt-body {
+    padding-left: 48px;
     padding-right: 32px;
-    border-left: none;
-    border-right: 2px dashed rgba(30, 35, 48, 0.28);
   }
 
-  .feature-text h2 {
-    font-size: 30px;
-    line-height: 1.3;
+  .tt-cells {
+    margin: auto 32px 28px 48px;
+  }
+
+  .tt-stub {
+    flex: 0 0 var(--tt-stub-w);
+    margin: 0;
+    border-top: none;
+    border-left: 2px dashed rgba(42, 38, 32, 0.45);
+  }
+
+  .tt-band--stub {
+    display: flex;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .tt-band--stub .tt-band-title {
+    font-size: 34px;
+  }
+
+  .tt-stub-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px 40px 24px 28px;
+  }
+
+  .tt-stub-body .tt-value {
+    font-size: 19px;
+  }
+
+  .tt-stamp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 112px;
+    height: 112px;
+    margin: auto 0;
+    border: 3px double var(--tt-band);
+    border-radius: 50%;
+    color: var(--tt-band);
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.1;
+    transform: rotate(-14deg);
+    opacity: 0.8;
+  }
+
+  .tt-stamp-top,
+  .tt-stamp-bottom {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .tt-stamp-main {
+    margin: 4px 0;
+    padding: 3px 6px;
+    border-top: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
   }
 }
 

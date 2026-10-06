@@ -68,6 +68,19 @@ const translations = {
       title_bold: "Pilares",
       subtitle_start: "Três universos, uma só",
       subtitle_circle: "harmonia",
+      ticket: {
+        destino: "Destino",
+        sobre: "Sobre a viagem",
+        itinerario: "Itinerário",
+        nivel: "Nível",
+        formato: "Formato",
+        formatoValor: "Individual · Grupo",
+        embarque: "Embarque",
+        passageiro: "Passageiro",
+        voce: "Você",
+        de: "De",
+        para: "Para"
+      },
       italiano: {
         nome: "Italiano",
         c1_titulo: "Italiano — do zero ao avançado",
@@ -86,7 +99,9 @@ const translations = {
           topic2: "Conversação com foco na fluência real",
           topic3: "Cultura, culinária e tradições italianas",
           topic4: "Aulas individuais ou em grupo",
-          cta: "Agendar aula"
+          cta: "Agendar aula",
+          de: "Zero",
+          para: "Fluência"
         }
       },
       yoga: {
@@ -107,7 +122,9 @@ const translations = {
           topic2: "Foco em respiração e relaxamento",
           topic3: "Alongamento e mobilidade do corpo",
           topic4: "Aulas individuais ou em grupo",
-          cta: "Agendar aula"
+          cta: "Agendar aula",
+          de: "Tensão",
+          para: "Equilíbrio"
         }
       },
       musica: {
@@ -128,7 +145,9 @@ const translations = {
           topic2: "Teoria musical e leitura de partitura",
           topic3: "Percepção auditiva e ritmo",
           topic4: "Aulas individuais ou em grupo",
-          cta: "Agendar aula"
+          cta: "Agendar aula",
+          de: "Primeira nota",
+          para: "Seu repertório"
         }
       }
     },
@@ -286,6 +305,19 @@ const translations = {
       title_bold: "Pillars",
       subtitle_start: "Three worlds, one",
       subtitle_circle: "harmony",
+      ticket: {
+        destino: "Destination",
+        sobre: "About the journey",
+        itinerario: "Itinerary",
+        nivel: "Level",
+        formato: "Format",
+        formatoValor: "Private · Group",
+        embarque: "Boarding",
+        passageiro: "Passenger",
+        voce: "You",
+        de: "From",
+        para: "To"
+      },
       italiano: {
         nome: "Italian",
         c1_titulo: "Italian — from scratch to advanced",
@@ -304,7 +336,9 @@ const translations = {
           topic2: "Conversation focused on real fluency",
           topic3: "Italian culture, food, and traditions",
           topic4: "Individual or group classes",
-          cta: "Book a class"
+          cta: "Book a class",
+          de: "Zero",
+          para: "Fluency"
         }
       },
       yoga: {
@@ -325,7 +359,9 @@ const translations = {
           topic2: "Focus on breathing and relaxation",
           topic3: "Stretching and body mobility",
           topic4: "Individual or group classes",
-          cta: "Book a class"
+          cta: "Book a class",
+          de: "Tension",
+          para: "Balance"
         }
       },
       musica: {
@@ -346,7 +382,9 @@ const translations = {
           topic2: "Music theory and sheet reading",
           topic3: "Ear training and rhythm",
           topic4: "Individual or group classes",
-          cta: "Book a class"
+          cta: "Book a class",
+          de: "First note",
+          para: "Your repertoire"
         }
       }
     },
@@ -504,6 +542,19 @@ const translations = {
       title_bold: "Pilastri",
       subtitle_start: "Tre mondi, un'unica",
       subtitle_circle: "armonia",
+      ticket: {
+        destino: "Destinazione",
+        sobre: "Il viaggio",
+        itinerario: "Itinerario",
+        nivel: "Livello",
+        formato: "Formato",
+        formatoValor: "Individuale · Gruppo",
+        embarque: "Imbarco",
+        passageiro: "Passeggero",
+        voce: "Tu",
+        de: "Da",
+        para: "A"
+      },
       italiano: {
         nome: "Italiano",
         c1_titulo: "Italiano — dal principiante all'avanzato",
@@ -522,7 +573,9 @@ const translations = {
           topic2: "Conversazione con focus sulla fluenza reale",
           topic3: "Cultura, cucina e tradizioni italiane",
           topic4: "Lezioni individuali o di gruppo",
-          cta: "Prenota una lezione"
+          cta: "Prenota una lezione",
+          de: "Zero",
+          para: "Fluenza"
         }
       },
       yoga: {
@@ -543,7 +596,9 @@ const translations = {
           topic2: "Focus su respirazione e rilassamento",
           topic3: "Allungamento e mobilità del corpo",
           topic4: "Lezioni individuali o di gruppo",
-          cta: "Prenota una lezione"
+          cta: "Prenota una lezione",
+          de: "Tensione",
+          para: "Equilibrio"
         }
       },
       musica: {
@@ -564,7 +619,9 @@ const translations = {
           topic2: "Teoria musicale e lettura dello spartito",
           topic3: "Educazione dell'orecchio e ritmo",
           topic4: "Lezioni individuali o di gruppo",
-          cta: "Prenota una lezione"
+          cta: "Prenota una lezione",
+          de: "Prima nota",
+          para: "Il tuo repertorio"
         }
       }
     },

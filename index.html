@@ -33,7 +33,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oswald:wght@400;500;600&family=Permanent+Marker&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/fonts.css">
@@ -541,62 +541,254 @@
       <div class="ticket-stack">
 
         <article id="feature-italiano" class="ticket-card ticket-card--italiano">
-          <div class="feature-inner">
-            <div class="feature-text">
-              <span class="feature-eyebrow feature-eyebrow--italiano" data-i18n="servicos.italiano.feature.eyebrow">Italiano</span>
-              <h2 data-i18n="servicos.italiano.feature.title">Aprenda italiano no seu ritmo</h2>
-              <p data-i18n="servicos.italiano.feature.text">Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.</p>
-              <ul class="feature-list feature-list--italiano">
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic1">Turmas do zero ao avançado</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic2">Conversação com foco na fluência real</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic3">Cultura, culinária e tradições italianas</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.italiano.feature.topic4">Aulas individuais ou em grupo</span></li>
-              </ul>
-              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.italiano.feature.cta">Agendar aula</a>
+          <div class="train-ticket">
+
+            <!-- corpo principal do bilhete -->
+            <div class="tt-main">
+              <header class="tt-band">
+                <span class="tt-band-title">Biglietto <span class="tt-band-sep" aria-hidden="true">·</span> <span data-i18n="servicos.italiano.feature.eyebrow">Italiano</span></span>
+                <span class="tt-code"><b>IT</b> 0001-A</span>
+              </header>
+
+              <div class="tt-body">
+                <div class="tt-info">
+                  <div class="tt-field tt-field--title">
+                    <span class="tt-label" data-i18n="servicos.ticket.destino">Destino</span>
+                    <h2 data-i18n="servicos.italiano.feature.title">Aprenda italiano no seu ritmo</h2>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.sobre">Sobre a viagem</span>
+                    <p data-i18n="servicos.italiano.feature.text">Do zero à fluência, aulas que unem gramática, conversação e cultura italiana em um método leve e personalizado.</p>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.itinerario">Itinerário</span>
+                    <ul class="tt-route">
+                  <li><span data-i18n="servicos.italiano.feature.topic1">Turmas do zero ao avançado</span></li>
+                  <li><span data-i18n="servicos.italiano.feature.topic2">Conversação com foco na fluência real</span></li>
+                  <li><span data-i18n="servicos.italiano.feature.topic3">Cultura, culinária e tradições italianas</span></li>
+                  <li><span data-i18n="servicos.italiano.feature.topic4">Aulas individuais ou em grupo</span></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="tt-photo">
+                  <img src="assets/images/images (2).jpeg" alt="Aula de italiano" loading="lazy">
+                </div>
+              </div>
+
+              <div class="tt-cells">
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.nivel">Nível</span>
+                  <span class="tt-value" data-i18n="servicos.italiano.c1_nivel">Do zero ao avançado</span>
+                </div>
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.formato">Formato</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.formatoValor">Individual · Grupo</span>
+                </div>
+                <a href="#agendamento" class="tt-cta">
+                  <span class="tt-label" data-i18n="servicos.ticket.embarque">Embarque</span>
+                  <span class="tt-cta-text" data-i18n="servicos.italiano.feature.cta">Agendar aula</span>
+                </a>
+              </div>
             </div>
-            <div class="feature-photo">
-              <img src="assets/images/images (2).jpeg" alt="Aula de italiano" loading="lazy">
+
+            <!-- canhoto destacável -->
+            <div class="tt-stub" aria-hidden="true">
+              <div class="tt-band tt-band--stub">
+                <span class="tt-band-title">Biglietto</span>
+              </div>
+              <div class="tt-stub-body">
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.passageiro">Passageiro</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.voce">Você</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.de">De</span>
+                  <span class="tt-value" data-i18n="servicos.italiano.feature.de">Zero</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.para">Para</span>
+                  <span class="tt-value" data-i18n="servicos.italiano.feature.para">Fluência</span>
+                </div>
+                <div class="tt-stamp">
+                  <span class="tt-stamp-top">Spazio</span>
+                  <span class="tt-stamp-main">Convalidato</span>
+                  <span class="tt-stamp-bottom">Armonia</span>
+                </div>
+                <div class="tt-barcode">
+                  <span class="tt-barcode-bars"></span>
+                  <span class="tt-barcode-code">IT 0001-A</span>
+                </div>
+              </div>
             </div>
+
           </div>
         </article>
 
         <article id="feature-musica" class="ticket-card ticket-card--musica">
-          <div class="feature-inner feature-inner--reverse">
-            <div class="feature-text">
-              <span class="feature-eyebrow feature-eyebrow--musica" data-i18n="servicos.musica.feature.eyebrow">Música</span>
-              <h2 data-i18n="servicos.musica.feature.title">Descubra o seu ritmo com o piano</h2>
-              <p data-i18n="servicos.musica.feature.text">Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.</p>
-              <ul class="feature-list feature-list--musica">
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic1">Piano do iniciante ao avançado</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic2">Teoria musical e leitura de partitura</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic3">Percepção auditiva e ritmo</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.musica.feature.topic4">Aulas individuais ou em grupo</span></li>
-              </ul>
-              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.musica.feature.cta">Agendar aula</a>
+          <div class="train-ticket">
+
+            <!-- corpo principal do bilhete -->
+            <div class="tt-main">
+              <header class="tt-band">
+                <span class="tt-band-title">Biglietto <span class="tt-band-sep" aria-hidden="true">·</span> <span data-i18n="servicos.musica.feature.eyebrow">Música</span></span>
+                <span class="tt-code"><b>MU</b> 0002-B</span>
+              </header>
+
+              <div class="tt-body">
+                <div class="tt-info">
+                  <div class="tt-field tt-field--title">
+                    <span class="tt-label" data-i18n="servicos.ticket.destino">Destino</span>
+                    <h2 data-i18n="servicos.musica.feature.title">Descubra o seu ritmo com o piano</h2>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.sobre">Sobre a viagem</span>
+                    <p data-i18n="servicos.musica.feature.text">Da leitura musical à técnica no teclado, um caminho estruturado para tocar com confiança em qualquer idade.</p>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.itinerario">Itinerário</span>
+                    <ul class="tt-route">
+                  <li><span data-i18n="servicos.musica.feature.topic1">Piano do iniciante ao avançado</span></li>
+                  <li><span data-i18n="servicos.musica.feature.topic2">Teoria musical e leitura de partitura</span></li>
+                  <li><span data-i18n="servicos.musica.feature.topic3">Percepção auditiva e ritmo</span></li>
+                  <li><span data-i18n="servicos.musica.feature.topic4">Aulas individuais ou em grupo</span></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="tt-photo">
+                  <img src="assets/images/360_F_497037243_OxBX9eF17AuTk3CAgCKK4hZ0VHFbeiSa.jpg" alt="Aula de música" loading="lazy">
+                </div>
+              </div>
+
+              <div class="tt-cells">
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.nivel">Nível</span>
+                  <span class="tt-value" data-i18n="servicos.musica.c1_nivel">Todos os níveis</span>
+                </div>
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.formato">Formato</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.formatoValor">Individual · Grupo</span>
+                </div>
+                <a href="#agendamento" class="tt-cta">
+                  <span class="tt-label" data-i18n="servicos.ticket.embarque">Embarque</span>
+                  <span class="tt-cta-text" data-i18n="servicos.musica.feature.cta">Agendar aula</span>
+                </a>
+              </div>
             </div>
-            <div class="feature-photo">
-              <img src="assets/images/360_F_497037243_OxBX9eF17AuTk3CAgCKK4hZ0VHFbeiSa.jpg" alt="Aula de música" loading="lazy">
+
+            <!-- canhoto destacável -->
+            <div class="tt-stub" aria-hidden="true">
+              <div class="tt-band tt-band--stub">
+                <span class="tt-band-title">Biglietto</span>
+              </div>
+              <div class="tt-stub-body">
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.passageiro">Passageiro</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.voce">Você</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.de">De</span>
+                  <span class="tt-value" data-i18n="servicos.musica.feature.de">Primeira nota</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.para">Para</span>
+                  <span class="tt-value" data-i18n="servicos.musica.feature.para">Seu repertório</span>
+                </div>
+                <div class="tt-stamp">
+                  <span class="tt-stamp-top">Spazio</span>
+                  <span class="tt-stamp-main">Convalidato</span>
+                  <span class="tt-stamp-bottom">Armonia</span>
+                </div>
+                <div class="tt-barcode">
+                  <span class="tt-barcode-bars"></span>
+                  <span class="tt-barcode-code">MU 0002-B</span>
+                </div>
+              </div>
             </div>
+
           </div>
         </article>
 
         <article id="feature-yoga" class="ticket-card ticket-card--yoga">
-          <div class="feature-inner">
-            <div class="feature-text">
-              <span class="feature-eyebrow feature-eyebrow--yoga" data-i18n="servicos.yoga.feature.eyebrow">Yoga</span>
-              <h2 data-i18n="servicos.yoga.feature.title">Encontre equilíbrio entre corpo e mente</h2>
-              <p data-i18n="servicos.yoga.feature.text">Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.</p>
-              <ul class="feature-list feature-list--yoga">
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic1">Turmas para iniciantes e avançados</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic2">Foco em respiração e relaxamento</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic3">Alongamento e mobilidade do corpo</span></li>
-                <li><span class="feature-check" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5l3.5 3.5L16 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="servicos.yoga.feature.topic4">Aulas individuais ou em grupo</span></li>
-              </ul>
-              <a href="#agendamento" class="btn feature-cta" data-i18n="servicos.yoga.feature.cta">Agendar aula</a>
+          <div class="train-ticket">
+
+            <!-- corpo principal do bilhete -->
+            <div class="tt-main">
+              <header class="tt-band">
+                <span class="tt-band-title">Biglietto <span class="tt-band-sep" aria-hidden="true">·</span> <span data-i18n="servicos.yoga.feature.eyebrow">Yoga</span></span>
+                <span class="tt-code"><b>YO</b> 0003-C</span>
+              </header>
+
+              <div class="tt-body">
+                <div class="tt-info">
+                  <div class="tt-field tt-field--title">
+                    <span class="tt-label" data-i18n="servicos.ticket.destino">Destino</span>
+                    <h2 data-i18n="servicos.yoga.feature.title">Encontre equilíbrio entre corpo e mente</h2>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.sobre">Sobre a viagem</span>
+                    <p data-i18n="servicos.yoga.feature.text">Posturas guiadas e respiração consciente para construir uma base sólida de bem-estar, no seu tempo.</p>
+                  </div>
+                  <div class="tt-field">
+                    <span class="tt-label" data-i18n="servicos.ticket.itinerario">Itinerário</span>
+                    <ul class="tt-route">
+                  <li><span data-i18n="servicos.yoga.feature.topic1">Turmas para iniciantes e avançados</span></li>
+                  <li><span data-i18n="servicos.yoga.feature.topic2">Foco em respiração e relaxamento</span></li>
+                  <li><span data-i18n="servicos.yoga.feature.topic3">Alongamento e mobilidade do corpo</span></li>
+                  <li><span data-i18n="servicos.yoga.feature.topic4">Aulas individuais ou em grupo</span></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="tt-photo">
+                  <img src="assets/images/yoga-aula-2.webp" alt="Aula de yoga" loading="lazy">
+                </div>
+              </div>
+
+              <div class="tt-cells">
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.nivel">Nível</span>
+                  <span class="tt-value" data-i18n="servicos.yoga.c2_nivel">Todos os níveis</span>
+                </div>
+                <div class="tt-cell">
+                  <span class="tt-label" data-i18n="servicos.ticket.formato">Formato</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.formatoValor">Individual · Grupo</span>
+                </div>
+                <a href="#agendamento" class="tt-cta">
+                  <span class="tt-label" data-i18n="servicos.ticket.embarque">Embarque</span>
+                  <span class="tt-cta-text" data-i18n="servicos.yoga.feature.cta">Agendar aula</span>
+                </a>
+              </div>
             </div>
-            <div class="feature-photo">
-              <img src="assets/images/yoga-aula-2.webp" alt="Aula de yoga" loading="lazy">
+
+            <!-- canhoto destacável -->
+            <div class="tt-stub" aria-hidden="true">
+              <div class="tt-band tt-band--stub">
+                <span class="tt-band-title">Biglietto</span>
+              </div>
+              <div class="tt-stub-body">
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.passageiro">Passageiro</span>
+                  <span class="tt-value" data-i18n="servicos.ticket.voce">Você</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.de">De</span>
+                  <span class="tt-value" data-i18n="servicos.yoga.feature.de">Tensão</span>
+                </div>
+                <div class="tt-field">
+                  <span class="tt-label" data-i18n="servicos.ticket.para">Para</span>
+                  <span class="tt-value" data-i18n="servicos.yoga.feature.para">Equilíbrio</span>
+                </div>
+                <div class="tt-stamp">
+                  <span class="tt-stamp-top">Spazio</span>
+                  <span class="tt-stamp-main">Convalidato</span>
+                  <span class="tt-stamp-bottom">Armonia</span>
+                </div>
+                <div class="tt-barcode">
+                  <span class="tt-barcode-bars"></span>
+                  <span class="tt-barcode-code">YO 0003-C</span>
+                </div>
+              </div>
             </div>
+
           </div>
         </article>
 
