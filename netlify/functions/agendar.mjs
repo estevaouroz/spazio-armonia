@@ -2,7 +2,9 @@
    Inscreve a pessoa numa aula experimental: adiciona como convidada do evento
    no Google Calendar da escola (o Google manda o convite por e-mail). Confere
    antecedência mínima, vagas e inscrição repetida. "website" é um campo-isca
-   escondido no formulário: se vier preenchido, é robô. */
+   escondido no formulário: se vier preenchido, é robô. Só aceita pedidos
+   feitos pelo próprio site (cabeçalho Origin) e no máximo 5 por IP a cada
+   3 minutos (rateLimit no config, aplicado pela plataforma antes da função). */
 import { googleConfig, gcal, eventsPath, capacityOf, takenOf, minNoticeMs, json } from '../lib/google.mjs';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -11,8 +13,16 @@ function clean(value, max){
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
+function sameOrigin(req){
+  try { return new URL(req.headers.get('origin')).host === new URL(req.url).host; }
+  catch { return false; }  // sem Origin ou com "null"
+}
+
 export default async (req) => {
   if (req.method !== 'POST') return json({ error: 'metodo' }, 405);
+
+  // o navegador sempre manda Origin num POST; outro site ou script sem ele fica de fora
+  if (!sameOrigin(req)) return json({ error: 'origem' }, 403);
 
   let body;
   try { body = await req.json(); } catch { return json({ error: 'dados_invalidos' }, 400); }
@@ -86,4 +96,8 @@ export default async (req) => {
   return json({ error: 'agenda_indisponivel' }, 502);
 };
 
-export const config = { path: '/api/agendar' };
+export const config = {
+  path: '/api/agendar',
+  // janela máxima permitida é 180s; quem passar recebe 429 sem chegar na função
+  rateLimit: { windowLimit: 5, windowSize: 180, aggregateBy: ['ip', 'domain'] }
+};

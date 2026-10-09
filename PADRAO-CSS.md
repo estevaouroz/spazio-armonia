@@ -7,7 +7,7 @@ O projeto de referência usava SCSS + WordPress, mas aqui é **apenas HTML e CSS
 ## Estrutura de pastas e arquivos
 
 ```
-css/
+public/css/
 ├── reset.css            → reset CSS (zera margin/padding/border, list-style, etc)
 ├── base.css              → regras globais de html/body (font-size base, scroll-behavior, box-sizing)
 ├── fonts.css             → só @font-face

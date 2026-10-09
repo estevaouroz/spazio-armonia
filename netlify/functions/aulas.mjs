@@ -42,4 +42,8 @@ export default async (req) => {
   }
 };
 
-export const config = { path: '/api/aulas' };
+export const config = {
+  path: '/api/aulas',
+  // cada troca de semana é uma chamada; 60/min sobra pra gente e segura robô
+  rateLimit: { windowLimit: 60, windowSize: 60, aggregateBy: ['ip', 'domain'] }
+};
