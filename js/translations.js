@@ -268,7 +268,8 @@ const translations = {
     },
     footer: {
       tagline: "Toda grande aprendizagem começa com uma boa conexão.",
-      rights: "Todos os direitos reservados."
+      rights: "Todos os direitos reservados.",
+      privacy: "Política de Privacidade"
     }
   },
   en: {
@@ -539,7 +540,8 @@ const translations = {
     },
     footer: {
       tagline: "Every great learning starts with a good connection.",
-      rights: "All rights reserved."
+      rights: "All rights reserved.",
+      privacy: "Privacy Policy"
     }
   },
   it: {
@@ -810,7 +812,8 @@ const translations = {
     },
     footer: {
       tagline: "Ogni grande apprendimento inizia con una buona connessione.",
-      rights: "Tutti i diritti riservati."
+      rights: "Tutti i diritti riservati.",
+      privacy: "Informativa sulla privacy"
     }
   }
 };

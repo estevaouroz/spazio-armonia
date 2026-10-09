@@ -202,3 +202,8 @@
     bottom: 8px;
   }
 }
+
+.footer-privacy {
+  color: #8a8c86;
+  text-decoration: underline;
+}

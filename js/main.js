@@ -659,8 +659,8 @@ function initStickerStamp(){
 }
 
 /* ============ AGENDA VIVA (aulas do Google Calendar da escola) ============ */
-/* mostra a semana com as aulas do calendário da escola, lidas da Netlify
-   Function /api/aulas (que consulta o Google Calendar na hora), e inscreve a
+/* mostra a semana com as aulas do calendário da escola, lidas da
+   função /api/aulas (que consulta o Google Calendar na hora), e inscreve a
    pessoa numa aula experimental via /api/agendar. Os filtros combinam o toggle
    Individual/Grupo (formato) com as matérias. Atualiza sozinha a cada minuto
    enquanto a seção está na tela, pra vagas e aulas novas aparecerem. */
